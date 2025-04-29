@@ -1,0 +1,39 @@
+# Node modules (server + client)
+node_modules/
+client/node_modules/
+
+
+# Build output (client + optional server build)
+client/build/
+build/
+dist/
+
+# Logs
+npm-debug.log*
+*.log
+
+# dotenv environment variables
+.env
+.env.*
+!.env.example
+
+# OS + editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Production files (server-side build output)
+dist/
+build/
+
+# Heroku build artifacts
+heroku-postbuild.log
+
+# lock files 
+package-lock.json
+
