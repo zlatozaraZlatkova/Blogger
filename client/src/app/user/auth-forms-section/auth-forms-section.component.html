@@ -1,0 +1,106 @@
+<!-- Container -->
+<section class="py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-5">
+      <!-- Component -->
+      <div
+        class="flex flex-col items-center justify-center bg-white col-span-3"
+      >
+        <!-- Wrapper -->
+        <div class="max-w-md w-full text-center md:px-4 md:py-8">
+          <!-- Title -->
+
+          <h2
+            class="mb-8 text-2xl font-bold md:mb-12 md:text-5xl"
+            *ngIf="isActive('signInForm')"
+          >
+            Sign in to your account
+          </h2>
+          <h2
+            class="mb-8 text-2xl font-bold md:mb-12 md:text-5xl"
+            *ngIf="isActive('signUpForm')"
+          >
+            Start your free trial
+          </h2>
+
+          <!-- Tabs -->
+          <div class="flex justify-between mb-6 border-b border-gray-200">
+            <button
+              id="signInTab"
+              type="button"
+              (click)="setActiveTab('signInForm')"
+              class="w-1/2 text-center pb-2 font-medium border-b-2 focus:outline-none transition"
+              [ngClass]="{
+                'text-indigo-600 border-indigo-500': isActive('signInForm'),
+                'text-gray-600 border-transparent hover:border-indigo-500':
+                  !isActive('signInForm')
+              }"
+            >
+              Sign In
+            </button>
+            <button
+              id="signUpTab"
+              class="w-1/2 text-center pb-2 font-medium border-b-2 focus:outline-none transition"
+              [ngClass]="{
+                'text-indigo-600 border-indigo-500': isActive('signUpForm'),
+                'text-gray-600 border-transparent hover:border-indigo-500':
+                  !isActive('signUpForm')
+              }"
+              (click)="setActiveTab('signUpForm')"
+              type="button"
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <!-- Sign In Form -->
+          <app-sing-in-form *ngIf="isActive('signInForm')" />
+
+          <!-- Sign Up Form (Hidden by Default) -->
+          <app-sing-up-form *ngIf="isActive('signUpForm')" />
+        </div>
+      </div>
+
+      <!-- Component -->
+      <div
+        class="flex flex-col items-center justify-center bg-[#f2f2f7] col-span-2"
+      >
+        <!-- Wrapper -->
+        <div class="max-w-lg px-5 py-16 md:px-10 md:py-24 lg:py-32">
+          <div
+            class="mb-6 ml-2 flex h-14 w-14 items-center justify-center bg-[#276ef1] [box-shadow:rgb(171,_196,_245)_-8px_8px]"
+          >
+            <svg
+              class="inline-block h-6 w-6 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <ng-container *ngIf="isActive('signUpForm')">
+            <p class="mb-8 text-[#647084] md:mb-12 lg:mb-16">
+              Programmer: A machine that turns coffee into code.
+            </p>
+            <p class="font-bold">Terry Pratchett</p>
+            <p class="text-sm">Senior JavaScript Developer</p>
+          </ng-container>
+          <ng-container *ngIf="isActive('signInForm')">
+            <p class="mb-8 text-[#647084] md:mb-12 lg:mb-16">
+              Programming can be fun, and so can cryptography; however, they
+              should not be combined.
+            </p>
+            <p class="font-bold">John Robert</p>
+            <p class="text-sm">Senior Webflow Developer</p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

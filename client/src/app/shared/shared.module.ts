@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { HeaderComponent } from './header/header.component';
 import { CustomButtonComponent } from './custom-button/custom-button.component';
+import { FooterComponent } from './footer/footer.component';
+import { NewsletterFormComponent } from './newsletter-form/newsletter-form.component';
 
 
 
@@ -13,6 +15,8 @@ import { CustomButtonComponent } from './custom-button/custom-button.component';
     HeroSectionComponent,
     HeaderComponent,
     CustomButtonComponent,
+    FooterComponent,
+    NewsletterFormComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +25,9 @@ import { CustomButtonComponent } from './custom-button/custom-button.component';
   exports: [
     HeaderComponent,
     HeroSectionComponent,
-    CustomButtonComponent
+    CustomButtonComponent,
+    FooterComponent,
+    NewsletterFormComponent
   ]
 })
 export class SharedModule { }

@@ -1,35 +1,37 @@
-<header class="absolute inset-x-0 top-0 z-50">
-  <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+<header class="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+  <nav class="flex items-center justify-between py-2 px-6 lg:px-8 max-w-7xl mx-auto h-16" aria-label="Global">
     <div class="flex lg:flex-1">
       <a href="#" class="-m-1.5 p-1.5">
         <span class="sr-only">Your Company</span>
-        <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          alt="" />
+        <img class="h-6 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="">
       </a>
     </div>
+
     <div class="flex lg:hidden">
-      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+      <button 
+        type="button" 
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2 text-gray-700"
+        (click)="isMobileMenuOpen = !isMobileMenuOpen">
         <span class="sr-only">Open main menu</span>
-        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
-          data-slot="icon">
+        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
     </div>
-    <div class="hidden lg:flex lg:gap-x-12">
-      <a href="#" class="text-sm/6 font-semibold text-gray-900">Product</a>
-      <a href="#" class="text-sm/6 font-semibold text-gray-900">Features</a>
-      <a href="#" class="text-sm/6 font-semibold text-gray-900">Blog</a>
-      <a href="#" class="text-sm/6 font-semibold text-gray-900">Company</a>
+    
+    <div class="hidden lg:flex lg:gap-x-6">
+      <a href="#" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">Product</a>
+      <a href="#" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">Features</a>
+      <a href="#" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">Blog</a>
+      <a href="#" class="text-sm font-semibold text-gray-900 hover:text-indigo-600">Company</a>
     </div>
 
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       <app-custom-button 
-      [buttonText]="'Sing in'" 
-      [buttonClass]="'text-sm/6 font-semibold text-gray-900'"
-      [routerLink]="'/auth/login'"
-      >
-        <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
+        [buttonText]="'Sign in'" 
+        [buttonClass]="'text-sm font-semibold text-gray-900 hover:text-indigo-600 flex items-center gap-x-1'"
+        [routerLink]="'/auth/login'">
+        <svg icon aria-hidden="true" class="h-3.5 w-3.5 flex-none ml-1" fill="currentColor" viewBox="0 0 20 21"
           xmlns="http://www.w3.org/2000/svg">
           <title>Arrow Right</title>
           <polygon
@@ -39,52 +41,54 @@
       </app-custom-button>
     </div>
   </nav>
-  <!-- Mobile menu, show/hide based on menu open state. -->
-  <div class="lg:hidden" role="dialog" aria-modal="true">
-    <!-- Background backdrop, show/hide based on slide-over state. -->
-    <div class="fixed inset-0 z-50"></div>
-    <div
-      class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-      <div class="flex items-center justify-between">
-        <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">Your Company</span>
-          <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-            alt="" />
-        </a>
-        <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-          <span class="sr-only">Close menu</span>
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="mt-6 flow-root">
-        <div class="-my-6 divide-y divide-gray-500/10">
-          <div class="space-y-2 py-6">
-            <a href="#"
-              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Product</a>
-            <a href="#"
-              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Features</a>
-            <a href="#"
-              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Marketplace</a>
-            <a href="#"
-              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Company</a>
-          </div>
-          <div class="py-6">
-            <!-- <a
-              href="#"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-              >Log in</a
-            > -->
+</header>
 
-            <app-custom-button [buttonText]="'Sing in'"
-              [buttonClass]="'-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50'"
-              [routerLink]="'/auth/login'">
-            </app-custom-button>
-          </div>
+<!-- Mobile menu, separate from header -->
+<div 
+  *ngIf="isMobileMenuOpen" 
+  class="lg:hidden relative z-50">
+  <!-- Background backdrop -->
+  <div 
+    class="fixed inset-0 bg-gray-500/25 backdrop-blur-sm"
+    (click)="isMobileMenuOpen = false"></div>
+  
+  <div
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-xs overflow-y-auto bg-white px-6 py-6 shadow-xl">
+    <div class="flex items-center justify-between">
+      <a href="#" class="-m-1.5 p-1.5">
+        <span class="sr-only">Your Company</span>
+        <img class="h-6 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+      </a>
+      <button 
+        type="button" 
+        class="-m-2.5 rounded-md p-2 text-gray-700 hover:bg-gray-50"
+        (click)="isMobileMenuOpen = false">
+        <span class="sr-only">Close menu</span>
+        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <div class="mt-6 flow-root">
+      <div class="-my-6 divide-y divide-gray-100">
+        <div class="space-y-2 py-6">
+          <a href="#"
+            class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">Product</a>
+          <a href="#"
+            class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">Features</a>
+          <a href="#"
+            class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">Blog</a>
+          <a href="#"
+            class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">Company</a>
+        </div>
+        <div class="py-6">
+          <app-custom-button 
+            [buttonText]="'Sign in'"
+            [buttonClass]="'-mx-3 block w-full text-left rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50'"
+            [routerLink]="'/auth/login'">
+          </app-custom-button>
         </div>
       </div>
     </div>
   </div>
-</header>
+</div>

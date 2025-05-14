@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-auth-form',
-  templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.css']
+  selector: 'app-auth-forms-section',
+  templateUrl: './auth-forms-section.component.html',
+  styleUrls: ['./auth-forms-section.component.css']
 })
-export class AuthFormComponent {
+export class AuthFormsSectionComponent {
   activeTab: 'signInForm' | 'signUpForm' = 'signInForm';
 
   setActiveTab(tab: 'signInForm' | 'signUpForm'): void {

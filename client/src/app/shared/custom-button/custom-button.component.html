@@ -1,4 +1,7 @@
-<button [ngClass]="buttonClass" type="button" [routerLink]="routerLink" class="flex items-center justify-center">
+<button class="flex items-center justify-center"
+  [ngClass]="buttonClass"
+  [routerLink]="routerLink"
+>
   <span class="mr-2">{{ buttonText }}</span>
   <ng-content select="[icon]"></ng-content>
 </button>
