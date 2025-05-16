@@ -1,16 +1,15 @@
 <div class="flex items-center mb-6">
   <img
-    [src]="article.imageUrl"
-    [alt]="article.imageAlt"
+    [src]="article.postImageUrl"
     class="rounded-lg w-full object-cover"
   />
 </div>
 <div class="block">
   <h4 class="text-gray-900 font-medium leading-8 mb-9">
-    {{ article.title }}
+    {{ article.postTitle }}
   </h4>
   <div class="flex items-center justify-between font-medium">
-    <h6 class="text-sm text-gray-500">By {{ article.author }}</h6>
-    <span class="text-sm text-indigo-600">{{ article.timeAgo }}</span>
+    <h6 class="text-sm text-gray-500">By {{ article.name }}</h6>
+    <span class="text-sm text-indigo-600">{{ article.createdAt }}</span>
   </div>
 </div>

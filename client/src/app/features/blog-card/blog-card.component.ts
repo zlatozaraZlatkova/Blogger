@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IArticle } from 'src/app/interfaces/article';
+import { IPost } from 'src/app/interfaces/post';
+
 
 @Component({
   selector: 'app-blog-card',
@@ -9,5 +10,6 @@ import { IArticle } from 'src/app/interfaces/article';
 
 
 export class BlogCardComponent {
-  @Input() article!: IArticle;
+  @Input() article!: IPost;
+
 }

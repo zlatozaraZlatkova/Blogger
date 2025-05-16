@@ -1,7 +1,7 @@
 const cors = require("cors");
 
 const corsWhitelists = {
-  development: ["http://localhost:4200", "http://localhost:5000"],
+  development: ["http://localhost:5000", "http://localhost:4200" ],
   production: [
     "https://scrum-board.herokuapp.com"
   ]

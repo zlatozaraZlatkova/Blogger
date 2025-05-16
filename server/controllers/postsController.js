@@ -59,8 +59,11 @@ router.get("/:id", hasUser(), async (req, res, next) => {
 router.post("/create", hasUser(),
   body("postTitle", "Title is required").not().isEmpty(),
   body("postTitle", "Please enter a title up to 150 characters long").isLength({ max: 150 }),
+  body("postImageUrl", "Please upload a file or drag and drop").not().isEmpty(),
+  body("postCategory", "Category is required").not().isEmpty(),
   body("postText", "Post is required").not().isEmpty(),
   body("postText", "Please enter a post up to 3000 characters long").isLength({ max: 3000 }),
+  body("postTags", "post tags are required").not().isEmpty(),
   validateRequest,
   async (req, res, next) => {
 
@@ -75,7 +78,10 @@ router.post("/create", hasUser(),
       const post = {
         name: user.name,
         postTitle: req.body.postTitle,
-        postText: req.body.postText,
+        postImageUrl: req.body.postImageUrl,
+        postCategory: req.body.postCategory,
+        postText: req.body.postText, 
+        postTags: req.body.postTags?.split(",").map(tags => tags.trim()), // Add up to 5 tags
         avatar: user.avatar,
         ownerId: userId,
       }
@@ -94,14 +100,17 @@ router.post("/create", hasUser(),
 router.put("/update/:id", loadItem("Post"), isOwner(),
   body("postTitle", "Title is required").not().isEmpty(),
   body("postTitle", "Please enter a title up to 150 characters long").isLength({ max: 150 }),
+  body("postImageUrl", "Please upload a file or drag and drop").not().isEmpty(),
+  body("postCategory", "Category is required").not().isEmpty(),
   body("postText", "Post is required").not().isEmpty(),
   body("postText", "Please enter a post up to 3000 characters long").isLength({ max: 3000 }),
+  body("postTags", "post tags are required").not().isEmpty(),
   validateRequest,
   async (req, res, next) => {
     try {
       const postId = req.params.id;
 
-      const postData = { postTitle, postText } = req.body;
+      const postData = { postTitle, postImageUrl, postCategory, postText, postTags } = req.body;
 
       const updatedPost = await updateItem(postId, postData);
 

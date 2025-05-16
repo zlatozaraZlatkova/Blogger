@@ -210,7 +210,6 @@
 
       <!-- Sidebar -->
       <div class="w-full lg:w-4/12 px-4">
-        
         <!-- Newsletter Subscription Box -->
         <div
           class="mb-10 bg-gradient-to-br from-[#1d4ed8] to-[#ABC4F5] rounded-2xl p-8 text-center shadow-xl"
@@ -256,18 +255,18 @@
           >
             <div class="flex items-center mb-4">
               <img
-                [src]="article.imageAuthor"
+                [src]="article.avatar"
                 alt="Author"
                 class="w-12 h-12 rounded-full mr-4"
               />
               <div>
                 <h4 class="text-gray-900 font-medium mb-1">
-                  {{ article.title }}
+                  {{ article.postTitle }}
                 </h4>
                 <div class="flex items-center justify-between">
-                  <h6 class="text-sm text-gray-500">{{ article.author }}</h6>
+                  <h6 class="text-sm text-gray-500">{{ article.name }}</h6>
                   <span class="text-sm text-indigo-600">{{
-                    article.timeAgo
+                    article.createdAt
                   }}</span>
                 </div>
               </div>
@@ -278,23 +277,24 @@
     </div>
 
     <!-- Related Articles Section -->
-    <div class="mt-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <h2 class="font-manrope text-2xl font-bold text-gray-900 mb-10">
         Related Articles
       </h2>
+
       <div
-        class="flex justify-center mb-14 gap-y-8 lg:gap-y-0 flex-wrap md:flex-wrap lg:flex-nowrap lg:flex-row lg:justify-between lg:gap-x-8"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-14"
       >
         <!-- Related Article 1 -->
         <app-blog-card
           *ngFor="let article of relatedArticles"
           [article]="article"
-          class="group cursor-pointer w-full max-lg:max-w-xl lg:w-1/3 border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
+          class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
         >
         </app-blog-card>
       </div>
 
-      <div class="flex justify-center mb-20">
+      <div class="flex justify-center m-20">
         <app-custom-button
           [buttonClass]="
             'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
