@@ -1,4 +1,5 @@
 import { IComment } from "./comment";
+import { IPagination } from "./pagination";
 import { IUser } from "./user";
 
 export interface IPost {
@@ -18,3 +19,13 @@ export interface IPost {
   updatedAt?: Date; 
   _v?: number;     
 }
+
+
+export interface IPostsResponse {
+  success: boolean;
+  data: {
+    items: IPost[];
+    pagination: IPagination;
+  };
+}
+

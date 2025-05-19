@@ -13,10 +13,7 @@ export class BlogDetailsComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.api.loadPosts().subscribe((posts) => {
-      console.log(posts);
-      this.relatedArticles = posts;
-    })
+   
 
   }
   

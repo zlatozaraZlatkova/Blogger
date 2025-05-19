@@ -22,7 +22,7 @@ const {
 
 
 
-router.get("/", hasUser(), paginationMiddleware(),async (req, res, next) => {
+router.get("/", paginationMiddleware(),async (req, res, next) => {
   try {
     const { page, limit, skip } = req.pagination;
 
@@ -41,7 +41,7 @@ router.get("/", hasUser(), paginationMiddleware(),async (req, res, next) => {
 })
 
 
-router.get("/:id", hasUser(), async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const post = await getById(req.params.id);
 

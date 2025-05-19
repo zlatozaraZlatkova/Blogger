@@ -1,82 +1,49 @@
 import { Component, OnInit } from '@angular/core';
+import { IPost, IPostsResponse } from '../../interfaces/post';
 import { ApiService } from 'src/app/api.service';
-import { IPost } from 'src/app/interfaces/post';
+import { IPagination } from 'src/app/interfaces/pagination';
 
 @Component({
   selector: 'app-blog-section',
   templateUrl: './blog-section.component.html',
-  styleUrls: ['./blog-section.component.css']
+  styleUrls: ['./blog-section.component.css'],
 })
 export class BlogSectionComponent implements OnInit {
   articles: IPost[] = [];
+  pagination: IPagination | null = null;
+  loading = false;
+  error: string | null = null;
 
-  constructor(private api: ApiService) { }
+  constructor(private blogService: ApiService) {}
 
   ngOnInit(): void {
-    this.api.loadPosts().subscribe((posts) => {
-      console.log(posts);
-      this.articles = posts;
-    })
-
+    this.loadArticles();
   }
 
-  //   {
-  //     id: 1,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244553.png',
-  //     imageAlt: 'Harsh image',
-  //     imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'Fintech 101: Exploring the Basics of Electronic Payments',
-  //     author: 'Harsh C.',
-  //     timeAgo: '1 week ago'
-  //   },
-  //   {
-  //     id: 2,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244579.png',
-  //     imageAlt: 'John image',
-  //     imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'From Classroom to Cyberspace: The Growing Influence of EdTech in Fintech',
-  //     author: 'John D.',
-  //     timeAgo: '2 weeks ago'
-  //   },
-  //   {
-  //     id: 3,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244619.png',
-  //     imageAlt: 'Alexa image',
-  //     imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'Fintech Solutions for Student Loans: Easing the Burden of Education Debt',
-  //     author: 'Alexa H.',
-  //     timeAgo: '2 days ago'
-  //   },
-  //   {
-  //     id: 4,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244553.png',
-  //     imageAlt: 'Harsh image',
-  //     imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'Fintech 101: Exploring the Basics of Electronic Payments',
-  //     author: 'Harsh C.',
-  //     timeAgo: '1 week ago'
-  //   },
-  //   {
-  //     id: 5,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244579.png',
-  //     imageAlt: 'John image',
-  //      imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'From Classroom to Cyberspace: The Growing Influence of EdTech in Fintech',
-  //     author: 'John D.',
-  //     timeAgo: '2 weeks ago'
-  //   },
-  //   {
-  //     id: 6,
-  //     imageUrl: 'https://pagedone.io/asset/uploads/1696244619.png',
-  //     imageAlt: 'Alexa image',
-  //     imageAuthor: 'assets/images/blog/article-author-01.png',
-  //     title: 'Fintech Solutions for Student Loans: Easing the Burden of Education Debt',
-  //     author: 'Alexa H.',
-  //     timeAgo: '2 days ago'
-  //   }
-  // ];
+  loadArticles(): void {
+    this.loading = true;
+    this.error = null;
 
-  viewAllBlogs() {
+    this.blogService.getPosts().subscribe({
+      next: (response: IPostsResponse) => {
+        if (response.success) {
+          this.articles = response.data.items;
+          this.pagination = response.data.pagination;
+        } else {
+          this.error = 'Failed to retrieve posts';
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Error loading posts: ' + (err.message);
+        this.loading = false;
+      },
+    });
+  }
+
+  viewAllArticles(): void {
     console.log('View all blogs clicked');
+    this.loadArticles();
   }
+
 }
