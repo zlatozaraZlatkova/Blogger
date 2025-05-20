@@ -1,27 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 
-import { BlogSectionComponent } from './blog-section/blog-section.component';
 import { SharedModule } from '../shared/shared.module';
-import { BlogDetailsComponent } from './blog-details/blog-details.component';
-import { BlogCardComponent } from './blog-card/blog-card.component';
+import { RouterModule } from '@angular/router';
+import { BlogModule } from './blog/blog.module';
 
 
 @NgModule({
-  declarations: [
-    BlogSectionComponent,
-    BlogDetailsComponent,
-    BlogCardComponent,   
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     SharedModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    BlogSectionComponent,
-    BlogDetailsComponent,  
+    BlogModule,
+    RouterModule
   ]
 })
 export class FeaturesModule { }

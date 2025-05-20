@@ -1,0 +1,212 @@
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24">
+  <div class="container mx-auto px-4">
+
+    <div class="mb-14">
+      <h2 class="font-manrope text-4xl font-bold text-gray-900 text-center">
+        Blog Details
+      </h2>
+    </div>
+
+    <!-- Blog Content - Only show when currentArticle is loaded -->
+    <div *ngIf="currentArticle" class="flex flex-wrap -mx-4">
+      <div class="w-full lg:w-8/12 px-4">
+        <!-- Featured Image -->
+        <div class="relative rounded-2xl overflow-hidden mb-10 h-72 md:h-96 lg:h-120">
+          <img [src]="currentArticle.postImageUrl" [alt]="currentArticle.postTitle"
+            class="w-full h-full object-cover object-center rounded-2xl" />
+        </div>
+
+        <!-- Author Info -->
+        <div class="flex items-center justify-between mb-8">
+          <div class="flex items-center">
+            <img [src]="currentArticle.avatar" [alt]="currentArticle.name" class="w-10 h-10 rounded-full mr-3" />
+            <div>
+              <h6 class="text-sm text-gray-500 font-medium">
+                By {{ currentArticle.name }}
+              </h6>
+              <span class="text-sm text-indigo-600">{{
+                currentArticle.createdAt
+                }}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center text-sm text-gray-500">
+              <svg width="18" height="13" viewBox="0 0 18 13" class="fill-current mr-2">
+                <path
+                  d="M15.9754 0H2.02539C1.09727 0 0.337891 0.759375 0.337891 1.6875V10.6875C0.337891 11.3062 0.647266 11.8406 1.18164 12.15C1.43477 12.2906 1.74414 12.375 2.02539 12.375C2.30664 12.375 2.58789 12.2906 2.86914 12.15L5.34414 10.7156C5.45664 10.6594 5.56914 10.6312 5.68164 10.6312H15.9473C16.8754 10.6312 17.6348 9.87187 17.6348 8.94375V1.6875C17.6629 0.759375 16.9035 0 15.9754 0Z">
+                </path>
+              </svg>
+
+              {{ currentArticle.comments?.length || 0 }} Comments
+
+            </span>
+            <span class="flex items-center text-sm text-gray-500">
+              <svg width="20" height="12" viewBox="0 0 20 12" class="fill-current mr-2">
+                <path
+                  d="M10.2559 3.8125C9.03711 3.8125 8.06836 4.8125 8.06836 6C8.06836 7.1875 9.06836 8.1875 10.2559 8.1875C11.4434 8.1875 12.4434 7.1875 12.4434 6C12.4434 4.8125 11.4746 3.8125 10.2559 3.8125Z">
+                </path>
+                <path
+                  d="M19.7559 5.625C17.6934 2.375 14.1309 0.4375 10.2559 0.4375C6.38086 0.4375 2.81836 2.375 0.755859 5.625C0.630859 5.84375 0.630859 6.125 0.755859 6.34375C2.81836 9.59375 6.38086 11.5312 10.2559 11.5312C14.1309 11.5312 17.6934 9.59375 19.7559 6.34375C19.9121 6.125 19.9121 5.84375 19.7559 5.625ZM10.2559 10.4375C6.84961 10.4375 3.69336 8.78125 1.81836 5.96875C3.69336 3.1875 6.84961 1.53125 10.2559 1.53125C13.6621 1.53125 16.8184 3.1875 18.6934 5.96875C16.8184 8.78125 13.6621 10.4375 10.2559 10.4375Z">
+                </path>
+              </svg>
+              1.5K Views
+            </span>
+          </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="mb-10">
+          <h2 class="font-bold text-gray-900 text-3xl sm:text-3xl md:text-4xl leading-snug mb-6">
+            {{ currentArticle.postTitle }}
+          </h2>
+          <p class="text-base text-gray-600 leading-relaxed mb-8">
+            {{ currentArticle.postText }}
+          </p>
+
+          <!-- Tags and Share Section -->
+          <div class="flex flex-wrap items-center justify-between border-t border-gray-200 pt-8 mb-10">
+            <div class="flex flex-wrap items-center gap-3 mb-6 md:mb-0">
+              <span class="text-sm text-gray-600 font-medium">Tags:</span>
+              <a *ngFor="let tag of currentArticle.postTags" href="javascript:void(0)"
+                class="py-1 px-4 bg-indigo-50 text-indigo-600 rounded-full text-xs font-medium hover:bg-indigo-600 hover:text-white transition-all duration-300">
+                {{ tag }}
+              </a>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-gray-600 font-medium">Share:</span>
+              <div class="flex items-center gap-3">
+                <a href="javascript:void(0)"
+                  class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white hover:opacity-80 transition-all duration-300">
+                  <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                  </svg>
+                </a>
+                <a href="javascript:void(0)"
+                  class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-400 text-white hover:opacity-80 transition-all duration-300">
+                  <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                  </svg>
+                </a>
+                <a href="javascript:void(0)"
+                  class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white hover:opacity-80 transition-all duration-300">
+                  <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="w-full lg:w-4/12 px-4">
+        <!-- Newsletter Subscription Box -->
+        <div class="mb-10 bg-gradient-to-br from-[#1d4ed8] to-[#ABC4F5] rounded-2xl p-8 text-center shadow-xl">
+          <h3 class="font-bold text-white mb-4 text-2xl tracking-tight">
+            Join our newsletter!
+          </h3>
+          <p class="text-base text-white/90 mb-6 max-w-md mx-auto">
+            Enter your email to receive our latest newsletter.
+          </p>
+
+          <app-newsletter-form></app-newsletter-form>
+
+          <p class="text-sm font-medium text-white/80 mt-4">
+            <span class="inline-flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              Don't worry, we don't spam
+            </span>
+          </p>
+        </div>
+
+        <!-- Popular Articles Section -->
+        <div *ngIf="popularArticles && popularArticles.length > 0" class="mb-10">
+          <h2 class="font-semibold text-gray-900 text-2xl mb-6 relative">
+            Popular Articles
+          </h2>
+
+          <!-- Popular Article Entry -->
+          <div *ngFor="let article of popularArticles"  (click)="navigateToArticle(article._id)"
+            class="border border-gray-300 rounded-2xl p-5 mb-5 transition-all duration-300 hover:border-indigo-600 cursor-pointer">
+            <div class="flex items-center mb-4">
+              <img [src]="article.avatar" alt="Author" class="w-12 h-12 rounded-full mr-4" />
+              <div>
+                <h4 class="text-gray-900 font-medium mb-1">
+                  {{ article.postTitle }}
+                </h4>
+                <div class="flex items-center justify-between">
+                  <h6 class="text-sm text-gray-500">{{ article.name }}</h6>
+                  <span class="text-sm text-indigo-600">{{
+                    article.createdAt
+                    }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No popular articles message -->
+        <div *ngIf="!loading && (!popularArticles || popularArticles.length === 0)" class="mb-10">
+          <h2 class="font-semibold text-gray-900 text-2xl mb-6 relative">
+            Popular Articles
+          </h2>
+          <div class="text-center my-8">
+            <p class="text-gray-500">No articles found.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Realted Articles -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h2 class="font-manrope text-2xl font-bold text-gray-900 mb-10">
+        Reated Articles
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-14">    
+        <app-blog-card 
+        *ngFor="let article of relatedArticles" 
+        [article]="article"
+        (click)="navigateToArticle(article._id)"
+          class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
+        </app-blog-card>
+      </div>
+
+      <!-- No related articles message -->
+      <div *ngIf="!loading && (!relatedArticles || relatedArticles.length === 0)" class="mb-10">
+        <h2 class="font-semibold text-gray-900 text-2xl mb-6 relative">
+          Related Articles
+        </h2>
+        <div class="text-center my-8">
+          <p class="text-gray-500">No related articles found.</p>
+        </div>
+      </div>
+
+        <!-- View All Button -->
+      <div class="flex justify-center m-20">
+        <app-custom-button 
+        [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'" 
+        [buttonText]="'View All'" 
+        [routerLink]="'/posts'">
+          <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
+            xmlns="http://www.w3.org/2000/svg">
+            <title>Arrow Right</title>
+            <polygon
+              points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
+            </polygon>
+          </svg>
+        </app-custom-button>
+      </div>
+
+    </div>
+
+  </div>
+</section>

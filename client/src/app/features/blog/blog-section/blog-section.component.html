@@ -7,6 +7,7 @@
       <app-blog-card
         *ngFor="let article of articles"
         [article]="article"
+        (click)="navigateToArticle(article._id)"
         class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
       >
       </app-blog-card>
@@ -14,9 +15,7 @@
     <!-- Button section -->
     <div class="flex justify-center m-20">
       <app-custom-button
-        [buttonClass]="
-          'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
-        "
+        [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'"
         [buttonText]="'View All'"
         [routerLink]="'/posts'"
       >

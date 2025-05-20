@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { IPost, IPostsResponse } from '../../interfaces/post';
-import { ApiService } from 'src/app/api.service';
 import { IPagination } from 'src/app/interfaces/pagination';
+import { IPost, IPostsResponse } from 'src/app/interfaces/post';
+import { BlogService } from '../blog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-section',
   templateUrl: './blog-section.component.html',
-  styleUrls: ['./blog-section.component.css'],
+  styleUrls: ['./blog-section.component.css']
 })
 export class BlogSectionComponent implements OnInit {
   articles: IPost[] = [];
@@ -14,11 +15,14 @@ export class BlogSectionComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  constructor(private blogService: ApiService) {}
+  constructor(private blogService: BlogService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadArticles();
   }
+
 
   loadArticles(): void {
     this.loading = true;
@@ -46,4 +50,8 @@ export class BlogSectionComponent implements OnInit {
     this.loadArticles();
   }
 
+    navigateToArticle(id: string): void {
+    console.log('Article id: ', id);
+    this.router.navigate(['/posts', id]);
+  }
 }

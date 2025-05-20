@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="mx-auto max-w-2xl py-18 sm:py-20 lg:py-30">
-     
+
         <div class="text-center">
             <h1 class="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">Simplify your
                 workflow</h1>
@@ -14,8 +14,10 @@
             <div class="mt-10 flex items-center justify-center gap-x-6">
 
                 <!-- Buttons -->
-                <app-custom-button [buttonText]="'Sing Up'"
-                    [buttonClass]="'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
+                <app-custom-button 
+                [buttonText]="'Sing Up'"
+                [routerLink]="'/auth/register'"
+                [buttonClass]="'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
                     <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
                         xmlns="http://www.w3.org/2000/svg">
                         <title>Arrow Right</title>
@@ -25,7 +27,11 @@
                     </svg>
                 </app-custom-button>
 
-                <app-custom-button [buttonText]="'Learn more'" [buttonClass]="'text-sm/6 font-semibold text-gray-900'">
+                <app-custom-button 
+                [buttonText]="'Learn more'" 
+                [buttonClass]="'text-sm/6 font-semibold text-gray-900'"
+                [routerLink]="'/features'"
+                >
                     <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
                         xmlns="http://www.w3.org/2000/svg">
                         <title>Arrow Right</title>

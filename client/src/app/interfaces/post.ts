@@ -3,6 +3,7 @@ import { IPagination } from "./pagination";
 import { IUser } from "./user";
 
 export interface IPost {
+  success: any;
   _id: string;
   name: string;
   avatar?: string;
@@ -12,7 +13,7 @@ export interface IPost {
   postTitle: string;
   postText: string;
   postLikes: IUser[];
-  comments: IComment[];
+  comments?: IComment[];
   ownerId: string;
   
   createdAt?: Date; 
