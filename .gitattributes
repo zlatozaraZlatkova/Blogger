@@ -1,0 +1,38 @@
+# Normalize line endings to LF for all text files
+* text=auto eol=lf
+
+# Angular frontend (client/)
+*.ts     text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.scss   text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+
+# Node.js backend (server/)
+*.js     text eol=lf
+*.ts     text eol=lf
+*.json   text eol=lf
+*.env    text eol=lf
+
+# Scripts and config
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.sh     text eol=lf
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+*.txt    text eol=lf
+*.gitignore      text eol=lf
+.gitattributes   text eol=lf
+
+# Binary files (no conversion)
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.pdf    binary
+*.zip    binary
+*.ttf    binary
+*.woff   binary
+*.woff2  binary
