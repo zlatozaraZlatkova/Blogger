@@ -5,6 +5,7 @@ const sectionController = require("../controllers/sectionController");
 const taskController = require("../controllers/taskController");
 const searchController = require("../controllers/searchController");
 const teamController = require("../controllers/teamController");
+const newsletterController = require("../controllers/newsletterController");
 const defaultController = require("../controllers/defaultController");
 
 const checkAuth = require('../middlewares/checkAuth');
@@ -21,6 +22,7 @@ module.exports = (app) => {
   app.use("/api/posts", postsController);
   app.use("/api/search", checkAuth(false), searchController);
   app.use("/api/teams", checkAuth(true), teamController);
+  app.use("/api/newsletter", checkAuth(false), newsletterController);
 
   app.use(defaultController);
 };
