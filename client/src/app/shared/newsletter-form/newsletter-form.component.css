@@ -1,0 +1,5 @@
+p.error {
+   text-align: left;
+   color: var(--red);
+   padding: 0 0 0 8px;
+}

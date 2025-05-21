@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { CustomButtonComponent } from './custom-button/custom-button.component';
 import { NewsletterFormComponent } from './newsletter-form/newsletter-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,6 +16,7 @@ import { NewsletterFormComponent } from './newsletter-form/newsletter-form.compo
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   exports: [
     CustomButtonComponent,
