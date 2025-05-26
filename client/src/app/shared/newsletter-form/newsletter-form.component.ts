@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewsletterService } from './newsletter.service';
 import { emailValidator } from '../validators/email-validator';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,7 +13,8 @@ interface IServerResponse {
   templateUrl: './newsletter-form.component.html',
   styleUrls: ['./newsletter-form.component.css'],
 })
-export class NewsletterFormComponent implements OnDestroy {
+export class NewsletterFormComponent implements OnInit, OnDestroy {
+  newsletterForm!: FormGroup;
   error: string | null = null;
   successMessage: string | null = null;
   messageTimeout: number | undefined;
@@ -23,9 +24,11 @@ export class NewsletterFormComponent implements OnDestroy {
     private newsletterService: NewsletterService
   ) {}
 
-  newsletterForm = this.fb.group({
-    email: ['', [Validators.required, emailValidator()]],
-  });
+  ngOnInit(): void {
+    this.newsletterForm = this.fb.group({
+      email: ['', [Validators.required, emailValidator()]],
+    });
+  }
 
   showMessage(isSuccess: boolean, message: string): void {
     if (this.messageTimeout) {

@@ -1,136 +1,184 @@
 <section class="bg-white py-12 sm:py-16">
   <div class="mx-auto max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
     <div class="mb-10 text-center">
-      <h1 class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">Create a New Post</h1>
-      <p class="mt-3 text-lg text-gray-500">Share your thoughts, ideas, or announcements with your audience.</p>
+      <h1 class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+        Create a New Article
+      </h1>
+      <p class="mt-3 text-lg text-gray-500">
+        Share your thoughts, ideas, or announcements with your audience.
+      </p>
     </div>
 
-    <form class="space-y-8">
+    <form class="space-y-8" [formGroup]="postForm" (ngSubmit)="handleFormSubmit()">
       <!-- Post Title -->
       <div>
-        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          required
-          placeholder="Enter post title"
+        <label for="postTitle" class="block text-sm font-medium text-gray-700">Title</label>
+        <input type="text" name="postTitle" id="postTitle" placeholder="Enter post title"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm py-3 px-4 bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 focus:outline-none"
-        />
+          formControlName="postTitle" [class.border-red-500]="
+            postForm.get('postTitle')?.invalid &&
+            postForm.get('postTitle')?.touched
+          " />
+
+        <!-- Title Error Messages -->
+
+        <ng-container *ngIf="
+            postForm.get('postTitle')?.invalid &&
+            postForm.get('postTitle')?.touched
+          ">
+          <div class="mt-2 text-sm text-red-600">
+            <div *ngIf="postForm.get('postTitle')?.errors?.['required']">
+              Title is required
+            </div>
+            <div *ngIf="postForm.get('postTitle')?.errors?.['maxlength']">
+              Title cannot exceed 150 characters
+            </div>
+          </div>
+        </ng-container>
       </div>
 
       <!-- Post Image -->
       <div>
-        <label for="image" class="block text-sm font-medium text-gray-700">Featured Image</label>
-        <div class="mt-1 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10">
-          <div class="text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <div class="mt-4 flex text-sm text-gray-600">
-              <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
-                <span>Upload a file</span>
-                <input id="file-upload" name="file-upload" type="file" class="sr-only" />
-              </label>
-              <p class="pl-1">or drag and drop</p>
+        <label for="postImageUrl" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
+        <input type="url" name="postImageUrl" id="postImageUrl" placeholder="Enter image URL (optional)"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm py-3 px-4 bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 focus:outline-none"
+          formControlName="postImageUrl" [class.border-red-500]="
+            postForm.get('postImageUrl')?.invalid &&
+            postForm.get('postImageUrl')?.touched
+          " />
+
+        <!-- Image URL Error Messages -->
+        <ng-container *ngIf="
+            postForm.get('postImageUrl')?.invalid &&
+            postForm.get('postImageUrl')?.touched
+          ">
+          <div class="mt-2 text-sm text-red-600">
+            <div *ngIf="postForm.get('postImageUrl')?.errors?.['required']">
+              Image URL is required
             </div>
-            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
           </div>
-        </div>
+        </ng-container>
       </div>
 
       <!-- Category Dropdown -->
       <div>
-        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-        <select
-          id="category"
-          name="category"
+        <label for="postCategory" class="block text-sm font-medium text-gray-700">Category</label>
+        <select id="postCategory" name="postCategory"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm py-3 px-4 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 focus:outline-none"
-        >
+          formControlName="postCategory" [class.border-red-500]="
+            postForm.get('postCategory')?.invalid &&
+            postForm.get('postCategory')?.touched
+          ">
           <option value="" disabled selected>Select a category</option>
           <option value="technology">Technology</option>
           <option value="languages">Languages</option>
           <option value="tools">Tools</option>
           <option value="topics">Topics</option>
         </select>
+
+        <!-- Category Error Messages -->
+        <ng-container *ngIf="
+            postForm.get('postCategory')?.invalid &&
+            postForm.get('postCategory')?.touched
+          ">
+          <div class="mt-2 text-sm text-red-600">
+            <div *ngIf="postForm.get('postCategory')?.errors?.['required']">
+              Please select a category
+            </div>
+          </div>
+        </ng-container>
       </div>
 
       <!-- Post Content -->
       <div>
-        <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+        <label for="postText" class="block text-sm font-medium text-gray-700">Content</label>
         <div class="mt-1">
-          <textarea
-            id="content"
-            name="content"
-            rows="10"
-            placeholder="Write your post content here..."
+          <textarea id="postText" name="postText" rows="10" placeholder="Write your post content here..."
             class="block w-full rounded-md border-gray-300 shadow-sm py-3 px-4 bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 focus:outline-none"
-          ></textarea>
+            formControlName="postText" [class.border-red-500]="
+              postForm.get('postText')?.invalid &&
+              postForm.get('postText')?.touched
+            "></textarea>
         </div>
         <p class="mt-2 text-sm text-gray-500">
-          Use markdown for formatting. You can use **bold**, *italic*, [links](http://example.com), and more.
+          Use markdown for formatting. You can use **bold**, *italic*,
+          [links](http://example.com), and more.
         </p>
+
+        <!-- Content Error Messages -->
+        <ng-container *ngIf="
+            postForm.get('postText')?.invalid &&
+            postForm.get('postText')?.touched
+          ">
+          <div class="mt-2 text-sm text-red-600">
+            <div *ngIf="postForm.get('postText')?.errors?.['required']">
+              Content is required
+            </div>
+            <div *ngIf="postForm.get('postText')?.errors?.['maxlength']">
+              Content cannot exceed 3000 characters
+            </div>
+          </div>
+        </ng-container>
       </div>
 
       <!-- Tags -->
       <div>
-        <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
-        <input
-          type="text"
-          name="tags"
-          id="tags"
-          placeholder="Enter tags separated by commas"
+        <label for="postTags" class="block text-sm font-medium text-gray-700">Tags</label>
+        <input type="text" name="postTags" id="postTags" placeholder="Enter tags separated by commas"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm py-3 px-4 bg-white text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 focus:outline-none"
-        />
+          formControlName="postTags" [class.border-red-500]="
+            postForm.get('postTags')?.invalid &&
+            postForm.get('postTags')?.touched
+          " />
         <p class="mt-2 text-sm text-gray-500">
           Tags help readers discover your content. Add up to 3 tags.
         </p>
+
+        <!-- Tags Error Messages -->
+        <ng-container *ngIf="
+            postForm.get('postTags')?.invalid &&
+            postForm.get('postTags')?.touched
+          ">
+          <div class="mt-2 text-sm text-red-600">
+            <div *ngIf="postForm.get('postTags')?.errors?.['required']">
+              Please add at least one tag
+            </div>
+          </div>
+        </ng-container>
       </div>
 
-      <!-- Publishing Options -->
+      <!-- todo: Publishing Options -->
       <div>
         <h3 class="text-lg font-medium text-gray-900">Publishing Options</h3>
         <div class="mt-4 space-y-4">
           <div class="flex items-start">
             <div class="flex h-5 items-center">
-              <input
-                id="draft"
-                name="status"
-                type="radio"
-                value="draft"
-                checked
-                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600"
-              />
+              <input id="draft" name="status" type="radio" value="draft" checked
+                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600" />
             </div>
             <div class="ml-3 text-sm">
               <label for="draft" class="font-medium text-gray-700">Save as Draft</label>
-              <p class="text-gray-500">Save your post but don't publish it yet.</p>
+              <p class="text-gray-500">
+                Save your post but don't publish it yet.
+              </p>
             </div>
           </div>
           <div class="flex items-start">
             <div class="flex h-5 items-center">
-              <input
-                id="publish"
-                name="status"
-                type="radio"
-                value="publish"
-                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600"
-              />
+              <input id="publish" name="status" type="radio" value="publish"
+                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600" />
             </div>
             <div class="ml-3 text-sm">
               <label for="publish" class="font-medium text-gray-700">Publish Now</label>
-              <p class="text-gray-500">Your post will be published immediately.</p>
+              <p class="text-gray-500">
+                Your post will be published immediately.
+              </p>
             </div>
           </div>
           <div class="flex items-start">
             <div class="flex h-5 items-center">
-              <input
-                id="schedule"
-                name="status"
-                type="radio"
-                value="schedule"
-                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600"
-              />
+              <input id="schedule" name="status" type="radio" value="schedule"
+                class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-600" />
             </div>
             <div class="ml-3 text-sm">
               <label for="schedule" class="font-medium text-gray-700">Schedule</label>
@@ -142,16 +190,13 @@
 
       <!-- Action Buttons -->
       <div class="pt-5 mt-8 flex justify-end gap-4 border-t border-gray-200">
-        <button
-          type="button"
+        <button type="button"
           class="rounded-md border border-gray-300 bg-white py-2.5 px-5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-        >
+          (click)="onCancel()">
           Cancel
         </button>
-        <button
-          type="submit"
-          class="rounded-md bg-indigo-600 py-2.5 px-5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-        >
+        <button type="submit"
+          class="rounded-md bg-indigo-600 py-2.5 px-5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
           Save Post
         </button>
       </div>
