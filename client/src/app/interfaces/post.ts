@@ -3,11 +3,10 @@ import { IPagination } from "./pagination";
 import { IUser } from "./user";
 
 export interface IPost {
-  success: any;
   _id: string;
   name: string;
   avatar?: string;
-  postImageUrl: string;
+  postImageUrl?: string;
   postCategory: string;
   postTags: string[];
   postTitle: string;
@@ -30,3 +29,10 @@ export interface IPostsResponse {
   };
 }
 
+export interface ICreatePostDto {
+  postImageUrl?: string;
+  postCategory: string;
+  postTags: string[];
+  postTitle: string;
+  postText: string;
+}
