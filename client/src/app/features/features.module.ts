@@ -6,13 +6,15 @@ import { RouterModule } from '@angular/router';
 import { BlogModule } from './blog/blog.module';
 
 
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     SharedModule,
     BlogModule,
-    RouterModule
+    RouterModule,
+   
   ]
 })
 export class FeaturesModule { }

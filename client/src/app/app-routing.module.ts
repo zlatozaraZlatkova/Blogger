@@ -7,11 +7,18 @@ import { SingUpFormComponent } from './user/sing-up-form/sing-up-form.component'
 import { AuthFormsSectionComponent } from './user/auth-forms-section/auth-forms-section.component';
 import { BlogSectionComponent } from './features/blog/blog-section/blog-section.component';
 import { BlogDetailsComponent } from './features/blog/blog-details/blog-details.component';
+import { BlogCreateComponent } from './features/blog/blog-create/blog-create.component';
 
 const routes: Routes = [
   { path: '', component: HeroSectionComponent },
-  { path: 'posts', component: BlogSectionComponent },
-  { path: 'posts/:id', component: BlogDetailsComponent },
+  {
+    path: 'posts',
+    children: [
+      { path: '', component: BlogSectionComponent },
+      { path: 'create', component: BlogCreateComponent },
+      { path: ':id', component: BlogDetailsComponent },
+    ]
+  },
   {
     path: 'auth',
     component: AuthFormsSectionComponent,
@@ -27,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
