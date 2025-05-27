@@ -9,11 +9,15 @@ const newsletterController = require("../controllers/newsletterController");
 const defaultController = require("../controllers/defaultController");
 
 const checkAuth = require('../middlewares/checkAuth');
+const googleDriveConfigController = require("../controllers/googleDriveConfig");
 
 module.exports = (app) => {
   app.get("/api/test", (req, res) => {
     res.json({ message: "REST service operational" });
   });
+
+  app.use('/api/config', googleDriveConfigController);
+
 
   app.use("/api/auth", authController);
   app.use("/api/boards", checkAuth(true), boardController);

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BlogService } from '../blog.service';
-import { ICreatePostDto } from 'src/app/interfaces/post';
 import { HttpErrorResponse } from '@angular/common/http';
+import { take } from 'rxjs/internal/operators/take';
+
+import { BlogService } from '../blog.service';
+import { GoogleDriveConfigService } from 'src/app/services/google-drive-config.service';
+import { ICreatePostDto } from 'src/app/interfaces/post';
 
 interface IServerResponse {
   message: string;
@@ -16,16 +19,34 @@ interface IServerResponse {
 })
 export class BlogCreateComponent implements OnInit {
   postForm!: FormGroup;
-  errResonseMsg!: IServerResponse;
+  errResponseMsg!: IServerResponse;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private googleDriveConfigService: GoogleDriveConfigService
   ) {}
 
   ngOnInit(): void {
+    this.initializeGoogleDriveConfig();
     this.initializeForm();
+  }
+
+  private initializeGoogleDriveConfig(): void {
+    this.googleDriveConfigService
+      .loadConfig()
+      .pipe(take(1))
+      .subscribe({
+        next: (config) => {
+          console.log('Google Drive config:',config);
+        },
+        error: (err: HttpErrorResponse) => {
+          const errorResponse = err.error as IServerResponse;
+          this.errResponseMsg = errorResponse;
+          console.error('Error google drive config:', this.errResponseMsg);
+        },
+      });
   }
 
   private initializeForm(): void {
@@ -62,8 +83,8 @@ export class BlogCreateComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         const errorResponse = err.error as IServerResponse;
-        this.errResonseMsg = errorResponse;
-        console.error('ErrorMsg creating post:', this.errResonseMsg);
+        this.errResponseMsg = errorResponse;
+        console.error('ErrorMsg creating post:', this.errResponseMsg);
       },
     });
   }
