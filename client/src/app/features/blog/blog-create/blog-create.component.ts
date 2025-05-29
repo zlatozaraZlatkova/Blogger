@@ -20,6 +20,7 @@ interface IServerResponse {
 export class BlogCreateComponent implements OnInit {
   postForm!: FormGroup;
   errResponseMsg!: IServerResponse;
+  configLoaded: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +31,7 @@ export class BlogCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeGoogleDriveConfig();
+    this.loadGapiScript();
     this.initializeForm();
   }
 
@@ -39,7 +41,8 @@ export class BlogCreateComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (config) => {
-          console.log('Google Drive config:',config);
+          this.configLoaded = true;
+          console.log('Google Drive config:', config);
         },
         error: (err: HttpErrorResponse) => {
           const errorResponse = err.error as IServerResponse;
@@ -47,6 +50,10 @@ export class BlogCreateComponent implements OnInit {
           console.error('Error google drive config:', this.errResponseMsg);
         },
       });
+  }
+
+  private async loadGapiScript(): Promise<void> {
+    return  await this.googleDriveConfigService.loadGoogleApiScript();
   }
 
   private initializeForm(): void {
