@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { BlogCreateComponent } from './blog-create/blog-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GoogleDriveUploadComponent } from './google-drive-upload/google-drive-upload.component';
 
 
 
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BlogCardComponent,
     BlogDetailsComponent,
     BlogSectionComponent,
-    BlogCreateComponent
+    BlogCreateComponent,
+    GoogleDriveUploadComponent
   ],
   imports: [
     CommonModule,

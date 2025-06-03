@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,25 +7,22 @@ import { take } from 'rxjs/internal/operators/take';
 import { BlogService } from '../blog.service';
 import { GoogleDriveConfigService } from 'src/app/services/google-drive-config.service';
 import { ICreatePostDto } from 'src/app/interfaces/post';
+import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
-interface IServerResponse {
-  message: string;
-}
+
 
 @Component({
   selector: 'app-blog-create',
   templateUrl: './blog-create.component.html',
   styleUrls: ['./blog-create.component.css'],
 })
+
 export class BlogCreateComponent implements OnInit {
   postForm!: FormGroup;
   errResponseMsg!: IServerResponse;
   configLoaded: boolean = false;
-  isUploading: boolean = false;
-  selectedFile: File | null = null;
-  previewUrl: string | null = null;
 
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
 
   constructor(
     private fb: FormBuilder,
@@ -106,34 +103,7 @@ export class BlogCreateComponent implements OnInit {
   }
 
 
-  onFileSelected($event: Event): void {
-    const target = $event.currentTarget as HTMLInputElement;
-    const file = target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    this.selectedFile = file;
-    console.log('File selected:', this.selectedFile.name);
-
-    const createLocalPreviewReader = new FileReader();
-
-    createLocalPreviewReader.onload = (e) => {
-      const fileUrlStr = e.target?.result as string;
-      this.previewUrl = fileUrlStr;
-    };
-
-
-    createLocalPreviewReader.readAsDataURL(file);
-
-  }
-
-
-  onRemoveImage(): void {
-    this.previewUrl = null;
-    this.fileInput.nativeElement.value = '';
-  }
+ 
 }
 
 
