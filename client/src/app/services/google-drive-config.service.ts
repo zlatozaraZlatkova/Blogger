@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/internal/operators/tap';
@@ -6,15 +6,14 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { IGoogleDriveConfig } from '../interfaces/googleDriveConfig';
 import { genElements } from '../shared/utils/genDomElement';
 
-
 @Injectable({
   providedIn: 'root',
 })
-export class GoogleDriveConfigService {
+export class GoogleDriveConfigService implements OnDestroy {
   private config!: IGoogleDriveConfig;
-  private gapiScript: any = null;
+  private timer: number | null = null;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   loadConfig(): Observable<IGoogleDriveConfig> {
     return this.httpClient
@@ -29,53 +28,63 @@ export class GoogleDriveConfigService {
     return this.config;
   }
 
-  loadGoogleApiScript(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const isGapiLoadedAndReady = (window as any).gapi;
-      const isScriptTagAlreadyInDom = document.getElementById('google-api-script');
+  loadGoogleIdentityScript(): Observable<void> {
+    return new Observable<void>((observer) => {
+      const google = (window as any).google;
+      const existingScript = document.getElementById(
+        'google-identity-script'
+      ) as HTMLScriptElement;
 
-      if (isGapiLoadedAndReady) {
-        this.gapiScript = (window as any).gapi;
-        resolve();
+      if (google?.accounts) {
+        observer.next();
+        observer.complete();
         return;
       }
 
-      if (isScriptTagAlreadyInDom) {
-        isScriptTagAlreadyInDom.addEventListener('load', () => {
-          this.gapiScript = (window as any).gapi;
-          resolve();
+      if (existingScript) {
+        existingScript.addEventListener('load', () => {
+          observer.next();
+          observer.complete();
         });
 
-        isScriptTagAlreadyInDom.addEventListener('error', () => {
-          reject(new Error('Existing Google API script failed to load'));
+        existingScript.addEventListener('error', (error) => {
+          observer.error(
+            new Error('Failed to load GIS script from existing tag')
+          );
         });
 
         return;
       }
 
-      const newScriptElement = genElements('script', document.head, {
-        id: 'google-api-script',
-        src: 'https://apis.google.com/js/api.js',
+      const script = genElements('script', document.head, {
+        id: 'google-identity-script',
+        src: 'https://accounts.google.com/gsi/client',
+        async: true,
+        defer: true,
       }) as HTMLScriptElement;
 
-      newScriptElement.addEventListener('load', () => {
-        this.gapiScript = (window as any).gapi;
-        resolve();
+      script.addEventListener('load', () => {
+        this.timer = window.setTimeout(() => {
+          const google = (window as any).google;
+          if (google?.accounts) {
+            observer.next();
+            observer.complete();
+          } else {
+            observer.error(new Error('Google Identity Services not available'));
+          }
+        }, 100);
       });
 
-      newScriptElement.addEventListener('error', () => {
-        reject(new Error('Google API does not load correctly'));
+      script.addEventListener('error', (error) => {
+        observer.error(new Error('Failed to load GIS script'));
       });
-
     });
   }
 
-  getGoogleApiScript() {
-    if (!this.gapiScript) {
-      throw new Error('Google API is not ready.');
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      console.log('Timer cleared');
     }
-    return this.gapiScript;
   }
-
-
 }
