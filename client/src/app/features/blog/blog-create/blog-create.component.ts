@@ -8,54 +8,58 @@ import { BlogService } from '../blog.service';
 import { GoogleDriveConfigService } from 'src/app/services/google-drive-config.service';
 import { ICreatePostDto } from 'src/app/interfaces/post';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
-
-
+import { GoogleAuthService } from 'src/app/services/google-auth.service';
+import { tap } from 'rxjs/internal/operators/tap';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
 
 @Component({
   selector: 'app-blog-create',
   templateUrl: './blog-create.component.html',
   styleUrls: ['./blog-create.component.css'],
 })
-
 export class BlogCreateComponent implements OnInit {
-  postForm!: FormGroup;
+  postForm!: FormGroup; 
   errResponseMsg!: IServerResponse;
   configLoaded: boolean = false;
-
-
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private blogService: BlogService,
-    private googleDriveConfigService: GoogleDriveConfigService
+    private googleDriveConfigService: GoogleDriveConfigService,
+    private googleAuth: GoogleAuthService
   ) { }
 
   ngOnInit(): void {
-    this.initializeGoogleDriveConfig();
-    this.loadGapiScript();
     this.initializeForm();
+    this.googleLoader();
   }
 
-  private initializeGoogleDriveConfig(): void {
-    this.googleDriveConfigService
-      .loadConfig()
-      .pipe(take(1))
-      .subscribe({
-        next: (config) => {
+  googleLoader(): void {
+    this.googleDriveConfigService.loadConfig()
+      .pipe(
+        take(1),
+        tap((config) => {
           this.configLoaded = true;
-          console.log('Google Drive config:', config);
+          console.log('Config loaded:', config);
+        }),
+        switchMap(() => this.googleDriveConfigService.loadGoogleIdentityScript())
+      )
+      .subscribe({
+        next: () => {
+          const config = this.googleDriveConfigService.getConfig();
+          
+          this.googleAuth.initializeOAuthClient(
+            config.clientId,
+            'https://www.googleapis.com/auth/drive.file'
+          );
         },
-        error: (err: HttpErrorResponse) => {
-          const errorResponse = err.error as IServerResponse;
-          this.errResponseMsg = errorResponse;
-          console.error('Error google drive config:', this.errResponseMsg);
-        },
+        error: (err) => {
+          console.error('Error loading config or GIS script', err);
+          this.errResponseMsg = err.error as IServerResponse;
+          
+        }
       });
-  }
-
-  private loadGapiScript(): Promise<void> {
-    return this.googleDriveConfigService.loadGoogleApiScript();
   }
 
   private initializeForm(): void {
@@ -101,10 +105,4 @@ export class BlogCreateComponent implements OnInit {
   onCancel(): void {
     this.router.navigate(['/posts']);
   }
-
-
- 
 }
-
-
-
