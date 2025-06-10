@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GoogleAuthService } from 'src/app/services/google-auth.service';
-
+import { BlogService } from '../blog.service';
 
 @Component({
   selector: 'app-google-drive-upload',
@@ -19,7 +19,8 @@ export class GoogleDriveUploadComponent {
 
   constructor(
     private googleAuth: GoogleAuthService,
-  ) {}
+    private blogService: BlogService
+  ) { }
 
   onFileSelected($event: Event): void {
     const target = $event.currentTarget as HTMLInputElement;
@@ -64,14 +65,81 @@ export class GoogleDriveUploadComponent {
     });
   }
 
-  onRemoveImage(): void {
-    this.previewUrl = null; 
-    this.selectedFile = null; 
-    this.uploadError = null; 
-    this.isUploading = false; 
-    this.fileInput.nativeElement.value = ''; 
 
-   
+  onUploadToGoogleDrive(): void {
+    const accessToken = this.googleAuth.getAccessToken();
+
+    if (!accessToken) {
+      this.uploadError = 'Please sign in to Google first.';
+      return;
+    }
+
+    if (!this.selectedFile) {
+      this.uploadError = 'Please select a file first.';
+      return;
+    }
+
+    this.isUploading = true;
+    this.uploadError = null;
+
+
+    const formData = this.createFormDataForUpload();
+
+
+    this.blogService.uploadDriveImage(formData, accessToken).subscribe({
+      next: (response) => {
+        console.log('File uploaded successfully:', response);
+
+        this.previewUrl = null;
+        this.selectedFile = null;
+
+        this.isUploading = false;
+      },
+      error: (error) => {
+        console.error('Error uploading file:', error);
+        this.uploadError = 'Failed to upload file.';
+        this.isUploading = false;
+      },
+    });
+  }
+
+
+  private createFormDataForUpload(): FormData {
+    const timestamp = Date.now();
+    const originalName = this.selectedFile!.name;
+    const uniqueName = `blog-image-${timestamp}-${originalName}`;
+
+    if (!this.selectedFile) {
+      throw new Error('No file selected');
+    }
+
+    const googleFileInfo = {
+      name: uniqueName,
+      parents: []  //main folder 
+    };
+
+    //Google: "metadata === JSON blob ([textJSON], { MIME type})
+    const infoAsText = JSON.stringify(googleFileInfo);
+    const infoForGoogle = new Blob([infoAsText], { type: 'application/json' });
+
+
+    const formData = new FormData();
+    //multipart
+    formData.append('metadata', infoForGoogle);
+    formData.append('file', this.selectedFile);
+
+    return formData;
+  }
+
+
+
+  onRemoveImage(): void {
+    this.previewUrl = null;
+    this.selectedFile = null;
+    this.uploadError = null;
+    this.isUploading = false;
+    this.fileInput.nativeElement.value = '';
+
   }
 
 

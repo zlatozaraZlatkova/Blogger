@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
@@ -20,7 +20,15 @@ export class BlogService {
       return this.httpClient.get<IPost>(`${this.basicUrl}/${id}`);
     }
 
-    createPost(data: ICreatePostDto): Observable<IPost> {
-      return this.httpClient.post<IPost>(`${this.basicUrl}/create`, data);
-    }
+  createPost(data: ICreatePostDto): Observable<IPost> {
+    return this.httpClient.post<IPost>(`${this.basicUrl}/create`, data);
+  }
+
+  uploadDriveImage(formDataDrive: FormData, accessToken: string | null): Observable<any> {
+    const googleUploadUrl ='https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    
+    const headers = new HttpHeaders({ Authorization: `Bearer ${accessToken}` });
+
+    return this.httpClient.post(googleUploadUrl, formDataDrive, { headers });
+  }
 }
