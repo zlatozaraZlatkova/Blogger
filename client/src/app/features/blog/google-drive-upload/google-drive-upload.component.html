@@ -79,11 +79,10 @@
                 <span class="text-sm text-green-800">✅ Image uploaded to Google Drive successfully!</span>
             </div>
 
-            <img *ngIf="previewUrl" [src]="parentForm.get('postImageUrl')?.value" alt="Uploaded image"
-                class="max-w-xs mx-auto rounded-lg shadow-md" />
-
+            <img *ngIf="parentForm.get('postImageUrl')?.value" [src]="parentForm.get('postImageUrl')?.value" />
         </div>
     </ng-container>
+
 
     <!-- Hidden input -->
     <input type="hidden" formControlName="postImageUrl" />

@@ -90,6 +90,11 @@ export class GoogleDriveUploadComponent {
       next: (response) => {
         console.log('File uploaded successfully:', response);
 
+        // Google Drive API docs → File sharing → Public links 
+        const driveUrl = `https://drive.google.com/uc?export=view&id=${response.id}`;
+
+        this.updateFormWithImageUrl(driveUrl);
+
         this.previewUrl = null;
         this.selectedFile = null;
 
@@ -115,7 +120,10 @@ export class GoogleDriveUploadComponent {
 
     const googleFileInfo = {
       name: uniqueName,
-      parents: []  //main folder 
+      parents: [],  //main folder 
+      role: 'reader',
+      type: 'anyone'
+
     };
 
     //Google: "metadata === JSON blob ([textJSON], { MIME type})
@@ -132,6 +140,14 @@ export class GoogleDriveUploadComponent {
   }
 
 
+  private updateFormWithImageUrl(imageUrl: string): void {
+
+    this.parentForm.patchValue({
+      postImageUrl: imageUrl,
+    });
+
+    this.parentForm.get('postImageUrl')?.markAsTouched();
+  }
 
   onRemoveImage(): void {
     this.previewUrl = null;
@@ -140,6 +156,7 @@ export class GoogleDriveUploadComponent {
     this.isUploading = false;
     this.fileInput.nativeElement.value = '';
 
+    this.updateFormWithImageUrl('');
   }
 
 
