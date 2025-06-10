@@ -1,7 +1,10 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { map, switchMap, take } from 'rxjs/operators';
+
 import { GoogleAuthService } from 'src/app/services/google-auth.service';
-import { BlogService } from '../blog.service';
+import { GoogleDriveApiService } from 'src/app/services/google-drive-api.service';
+
 
 @Component({
   selector: 'app-google-drive-upload',
@@ -19,7 +22,7 @@ export class GoogleDriveUploadComponent {
 
   constructor(
     private googleAuth: GoogleAuthService,
-    private blogService: BlogService
+    private gapiService: GoogleDriveApiService
   ) { }
 
   onFileSelected($event: Event): void {
@@ -66,7 +69,7 @@ export class GoogleDriveUploadComponent {
   }
 
 
-  onUploadToGoogleDrive(): void {
+ onUploadToGoogleDrive(): void {
     const accessToken = this.googleAuth.getAccessToken();
 
     if (!accessToken) {
@@ -82,29 +85,25 @@ export class GoogleDriveUploadComponent {
     this.isUploading = true;
     this.uploadError = null;
 
-
     const formData = this.createFormDataForUpload();
 
-
-    this.blogService.uploadDriveImage(formData, accessToken).subscribe({
-      next: (response) => {
-        console.log('File uploaded successfully:', response);
-
-        // Google Drive API docs → File sharing → Public links 
-        const driveUrl = `https://drive.google.com/uc?export=view&id=${response.id}`;
-
+    this.gapiService.uploadDriveImage(formData, accessToken).pipe(
+      take(1),
+      switchMap((uploadResponse) => {
+        return this.gapiService.makeFilePublic(uploadResponse.id, accessToken).pipe(
+          map(() => uploadResponse)
+        );
+      })
+    ).subscribe({
+      next: (uploadResponse) => {
+        const driveUrl = `https://drive.google.com/uc?export=view&id=${uploadResponse.id}`;
         this.updateFormWithImageUrl(driveUrl);
-
-        this.previewUrl = null;
-        this.selectedFile = null;
-
-        this.isUploading = false;
       },
       error: (error) => {
-        console.error('Error uploading file:', error);
-        this.uploadError = 'Failed to upload file.';
+        console.error('Complete error:', error);
+        this.uploadError = 'Failed to upload file or make it public.';
         this.isUploading = false;
-      },
+      }
     });
   }
 
