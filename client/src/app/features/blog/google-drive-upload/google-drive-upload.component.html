@@ -1,55 +1,60 @@
-
 <div [formGroup]="parentForm">
     <label for="image" class="block text-sm font-medium text-gray-700">
         Featured Image
     </label>
 
-    <!-- Upload Area -->
-    <div class="mt-1 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10">
+    <!-- Google Sign-in Status -->
+    <div class="mt-2 mb-4" *ngIf="!parentForm.get('postImageUrl')?.value">
+        <div *ngIf="!isSignedIn()" class="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+            <span class="text-sm text-yellow-800">Please sign in to Google to upload images</span>
+            <button type="button" 
+                    (click)="onSignInToGoogle()" 
+                    class="ml-2 bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                Sign in to Google
+            </button>
+        </div>
+
+        <div *ngIf="isSignedIn()" class="p-3 bg-green-50 border border-green-200 rounded-md">
+            <span class="text-sm text-green-800">✅ Signed in to Google</span>
+        </div>
+    </div>
+
+    <!-- Upload  -->
+    <div class="mt-1 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10" 
+         *ngIf="!parentForm.get('postImageUrl')?.value">
         <div class="text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                aria-hidden="true">
+            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
 
             <div class="mt-4 flex text-sm text-gray-600">
                 <label for="file-upload"
-                    class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                    class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500">
                     <span>Upload a file</span>
-
                     <input #fileInput (change)="onFileSelected($event)" id="file-upload" name="file-upload" type="file"
                         class="sr-only" accept="image/*" />
                 </label>
-
-                <ng-container *ngIf="isUploading">
-                    <div class="ml-2 flex items-center">
-                        <div class="animate-spin h-4 w-4 border-t-2 border-indigo-500 rounded-full"></div>
-                        <span class="ml-2">Uploading to Google Drive...</span>
-                    </div>
-                </ng-container>
-
-                <p class="pl-1" *ngIf="!isUploading">or drag and drop</p>
+                <p class="pl-1">or drag and drop</p>
             </div>
-
             <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
         </div>
     </div>
 
-    <!-- Preview with local file -->
-    <ng-container *ngIf="previewUrl">
+
+    <!-- Error Messages -->
+    <div *ngIf="uploadError" class="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+        <span class="text-sm text-red-800">{{ uploadError }}</span>
+    </div>
+
+    <!-- Preview before upload -->
+    <ng-container *ngIf="previewUrl && !parentForm.get('postImageUrl')?.value">
         <div class="mt-4 text-center">
-            <p class="text-sm text-green-600 mb-2">Image selected:</p>
+            <p class="text-sm text-blue-600 mb-2">Image selected:</p>
             <img [src]="previewUrl" alt="Preview" class="max-w-xs mx-auto rounded-lg shadow-md" />
-            <div class="mt-2">
-                <button type="button" class="text-sm text-red-600 mb-2" (click)="onRemoveImage()">
-                    Remove Image
-                </button>
-            </div>
         </div>
     </ng-container>
 
     <!-- Hidden input and stores the current url for the form -->
     <input type="hidden" formControlName="postImageUrl" />
-    <p *ngIf="parentForm.get('postImageUrl')?.value">Image URL: {{ parentForm.get('postImageUrl')?.value }}</p>
 </div>
