@@ -3,9 +3,9 @@ const { body, validationResult } = require("express-validator");
 
 const { getAll, getById, createItem, deleteById, updateItem } = require("../services/taskService");
 const { isTaskOwner, isSectionOwner } = require("../middlewares/guards");
-const { errorParser } = require("../utils/errorParser");
 
-router.get("/", async (req, res) => {
+
+router.get("/", async (req, res, next) => {
   try {
     const tasks = await getAll();
 
@@ -16,12 +16,11 @@ router.get("/", async (req, res) => {
     res.json(tasks);
 
   } catch (error) {
-    const message = errorParser(error);
-    res.status(400).json({ message });
+    next(error);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     
     const task = await getById(req.params.id);
@@ -33,8 +32,7 @@ router.get("/:id", async (req, res) => {
     res.json(task);
 
   } catch (error) {
-    const message = errorParser(error);
-    res.status(400).json({ message });
+    next(error);
   }
 });
 
@@ -45,7 +43,7 @@ router.post("/:id/create", isSectionOwner(),
   body("description", "Description is required").not().isEmpty(),
   body("description", "Please enter a description up to 250 characters long").isLength({ max: 250 }),
   body("status", "Please ").isLength({ max: 250 }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { errors } = validationResult(req);
 
@@ -71,8 +69,7 @@ router.post("/:id/create", isSectionOwner(),
       res.json(createdTask);
 
     } catch (error) {
-      const message = errorParser(error);
-      res.status(400).json({ message });
+      next(error);
     }
   }
 );
@@ -83,7 +80,7 @@ router.put("/:id/edit", isTaskOwner(),
   body("description", "Description is required").not().isEmpty(),
   body("description", "Please enter a description up to 250 characters long").isLength({ max: 250 }),
   body("status", "Please ").isLength({ max: 250 }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { errors } = validationResult(req);
       const task = res.locals.task;
@@ -97,13 +94,12 @@ router.put("/:id/edit", isTaskOwner(),
       res.json(updatedTask);
 
     } catch (error) {
-      const message = errorParser(error);
-      res.status(400).json({ message });
+      next(error);
     }
   }
 );
 
-router.delete("/:id/delete", isTaskOwner(), async (req, res) => {
+router.delete("/:id/delete", isTaskOwner(), async (req, res, next) => {
   try {
     const task = res.locals.task;
 
@@ -112,8 +108,7 @@ router.delete("/:id/delete", isTaskOwner(), async (req, res) => {
     res.json({ message: "Task deleted" });
 
   } catch (error) {
-    const message = errorParser(error);
-    res.status(400).json({ message });
+    next(error);
   }
 });
 

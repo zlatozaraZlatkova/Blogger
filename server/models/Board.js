@@ -10,7 +10,7 @@ const boardSchema = new Schema(
     sectionsList: {
       type: [Types.ObjectId],
       required: true,
-      ref: "Sections",
+      ref: "Section",
       default: [],
     },
     ownerId: {

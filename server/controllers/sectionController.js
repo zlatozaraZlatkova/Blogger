@@ -3,12 +3,12 @@ const { body, validationResult } = require("express-validator");
 
 const { createItem, updateItem, deleteById } = require("../services/sectionService");
 const { isSectionOwner, isBoardOwner } = require("../middlewares/guards");
-const { errorParser } = require("../utils/errorParser");
+
 
 router.post("/:id/create", isBoardOwner(),
   body("title", "Section title is required").not().isEmpty(),
   body("title", "Please enter a title up to 20 characters long").isLength({ max: 20 }),
-  async (req, res) => {
+  async (req, res, next) => {
     const board = res.locals.board;
 
     try {
@@ -31,8 +31,7 @@ router.post("/:id/create", isBoardOwner(),
 
       res.json(createdSection);
     } catch (error) {
-      const message = errorParser(error);
-      res.status(400).json({ message });
+      next(error);
     }
   }
 );
@@ -40,7 +39,7 @@ router.post("/:id/create", isBoardOwner(),
 router.put("/edit/:id", isSectionOwner(),
   body("title", "Section title is required").not().isEmpty(),
   body("title", "Please enter a title up to 20 characters long").isLength({ max: 20 }),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const { errors } = validationResult(req);
       const section = res.locals.section;  
@@ -54,14 +53,12 @@ router.put("/edit/:id", isSectionOwner(),
 
       res.json(updateSection);
     } catch (error) {
-      console.log(error)
-      const message = errorParser(error);
-      res.status(400).json({ message });
+       next(error);
     }
   }
 );
 
-router.delete("/delete/:id", isSectionOwner(), async (req, res) => {
+router.delete("/delete/:id", isSectionOwner(), async (req, res, next) => {
   try {
     const section = res.locals.section;  
     const userId = req.user._id;
@@ -71,8 +68,7 @@ router.delete("/delete/:id", isSectionOwner(), async (req, res) => {
     res.json({ message: "Section deleted" });
 
   } catch (error) {
-    const message = errorParser(error);
-    res.status(400).json({ message });
+     next(error);
   }
 });
 

@@ -29,12 +29,11 @@ const sectionSchema = new Schema({
         required: true,
         ref: "User",
     },
-    // date: { type: Date, default: Date.now }
 
 }, { timestamps: true })
 
 sectionSchema.index(
-    { title: 1 },
+    { title: 1, boardId: 1 },
     {
         unique: true,
         collation: {

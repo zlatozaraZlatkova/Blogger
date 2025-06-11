@@ -34,12 +34,11 @@ const taskSchema = new Schema({
         required: true,
         ref: "User",
     },
-    // date: { type: Date, default: Date.now },
 
 }, { timestamps: true })
 
 taskSchema.index(
-    { title: 1 },
+    { title: 1, sectionId: 1 },
     {
         unique: true,
         collation: {

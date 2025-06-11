@@ -1,12 +1,10 @@
 const router = require("express").Router();
 const { body, validationResult } = require("express-validator");
 
-
 const { getTeamsByOwner, getById, createItem, getExistingUserByEmail, createInvitation, getUseById, acceptInvitation, rejectInvitation, leaveTeam } = require("../services/teamService");
-const { errorParser } = require("../utils/errorParser");
 
 
-router.get("/",  async (req, res) => {
+router.get("/",  async (req, res, next) => {
     try {
         const teams = await getTeamsByOwner(req.user._id);
         
@@ -17,15 +15,14 @@ router.get("/",  async (req, res) => {
         res.json(teams);
 
     } catch (error) {
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error);
     }
 });
 
 router.post("/create",
     body("name", "Name is required").not().isEmpty(),
     body("name", "Please enter a name up to 30 characters long").isLength({ max: 30 }),
-    async (req, res) => {
+    async (req, res, next) => {
         try {
             const userId = req.user._id;
             const { errors } = validationResult(req);
@@ -44,8 +41,7 @@ router.post("/create",
             res.json(createdTeam);
 
         } catch (error) {
-            const message = errorParser(error);
-            res.status(400).json({ message });
+           next(error);
         }
 
     }
@@ -55,7 +51,7 @@ router.post("/create",
 router.post("/:id/send-invitation",
     body("email", "Email is required").not().isEmpty(),
     body("email", "Please provide a valid email address").isEmail(),
-    async (req, res) => {
+    async (req, res, next) => {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -101,14 +97,13 @@ router.post("/:id/send-invitation",
             return res.status(200).json({ message: `Invitation sent to ${member.email}` });
 
         } catch (error) {
-            const message = errorParser(error);
-            return res.status(500).json({ message });
+           next(error);
         }
     }
 );
 
 router.post("/:id/accept-invitation",
-    async (req, res) => {
+    async (req, res, next) => {
         try {
             const teamId = req.params.id;
             const userId = req.user._id;
@@ -135,14 +130,13 @@ router.post("/:id/accept-invitation",
 
 
         } catch (error) {
-            const message = errorParser(error);
-            res.status(400).json({ message });
+           next(error);
         }
 
     });
 
 
-router.post("/:id/reject-invitation", async (req, res) => {
+router.post("/:id/reject-invitation", async (req, res, next) => {
     try {
         const teamId = req.params.id;
         const userId = req.user._id;
@@ -161,13 +155,12 @@ router.post("/:id/reject-invitation", async (req, res) => {
         return res.status(200).json({ message: "Invitation rejected" });
 
     } catch (error) {
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error);
     }
 })
 
 
-router.post("/:id/leave", async (req, res) => {
+router.post("/:id/leave", async (req, res, next) => {
     try {
         const teamId = req.params.id;
         const userId = req.user._id;
@@ -194,17 +187,12 @@ router.post("/:id/leave", async (req, res) => {
 
         return res.status(200).json({ message: `Please be advised that you are leaving team ${team.name}` });
 
-
-
-
     } catch (error) {
-        console.log(error)
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error);
     }
 })
 
-router.post("/remove/:teamId/:memberId", async(req, res) => {
+router.post("/remove/:teamId/:memberId", async(req, res, next) => {
     try {
         const teamId = req.params.teamId;
         const memberId = req.params.memberId;
@@ -237,9 +225,7 @@ router.post("/remove/:teamId/:memberId", async(req, res) => {
         
 
     } catch (error) {
-        console.log(error)
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error);
     
     }
 })
