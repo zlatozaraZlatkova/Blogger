@@ -3,9 +3,8 @@ const { body, validationResult } = require("express-validator");
 
 const { getAll, createItem, updateItem, deleteById } = require("../services/boardService");
 const { isBoardOwner } = require("../middlewares/guards");
-const { errorParser } = require("../utils/errorParser");
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
     try {
         const boards = await getAll();
 
@@ -16,13 +15,12 @@ router.get("/", async (req, res) => {
         res.json(boards);
 
     } catch (error) {
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error)
     }
 
 });
 
-router.get("/:id", isBoardOwner(), async (req, res) => {
+router.get("/:id", isBoardOwner(), async (req, res, next) => {
     try {
 
         const board = res.locals.board;
@@ -30,19 +28,18 @@ router.get("/:id", isBoardOwner(), async (req, res) => {
         res.json(board);
 
     } catch (error) {
-        const message = errorParser(error);
-        res.status(400).json({ message });
+       next(error);
     }
 
 });
 
 router.post("/create",
     body("title", "Board title is required").not().isEmpty(),
-    body("title", "Please enter a title up to 20 characters long").isLength({ max: 20 }),
+    body("title", "Please enter a title up to 20 characters long").isLength({ min: 2, max: 20 }),
     body("sections", "Sections array is required").isArray(),
     body("sections.*.title", "Section title is required").not().isEmpty(),
     body("sections.*.title", "Section title must be 2-20 characters").isLength({ min: 2, max: 20 }),
-    async (req, res) => {
+    async (req, res, next) => {
         try {
             const { errors } = validationResult(req);
 
@@ -51,11 +48,12 @@ router.post("/create",
             }
 
             const userId = req.user._id;
+
             const { title, sections } = req.body;
 
             const board = {
                 title: title,
-                ownerId: userId,
+                ownerId: userId
             };
 
             const createdBoard = await createItem(userId, board, sections);
@@ -63,18 +61,17 @@ router.post("/create",
             res.json(createdBoard);
 
         } catch (error) {
-            const message = errorParser(error);
-            res.status(400).json({ message });
-        }
+            next(error);
 
+        }
     }
 );
 
 router.put("/:id/edit", isBoardOwner(),
     body("title", "Board title is required").not().isEmpty(),
     body("title", "Please enter a title up to 20 characters long").isLength({ max: 20 }),
-    async (req, res) => {
-       
+    async (req, res, next) => {
+
         try {
             const { errors } = validationResult(req);
             const board = res.locals.board;
@@ -90,9 +87,7 @@ router.put("/:id/edit", isBoardOwner(),
 
 
         } catch (error) {
-            console.log(error)
-            const message = errorParser(error);
-            res.status(400).json({ message });
+           next(error);
 
         }
 
@@ -100,21 +95,20 @@ router.put("/:id/edit", isBoardOwner(),
     })
 
 router.delete("/:id/delete", isBoardOwner(),
- async (req, res) => {
+    async (req, res, next) => {
 
-    try {
-        const userId = req.user._id;
-        const board = res.locals.board;
+        try {
+            const userId = req.user._id;
+            const board = res.locals.board;
 
-        await deleteById(board._id, userId);
-        res.json({ message: "Board deleted" });
+            await deleteById(board._id, userId);
+            res.json({ message: "Board deleted" });
 
-    } catch (error) {
-        const message = errorParser(error);
-        res.status(400).json({ message });
+        } catch (error) {
+           next(error);
 
-    }
-})
+        }
+    })
 
 
 
