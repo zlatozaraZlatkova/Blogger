@@ -5,12 +5,16 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-section.component';
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
+import { ProfileComponent } from './profile/profile.component';
+import { LogoutComponent } from './logout/logout/logout.component';
 
 @NgModule({
   declarations: [
     AuthFormsSectionComponent,
     SingInFormComponent,
-    SingUpFormComponent
+    SingUpFormComponent,
+    ProfileComponent,
+    LogoutComponent
   ],
   imports: [
     CommonModule,

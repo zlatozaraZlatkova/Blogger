@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/user/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,12 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isMobileMenuOpen = false;
-  isLoggedIn = false;
+
+  get isLoggedIn() {
+    return this.authService.isLoggedIn;
+  }
+
+  constructor(private authService: AuthService) {}
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;

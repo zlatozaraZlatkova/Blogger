@@ -8,6 +8,8 @@ import { AuthFormsSectionComponent } from './user/auth-forms-section/auth-forms-
 import { BlogSectionComponent } from './features/blog/blog-section/blog-section.component';
 import { BlogDetailsComponent } from './features/blog/blog-details/blog-details.component';
 import { BlogCreateComponent } from './features/blog/blog-create/blog-create.component';
+import { ProfileComponent } from './user/profile/profile.component';
+import { LogoutComponent } from './user/logout/logout/logout.component';
 
 const routes: Routes = [
   { path: '', component: HeroSectionComponent },
@@ -17,15 +19,22 @@ const routes: Routes = [
       { path: '', component: BlogSectionComponent },
       { path: 'create', component: BlogCreateComponent },
       { path: ':id', component: BlogDetailsComponent },
-    ]
+    ],
   },
   {
     path: 'auth',
-    component: AuthFormsSectionComponent,
     children: [
-      { path: 'login', component: SingInFormComponent },
-      { path: 'register', component: SingUpFormComponent },
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      {
+        path: '',
+        component: AuthFormsSectionComponent,
+        children: [
+          { path: 'login', component: SingInFormComponent },
+          { path: 'register', component: SingUpFormComponent },
+          { path: '', redirectTo: 'login', pathMatch: 'full' },
+        ],
+      },
+      { path: 'logout', component: LogoutComponent },
+      { path: 'profile', component: ProfileComponent },
     ],
   },
 ];
@@ -34,4 +43,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
