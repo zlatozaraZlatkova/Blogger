@@ -1,0 +1,32 @@
+<section class="not-found-container">
+  <div class="content-wrapper">
+    <p class="error-code">404</p>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-message">
+      Sorry, we couldn't find the page you're looking for.
+    </p>
+    <div class="action-buttons">
+      <app-custom-button
+        [buttonText]="'Go back home'"
+        [routerLink]="'/'"
+        [buttonClass]="
+          'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
+        "
+      >
+        <svg
+          icon
+          aria-hidden="true"
+          class="h-4 w-4 flex-none"
+          fill="currentColor"
+          viewBox="0 0 20 21"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Arrow Right</title>
+          <polygon
+            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9"
+          ></polygon>
+        </svg>
+      </app-custom-button>
+    </div>
+  </div>
+</section>
