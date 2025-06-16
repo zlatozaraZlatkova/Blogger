@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BlogCreateComponent } from './blog-create/blog-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleDriveUploadComponent } from './google-drive-upload/google-drive-upload.component';
+import { BlogRoutingModule } from './blog-routing.module';
 
 
 
@@ -23,7 +24,8 @@ import { GoogleDriveUploadComponent } from './google-drive-upload/google-drive-u
     CommonModule,
     SharedModule, 
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BlogRoutingModule
   ]
 })
 export class BlogModule { }
