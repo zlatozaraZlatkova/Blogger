@@ -1,0 +1,16 @@
+.default {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}

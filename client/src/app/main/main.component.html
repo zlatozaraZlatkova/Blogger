@@ -1,7 +1,9 @@
-<app-header />
+<div [ngClass]="currentLayout">
+  <app-header *ngIf="showHeader"></app-header>
 
-<main class="bg-white">
-  <router-outlet />
-</main>
+  <main class="bg-white main-content">
+    <router-outlet />
+  </main>
 
-<app-footer />
+  <app-footer *ngIf="showFooter"></app-footer>
+</div>

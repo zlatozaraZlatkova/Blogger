@@ -7,27 +7,59 @@ import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 import { LogoutComponent } from './logout/logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 
+
 const routes: Routes = [
   {
     path: '',
+    component: AuthFormsSectionComponent,
     children: [
       {
-        path: '',
-        component: AuthFormsSectionComponent,
-        children: [
-          { path: 'login', component: SingInFormComponent },
-          { path: 'register', component: SingUpFormComponent },
-          { path: '', redirectTo: 'login', pathMatch: 'full' },
-        ],
+        path: 'login',
+        component: SingInFormComponent,
+        data: {
+          title: 'Login',
+          layout: 'auth',
+          showHeader: false,
+          showFooter: false,
+        },
       },
-      { path: 'logout', component: LogoutComponent },
-      { path: 'profile', component: ProfileComponent },
+      {
+        path: 'register',
+        component: SingUpFormComponent,
+        data: {
+          title: 'Register',
+          layout: 'auth',
+          showHeader: false,
+          showFooter: false,
+        },
+      },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent,
+    data: {
+      title: 'Logout',
+      layout: 'default',
+      showHeader: true,
+      showFooter: true,
+    },
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    data: {
+      title: 'User\'s Profile',
+      layout: 'default',
+      showHeader: true,
+      showFooter: true,
+    },
   },
 ];
 
 @NgModule({
-   imports: [RouterModule.forChild(routes)], 
-   exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class AuthRoutingModule {}
+export class AuthRoutingModule { }

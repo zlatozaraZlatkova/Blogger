@@ -9,15 +9,42 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: BlogSectionComponent },
-      { path: 'create', component: BlogCreateComponent },
-      { path: ':id', component: BlogDetailsComponent },
+      {
+        path: '',
+        component: BlogSectionComponent,
+        data: {
+          title: 'Blog Posts',
+          layout: 'default',
+          showHeader: true,
+          showFooter: true,
+        },
+      },
+      {
+        path: 'create',
+        component: BlogCreateComponent,
+        data: {
+          title: 'Create Post', 
+          layout: 'default',
+          showHeader: true,
+          showFooter: true,
+        },
+      },
+      {
+        path: ':id',
+        component: BlogDetailsComponent,
+        data: {
+          title: 'Post Details', 
+          layout: 'default',
+          showHeader: true,
+          showFooter: true,
+        },
+      },
     ],
-  }
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], 
-  exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class BlogRoutingModule {}
+export class BlogRoutingModule { }
