@@ -6,7 +6,7 @@ import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 import { LogoutComponent } from './logout/logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { AuthActivate } from '../shared/guards/auth.activate';
 
 const routes: Routes = [
   {
@@ -16,21 +16,25 @@ const routes: Routes = [
       {
         path: 'login',
         component: SingInFormComponent,
+        canActivate: [AuthActivate],
         data: {
           title: 'Login',
           layout: 'auth',
           showHeader: false,
           showFooter: false,
+          loginRequired: false,
         },
       },
       {
         path: 'register',
         component: SingUpFormComponent,
+        canActivate: [AuthActivate],
         data: {
           title: 'Register',
           layout: 'auth',
           showHeader: false,
           showFooter: false,
+          loginRequired: false,
         },
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -39,21 +43,25 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent,
+    canActivate: [AuthActivate],
     data: {
       title: 'Logout',
       layout: 'default',
       showHeader: true,
       showFooter: true,
+      loginRequired: true,
     },
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthActivate],
     data: {
-      title: 'User\'s Profile',
+      title: "User's Profile",
       layout: 'default',
       showHeader: true,
       showFooter: true,
+      loginRequired: true,
     },
   },
 ];
@@ -62,4 +70,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}
