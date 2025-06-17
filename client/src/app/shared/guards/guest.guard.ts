@@ -1,22 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from 'src/app/user/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+export const guestGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-export class GuestGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) { }
+  const isUserLoggedIn = authService.isLoggedIn;
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-    const isLoggedIn = this.authService.isLoggedIn;
-
-    if (isLoggedIn) {
-      return this.router.createUrlTree(['/auth/profile']);
-    }
-
-    return true;
-
+  if (isUserLoggedIn) {
+    return router.createUrlTree(['/auth/profile']);
   }
-}
+
+  return true;
+};

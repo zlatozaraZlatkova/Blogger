@@ -6,8 +6,8 @@ import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 import { LogoutComponent } from './logout/logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AuthGuard } from '../shared/guards/auth.guard';
-import { GuestGuard } from '../shared/guards/guest.guard';
+import { authGuard } from '../shared/guards/auth.guard';
+import { guestGuard } from '../shared/guards/guest.guard';
 
 
 const routes: Routes = [
@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: SingInFormComponent,
-        canActivate: [GuestGuard],
+        canActivate: [guestGuard],
         data: {
           title: 'Login',
           layout: 'auth',
@@ -29,7 +29,7 @@ const routes: Routes = [
       {
         path: 'register',
         component: SingUpFormComponent,
-        canActivate: [GuestGuard],
+        canActivate: [guestGuard],
         data: {
           title: 'Register',
           layout: 'auth',
@@ -43,7 +43,7 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     data: {
       title: 'Logout',
       layout: 'default',
@@ -54,7 +54,7 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     data: {
       title: "User's Profile",
       layout: 'default',
