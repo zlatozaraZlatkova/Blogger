@@ -22,6 +22,6 @@ export class SingInFormComponent {
       avatar:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBA0izleF9YCsNsogegx3939s0bmJr-MLGFg&s',
     };
-    this.router.navigate(['/posts']);
+
   }
 }

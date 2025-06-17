@@ -1,30 +1,44 @@
 <!-- Container -->
-<section class="py-24">
+<section class="py-8 min-h-screen flex items-center">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="grid md:grid-cols-5">
+
+    <!-- Home icon -->
+       <div class="absolute top-6 left-6 z-10">
+      <a 
+        routerLink="/" 
+        class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-200 text-gray-600 hover:text-indigo-600"
+        title="Back to Home"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v4a1 1 0 001 1m-6-6h6"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-5 min-h-[80vh]">
       <!-- Component -->
       <div
         class="flex flex-col items-center justify-center bg-white col-span-3"
       >
         <!-- Wrapper -->
-        <div class="max-w-md w-full text-center md:px-4 md:py-8">
+        <div class="max-w-md w-full text-center md:px-4 md:py-4">
           <!-- Title -->
 
           <h2
-            class="mb-8 text-2xl font-bold md:mb-12 md:text-5xl"
+            class="mb-4 text-2xl font-bold md:mb-6 md:text-4xl"
             *ngIf="isActive('signInForm')"
           >
             Sign in to your account
           </h2>
           <h2
-            class="mb-8 text-2xl font-bold md:mb-12 md:text-5xl"
+            class="mb-4 text-2xl font-bold md:mb-6 md:text-4xl"
             *ngIf="isActive('signUpForm')"
           >
             Start your free trial
           </h2>
 
           <!-- Tabs -->
-          <div class="flex justify-between mb-6 border-b border-gray-200">
+          <div class="flex justify-between mb-4 border-b border-gray-200">
             <button
               id="signInTab"
               type="button"
@@ -66,7 +80,7 @@
         class="flex flex-col items-center justify-center bg-[#f2f2f7] col-span-2"
       >
         <!-- Wrapper -->
-        <div class="max-w-lg px-5 py-16 md:px-10 md:py-24 lg:py-32">
+        <div class="max-w-lg px-5 py-8 md:px-10 md:py-12">
           <div
             class="mb-6 ml-2 flex h-14 w-14 items-center justify-center bg-[#276ef1] [box-shadow:rgb(171,_196,_245)_-8px_8px]"
           >
