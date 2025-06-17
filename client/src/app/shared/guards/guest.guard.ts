@@ -6,29 +6,17 @@ import { AuthService } from 'src/app/user/auth.service';
   providedIn: 'root',
 })
 
-export class AuthActivate implements CanActivate {
+export class GuestGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-    const loginRequired = route.data['loginRequired']; 
     const isLoggedIn = this.authService.isLoggedIn;
-    
 
-    if (loginRequired === undefined) {
-      return true;
-    }
-
-
-    if (loginRequired && !isLoggedIn) {
-      return this.router.createUrlTree(['/auth/login']);
-    }
-  
-
-    if (!loginRequired && isLoggedIn) {
+    if (isLoggedIn) {
       return this.router.createUrlTree(['/auth/profile']);
     }
 
-
     return true;
+
   }
 }
