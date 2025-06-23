@@ -1,0 +1,73 @@
+.requirement-indicator {
+    margin-right: 0.5rem;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+
+.requirement-valid {
+    color: #16a34a;
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.requirement-valid::before {
+   content: "\2713";
+}
+
+
+.requirement-invalid {
+    color: #dc2626;
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.requirement-invalid::before {
+    content: "\2717"; 
+}
+
+
+.requirement-text-valid {
+    color: #16a34a;
+}
+
+.requirement-text-invalid {
+    color: #6b7280;
+}
+
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.requirement-item.valid .requirement-icon {
+    color: #16a34a;
+}
+
+.requirement-item.valid .requirement-text {
+    color: #16a34a;
+}
+
+.requirement-item.invalid .requirement-icon {
+    color: #dc2626;
+}
+
+.requirement-item.invalid .requirement-text {
+    color: #6b7280;
+}
+
+.requirement-icon {
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.requirement-icon.valid::before {
+    content: "\2713";
+}
+
+.requirement-icon.invalid::before {
+    content: "\2717"; 
+}

@@ -8,13 +8,22 @@ export function strongPasswordValidator(): ValidatorFn {
     const hasUpper = /[A-Z]/.test(password);
     const hasLower = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    const hasSpecial = /[#?!@$%^&*\-.]/.test(password);
+    const hasSymbol = /[#\?!@$%\^&*\-\.]/.test(password);
     const hasMinLength = password.length >= 8;
 
-    if (hasUpper && hasLower && hasNumber && hasSpecial && hasMinLength) {
+    const details = {
+      hasUpper,
+      hasLower,
+      hasNumber,
+      hasSymbol,
+      hasMinLength
+    };
+
+
+    if (hasUpper && hasLower && hasNumber && hasSymbol && hasMinLength) {
       return null;
     }
 
-    return { weakPassword: true };
+    return { weakPassword: true, passwordDetails: details };
   };
 }
