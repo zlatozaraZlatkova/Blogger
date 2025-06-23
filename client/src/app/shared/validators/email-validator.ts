@@ -2,10 +2,10 @@ import { ValidatorFn } from '@angular/forms';
 
 export function emailValidator(): ValidatorFn {
   const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi;
+    /^[a-zA-Z0-9]([a-zA-Z0-9._-])*[a-zA-Z0-9]@[a-zA-Z0-9]([a-zA-Z0-9-])*[a-zA-Z0-9]\.([a-zA-Z]{2,4})$/;
 
   return (control) => {
-    const valid = emailRegex.test(control.value);
-    return valid ? null : { emailValidator: true };
+    const valid = emailRegex.test(control.value.trim());
+    return valid ? null : { invalidEmail: true };
   };
 }

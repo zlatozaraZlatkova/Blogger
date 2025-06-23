@@ -8,6 +8,7 @@ import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoutComponent } from './logout/logout/logout.component';
 import { AuthRoutingModule } from './auth-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AuthRoutingModule } from './auth-routing.module';
   imports: [
     CommonModule,
     SharedModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule {}
