@@ -1,4 +1,10 @@
-<form id="signUpForm" class="space-y-2">
+<form
+  id="signUpForm"
+  class="space-y-2"
+  [formGroup]="registerForm"
+  (ngSubmit)="registerFormHandler()"
+>
+
   <div class="relative">
     <svg
       class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
@@ -15,11 +21,32 @@
     </svg>
     <input
       type="text"
+      name="name"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
       placeholder="Full Name"
-      required=""
+      formControlName="name"
+      [class.border-red-500]="
+        registerForm.get('name')?.invalid && registerForm.get('name')?.touched
+      "
     />
   </div>
+
+
+  <ng-container *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+    <div class="mt-2 text-sm text-red-600">
+      <div *ngIf="registerForm.get('name')?.errors?.['required']">
+        Name is required!
+      </div>
+      <div *ngIf="registerForm.get('name')?.errors?.['minlength']">
+        Name should be at least 2 characters long.
+      </div>
+      <div *ngIf="registerForm.get('name')?.errors?.['maxlength']">
+        Name should be at most 30 characters long.
+      </div>
+    </div>
+  </ng-container>
+
+
   <div class="relative">
     <svg
       class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
@@ -38,56 +65,127 @@
     </svg>
     <input
       type="email"
+      name="email"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
       placeholder="Email Address"
-      autocomplete="username"
-      required=""
+      autocomplete="email"
+      formControlName="email"
+      [class.border-red-500]="
+        registerForm.get('email')?.invalid && registerForm.get('email')?.touched
+      "
     />
   </div>
-  <div class="relative">
-    <svg
-      class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-    <input
-      type="password"
-      class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
-      placeholder="Password (min 8 characters)"
-      autocomplete="current-password"
-      required=""
-    />
-  </div>
-  <div class="relative mb-4">
-    <svg
-      class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
-    <input
-      type="password"
-      class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
-      placeholder="Confirm Password"
-      autocomplete="current-password"
-      required=""
-    />
-  </div>
+
+  <ng-container
+    *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+  >
+    <div class="mt-2 text-sm text-red-600">
+      <div *ngIf="registerForm.get('email')?.errors?.['required']">
+        Email is required!
+      </div>
+      <div *ngIf="registerForm.get('email')?.errors?.['invalidEmail']">
+        Please enter a valid email address (example: user"&#64;"domain.com).
+      </div>
+    </div>
+  </ng-container>
+
+ 
+  <ng-container formGroupName="passGroup">
+
+    <div class="relative">
+      <svg
+        class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <input
+        type="password"
+        name="password"
+        class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
+        placeholder="Password (min 8 characters)"
+        autocomplete="new-password"
+        formControlName="password"
+        [class.border-red-500]="
+          registerForm.get('passGroup')?.get('password')?.invalid &&
+          registerForm.get('passGroup')?.get('password')?.touched
+        "
+      />
+    </div>
+
+
+    <div class="relative mb-4">
+      <svg
+        class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <input
+        type="password"
+        name="rePassword"
+        class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
+        placeholder="Confirm Password"
+        autocomplete="new-password"
+        formControlName="rePassword"
+        [class.border-red-500]="
+          registerForm.get('passGroup')?.get('rePassword')?.invalid &&
+          registerForm.get('passGroup')?.get('rePassword')?.touched
+        "
+      />
+    </div>
+  </ng-container>
+
+
+  <ng-container
+    *ngIf="registerForm.get('passGroup')?.get('password')?.invalid && 
+           registerForm.get('passGroup')?.get('password')?.touched"
+  >
+    <div class="mt-2 text-sm text-red-600">
+      <div *ngIf="registerForm.get('passGroup')?.get('password')?.errors?.['required']">
+        Password is required!
+      </div>
+      <div *ngIf="registerForm.get('passGroup')?.get('password')?.errors?.['minlength']">
+        Password should be at least 8 characters long.
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-container
+    *ngIf="registerForm.get('passGroup')?.get('rePassword')?.invalid && 
+           registerForm.get('passGroup')?.get('rePassword')?.touched"
+  >
+    <div class="mt-2 text-sm text-red-600">
+      <div *ngIf="registerForm.get('passGroup')?.get('rePassword')?.errors?.['required']">
+        Confirm Password is required!
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-container
+    *ngIf="registerForm.get('passGroup')?.errors?.['passwordMismatch'] && 
+           registerForm.get('passGroup')?.touched"
+  >
+    <div class="mt-2 text-sm text-red-600">
+      Passwords do not match!
+    </div>
+  </ng-container>
 
   <!-- Сheckbox -->
   <label class="mb-6 flex items-center pb-6 font-medium lg:mb-1">
