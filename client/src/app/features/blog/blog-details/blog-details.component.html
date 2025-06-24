@@ -58,7 +58,7 @@
           <h2 class="font-bold text-gray-900 text-3xl sm:text-3xl md:text-4xl leading-snug mb-6">
             {{ currentArticle.postTitle | titlecase }}
           </h2>
-          <p class="text-base text-gray-600 leading-relaxed mb-8">
+          <p class="text-base text-gray-600 leading-loose mb-8">
             {{ currentArticle.postText | sentenceUpperCase }}
           </p>
 
@@ -139,13 +139,12 @@
               <img [src]="article.avatar" alt="Author" class="w-12 h-12 rounded-full mr-4" />
               <div>
                 <h4 class="text-gray-900 font-medium mb-1">
-                  {{ article.postTitle }}
+                  {{ article.postTitle | titlecase }}
                 </h4>
                 <div class="flex items-center justify-between">
-                  <h6 class="text-sm text-gray-500">{{ article.name }}</h6>
-                  <span class="text-sm text-indigo-600">{{
-                    article.createdAt
-                    }}</span>
+                  <h6 class="text-sm text-gray-500">{{ article.name | titlecase }}</h6>
+                  <span class="text-sm text-indigo-600">
+                    {{ article.createdAt | date: 'dd/mm/yyyy' }}</span>
                 </div>
               </div>
             </div>

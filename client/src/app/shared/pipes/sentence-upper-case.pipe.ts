@@ -10,7 +10,7 @@ export class SentenceUpperCasePipe implements PipeTransform {
       return '';
     }
 
-    const sentences = value.split('. ');
+    const sentences = value.split(/[.?!]\s+/);
 
     const transformed = sentences.map((sentence) => {
       return sentence.charAt(0).toUpperCase().concat(sentence.slice(1).toLowerCase());
