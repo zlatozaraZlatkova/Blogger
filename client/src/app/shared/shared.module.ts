@@ -7,6 +7,7 @@ import { NewsletterFormComponent } from './newsletter-form/newsletter-form.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { EyeIconComponent } from './eye-icon/eye-icon.component';
 import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
+import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
 
 
 
@@ -16,7 +17,8 @@ import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
     CustomButtonComponent,
     NewsletterFormComponent,
     EyeIconComponent,
-    DateTimeAgoPipe
+    DateTimeAgoPipe,
+    SentenceUpperCasePipe
 
   ],
   imports: [
@@ -28,7 +30,8 @@ import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
     CustomButtonComponent,
     NewsletterFormComponent,
     EyeIconComponent,
-    DateTimeAgoPipe
+    DateTimeAgoPipe,
+    SentenceUpperCasePipe
     
   ]
 })
