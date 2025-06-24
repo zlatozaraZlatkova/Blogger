@@ -6,6 +6,8 @@ import { CustomButtonComponent } from './custom-button/custom-button.component';
 import { NewsletterFormComponent } from './newsletter-form/newsletter-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EyeIconComponent } from './eye-icon/eye-icon.component';
+import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
+
 
 
 
@@ -13,7 +15,9 @@ import { EyeIconComponent } from './eye-icon/eye-icon.component';
   declarations: [
     CustomButtonComponent,
     NewsletterFormComponent,
-    EyeIconComponent
+    EyeIconComponent,
+    DateTimeAgoPipe
+
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { EyeIconComponent } from './eye-icon/eye-icon.component';
   exports: [
     CustomButtonComponent,
     NewsletterFormComponent,
-    EyeIconComponent
+    EyeIconComponent,
+    DateTimeAgoPipe
+    
   ]
 })
 export class SharedModule { }

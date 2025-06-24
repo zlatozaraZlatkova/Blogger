@@ -10,6 +10,6 @@
   </h4>
   <div class="flex items-center justify-between font-medium">
     <h6 class="text-sm text-gray-500">By {{ article.name }}</h6>
-    <span class="text-sm text-indigo-600">{{ article.createdAt }}</span>
+    <span class="text-sm text-indigo-600">{{ article.createdAt | dateTimeAgo}}</span>
   </div>
 </div>
