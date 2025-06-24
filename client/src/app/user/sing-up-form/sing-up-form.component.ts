@@ -11,6 +11,8 @@ import { strongPasswordValidator } from 'src/app/shared/validators/srong-passwor
 })
 export class SingUpFormComponent implements OnInit {
   registerForm!: FormGroup;
+  showPassword = false;
+  showConfirmPassword = false;
 
   get getPasswordDetails() {
     const control = this.registerForm.get('passGroup')?.get('password');
@@ -68,4 +70,13 @@ export class SingUpFormComponent implements OnInit {
 
     console.log('Form data:', { name, email, password });
   }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
 }

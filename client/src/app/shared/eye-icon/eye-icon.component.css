@@ -1,0 +1,17 @@
+svg {
+  width: 16px;
+  height: 16px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+svg:hover {
+  color: #374151;
+}
+
+@media (min-width: 768px) {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

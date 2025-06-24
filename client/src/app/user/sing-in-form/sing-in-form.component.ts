@@ -11,6 +11,7 @@ import { emailValidator } from 'src/app/shared/validators/email-validator';
 })
 export class SingInFormComponent implements OnInit {
   loginForm!: FormGroup;
+  showPassword = false;
 
 
   get isLoggedIn() {
@@ -56,6 +57,10 @@ export class SingInFormComponent implements OnInit {
     const password = this.loginForm.get('password')?.value;
 
     console.log("emial:", email, "password:", password)
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
 }

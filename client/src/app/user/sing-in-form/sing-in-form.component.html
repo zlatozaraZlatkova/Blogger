@@ -34,8 +34,6 @@
     />
   </div>
 
-  <!-- Title Error Messages -->
-
   <ng-container
     *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
   >
@@ -64,7 +62,7 @@
       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
     </svg>
     <input
-      type="password"
+      [type]="showPassword ? 'text' : 'password'"
       name="password"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
       placeholder="Password (min 8 characters)"
@@ -74,9 +72,14 @@
         loginForm.get('password')?.invalid && loginForm.get('password')?.touched
       "
     />
+    <button
+      type="button"
+      class="absolute right-3 top-0 bottom-0 my-auto h-fit bg-transparent border-none cursor-pointer p-1 flex items-center justify-center text-gray-500 hover:text-gray-700"
+      (click)="togglePasswordVisibility()"
+    >
+      <app-eye-icon [closed]="showPassword"></app-eye-icon>
+    </button>
   </div>
-
-  <!-- Title Error Messages -->
 
   <ng-container
     *ngIf="
@@ -104,7 +107,6 @@
     <a href="#" class="text-indigo-600 hover:underline">Forgot password?</a>
   </div>
 
-  <!-- Button -->
   <app-custom-button
     [buttonClass]="
       'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
