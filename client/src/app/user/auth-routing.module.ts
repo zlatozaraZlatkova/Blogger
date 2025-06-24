@@ -4,10 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-section.component';
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
-import { LogoutComponent } from './logout/logout/logout.component';
+
 import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from '../shared/guards/auth.guard';
 import { guestGuard } from '../shared/guards/guest.guard';
+import { LogoutComponent } from './logout/logout.component';
 
 
 const routes: Routes = [

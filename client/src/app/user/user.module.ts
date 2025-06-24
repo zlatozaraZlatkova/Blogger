@@ -6,9 +6,10 @@ import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-secti
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 import { ProfileComponent } from './profile/profile.component';
-import { LogoutComponent } from './logout/logout/logout.component';
+
 import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SingUpFormComponent,
     ProfileComponent,
     LogoutComponent
+
   ],
   imports: [
     CommonModule,

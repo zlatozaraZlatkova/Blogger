@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
-import { IRouteData } from '../interfaces/RouteData';
+import { IRouteData } from '../interfaces/routeData';
+
 
 
 @Component({
