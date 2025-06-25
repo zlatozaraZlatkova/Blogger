@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailValidator } from 'src/app/shared/validators/email-validator';
+import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
 @Component({
   selector: 'app-sing-in-form',
@@ -12,6 +13,7 @@ import { emailValidator } from 'src/app/shared/validators/email-validator';
 export class SingInFormComponent implements OnInit {
   loginForm!: FormGroup;
   showPassword = false;
+  errResponseMsg: IServerResponse | null = null;
 
 
   get isLoggedIn() {
@@ -53,7 +55,8 @@ export class SingInFormComponent implements OnInit {
         console.log('Logged in user', user);
         this.router.navigate(['/posts']);
       },
-      error: (error) => {
+      error: (err) => {
+        this.errResponseMsg = err.error as IServerResponse;
         this.authService.user = null;
         this.router.navigate(['/']);
       }

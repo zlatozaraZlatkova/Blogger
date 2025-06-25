@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailValidator } from 'src/app/shared/validators/email-validator';
 import { matchPasswordValidator } from 'src/app/shared/validators/match-password-validator';
 import { strongPasswordValidator } from 'src/app/shared/validators/srong-password-validator';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
 @Component({
   selector: 'app-sing-up-form',
   templateUrl: './sing-up-form.component.html',
   styleUrls: ['./sing-up-form.component.css'],
 })
-export class SingUpFormComponent implements OnInit {
+export class SingUpFormComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
+  errResponseMsg: IServerResponse | null = null;
+  isSubmitted = false;
+  timer: number | null = null;
+
 
   get getPasswordDetails() {
     const control = this.registerForm.get('passGroup')?.get('password');
@@ -47,6 +52,7 @@ export class SingUpFormComponent implements OnInit {
     private router: Router
   ) { }
 
+
   ngOnInit(): void {
     this.initializeRegisterForm();
   }
@@ -77,16 +83,23 @@ export class SingUpFormComponent implements OnInit {
     console.log('Form data:', { name, email, password });
 
 
-    this.authService.register(name,email, password).subscribe({
+    this.authService.register(name, email, password).subscribe({
       next: (user) => {
         this.authService.user = user;
+        this.isSubmitted = true;
         console.log('Registered user', user);
         this.router.navigate(['/auth/profile']);
       },
-      error: (error) => {
+      error: (err) => {
+        this.errResponseMsg = err.error as IServerResponse;
         this.authService.user = null;
-        this.router.navigate(['/']);
+        this.isSubmitted = true;
+
+        this.timer = setTimeout(() => {
+          this.errResponseMsg = null;
+        }, 5000) as unknown as number
       }
+
     });
 
   }
@@ -98,5 +111,13 @@ export class SingUpFormComponent implements OnInit {
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
+
+
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
 
 }

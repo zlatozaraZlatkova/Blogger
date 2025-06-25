@@ -8,7 +8,9 @@ export class UserAuthInterceptor implements HttpInterceptor{
     constructor() {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-       return next.handle(req);
+       const requestWithCookies = req.clone({ withCredentials: true });
+       
+       return next.handle(requestWithCookies);
     }
 }
 
