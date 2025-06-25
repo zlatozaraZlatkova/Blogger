@@ -4,8 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlogSectionComponent } from './blog-section/blog-section.component';
 import { BlogCreateComponent } from './blog-create/blog-create.component';
 import { BlogDetailsComponent } from './blog-details/blog-details.component';
-import { authGuard } from 'src/app/shared/guards/auth.guard';
-import { guestGuard } from 'src/app/shared/guards/guest.guard';
+import { authGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,7 +13,6 @@ const routes: Routes = [
       {
         path: '',
         component: BlogSectionComponent,
-        canActivate: [guestGuard],
         data: {
           title: 'Blog Posts',
           layout: 'default',
@@ -36,7 +34,6 @@ const routes: Routes = [
       {
         path: ':id',
         component: BlogDetailsComponent,
-        canActivate: [guestGuard],
         data: {
           title: 'Post Details', 
           layout: 'default',

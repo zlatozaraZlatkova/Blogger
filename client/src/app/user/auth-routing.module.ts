@@ -6,8 +6,8 @@ import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 
 import { ProfileComponent } from './profile/profile.component';
-import { authGuard } from '../shared/guards/auth.guard';
-import { guestGuard } from '../shared/guards/guest.guard';
+import { authGuard } from '../core/guards/auth.guard';
+import { guestGuard } from '../core/guards/guest.guard';
 import { LogoutComponent } from './logout/logout.component';
 
 

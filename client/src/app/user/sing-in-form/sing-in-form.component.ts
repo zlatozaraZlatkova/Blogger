@@ -23,18 +23,8 @@ export class SingInFormComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-  ) {
-    this.authService.user = {
-      _id: '6849a09455cb43caa5a259de',
-      name: 'Julia',
-      email: 'julia@gmail.com',
-      nickname: 'jully',
-      bio: 'Software developer with experience in Angular, TypeScript, and Node.js. I enjoy sharing knowledge through blog posts and contributing to open source projects. Passionate about creating clean, efficient code and learning new technologies.',
-      avatar:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBA0izleF9YCsNsogegx3939s0bmJr-MLGFg&s',
-    };
+  ) { }
 
-  }
   ngOnInit(): void {
     this.initializeLoginForm();
   }
@@ -56,7 +46,19 @@ export class SingInFormComponent implements OnInit {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
 
-    console.log("emial:", email, "password:", password)
+
+    this.authService.login(email, password).subscribe({
+      next: (user) => {
+        this.authService.user = user;
+        console.log('Logged in user', user);
+        this.router.navigate(['/posts']);
+      },
+      error: (error) => {
+        this.authService.user = null;
+        this.router.navigate(['/']);
+      }
+    });
+
   }
 
   togglePasswordVisibility() {

@@ -7,6 +7,7 @@ import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { userAuthInterceptor } from './interceptors/user-auth.interceptor';
 
 
 @NgModule({
@@ -26,6 +27,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HeaderComponent,
     HeroSectionComponent,
     PageNotFoundComponent,
+  ],
+  providers: [
+    userAuthInterceptor
   ]
 })
 export class CoreModule { }

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailValidator } from 'src/app/shared/validators/email-validator';
 import { matchPasswordValidator } from 'src/app/shared/validators/match-password-validator';
 import { strongPasswordValidator } from 'src/app/shared/validators/srong-password-validator';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sing-up-form',
@@ -39,7 +41,11 @@ export class SingUpFormComponent implements OnInit {
     return null;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.initializeRegisterForm();
@@ -47,7 +53,7 @@ export class SingUpFormComponent implements OnInit {
 
   private initializeRegisterForm(): void {
     this.registerForm = this.fb.group({
-      name: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       email: ['', [Validators.required, emailValidator()]],
       passGroup: this.fb.group(
         {
@@ -69,6 +75,20 @@ export class SingUpFormComponent implements OnInit {
     const password = this.registerForm.get('passGroup')?.get('password')?.value;
 
     console.log('Form data:', { name, email, password });
+
+
+    this.authService.register(name,email, password).subscribe({
+      next: (user) => {
+        this.authService.user = user;
+        console.log('Registered user', user);
+        this.router.navigate(['/auth/profile']);
+      },
+      error: (error) => {
+        this.authService.user = null;
+        this.router.navigate(['/']);
+      }
+    });
+
   }
 
   togglePasswordVisibility() {
