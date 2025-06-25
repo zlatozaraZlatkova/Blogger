@@ -1,6 +1,7 @@
 # Normalize line endings to LF for all text files
 * text=auto eol=lf
 
+
 # Angular frontend (client/)
 *.ts     text eol=lf
 *.html   text eol=lf
