@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EyeIconComponent } from './eye-icon/eye-icon.component';
 import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
 import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
+import { ErrorNotificationComponent } from './error-notification/error-notification.component';
 
 
 
@@ -18,7 +19,8 @@ import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
     NewsletterFormComponent,
     EyeIconComponent,
     DateTimeAgoPipe,
-    SentenceUpperCasePipe
+    SentenceUpperCasePipe,
+    ErrorNotificationComponent
 
   ],
   imports: [
@@ -31,7 +33,8 @@ import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
     NewsletterFormComponent,
     EyeIconComponent,
     DateTimeAgoPipe,
-    SentenceUpperCasePipe
+    SentenceUpperCasePipe,
+    ErrorNotificationComponent
     
   ]
 })

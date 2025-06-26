@@ -12,13 +12,12 @@ import { IServerResponse } from 'src/app/interfaces/serverResponse';
   templateUrl: './sing-up-form.component.html',
   styleUrls: ['./sing-up-form.component.css'],
 })
-export class SingUpFormComponent implements OnInit, OnDestroy {
+export class SingUpFormComponent implements OnInit {
   registerForm!: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
-  errResponseMsg: IServerResponse | null = null;
+  errResponseMsg: string = '';
   isSubmitted = false;
-  timer: number | null = null;
 
 
   get getPasswordDetails() {
@@ -91,13 +90,9 @@ export class SingUpFormComponent implements OnInit, OnDestroy {
         this.router.navigate(['/auth/profile']);
       },
       error: (err) => {
-        this.errResponseMsg = err.error as IServerResponse;
+        this.errResponseMsg = err.message;
         this.authService.user = null;
         this.isSubmitted = true;
-
-        this.timer = setTimeout(() => {
-          this.errResponseMsg = null;
-        }, 5000) as unknown as number
       }
 
     });
@@ -111,13 +106,5 @@ export class SingUpFormComponent implements OnInit, OnDestroy {
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
-
-
-  ngOnDestroy(): void {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-  }
-
 
 }
