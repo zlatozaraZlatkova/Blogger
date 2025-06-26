@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { userAuthInterceptor } from './interceptors/user-auth.interceptor';
+import { errorInterceptor } from './interceptors/error.interseptor';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { userAuthInterceptor } from './interceptors/user-auth.interceptor';
     PageNotFoundComponent,
   ],
   providers: [
-    userAuthInterceptor
+    userAuthInterceptor,
+    errorInterceptor
   ]
 })
 export class CoreModule { }
