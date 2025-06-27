@@ -6,6 +6,7 @@ const taskController = require("../controllers/taskController");
 const searchController = require("../controllers/searchController");
 const teamController = require("../controllers/teamController");
 const newsletterController = require("../controllers/newsletterController");
+const checkAuthController = require("../controllers/checkAuthController");
 const defaultController = require("../controllers/defaultController");
 
 const checkAuth = require('../middlewares/checkAuth');
@@ -20,6 +21,7 @@ module.exports = (app) => {
 
 
   app.use("/api/auth", authController);
+  app.use("/api/check-auth", checkAuth(true), checkAuthController)
   app.use("/api/boards", checkAuth(true), boardController);
   app.use("/api/sections", checkAuth(true), sectionController);
   app.use("/api/tasks", checkAuth(true), taskController);
