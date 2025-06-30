@@ -10,12 +10,14 @@ import { SharedModule } from './shared/shared.module';
 import { FeaturesModule } from './features/features.module';
 import { MainComponent } from './main/main.component';
 import { UserModule } from './user/user.module';
+import { AuthenticateComponent } from './authenticate/authenticate.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
+    AuthenticateComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/user/auth.service';
 
 @Component({
   selector: 'app-hero-section',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./hero-section.component.css']
 })
 export class HeroSectionComponent {
-
+    get isLoggedIn() {
+      return this.authService.isLoggedIn;
+    }
+  
+    constructor(private authService: AuthService) {}
 }

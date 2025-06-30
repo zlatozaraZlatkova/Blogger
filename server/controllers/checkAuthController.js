@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
       return res.status(404).json({ isAuthenticated: false });
     }
 
-    res.json({ isAuthenticated: true });
+    res.json(user);
 
   } catch (error) {
     console.log(error);
