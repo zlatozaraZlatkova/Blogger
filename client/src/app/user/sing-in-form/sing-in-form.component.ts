@@ -52,14 +52,12 @@ export class SingInFormComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: (user) => {
-        this.authService.user = user;
         this.isSubmitted = true;
         console.log('Logged in user', user);
         this.router.navigate(['/posts']);
       },
       error: (err) => {
         this.errResponseMsg = err.message;
-        this.authService.user = null;
         this.isSubmitted = true;
 
       }
