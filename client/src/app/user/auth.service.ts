@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { IUser } from '../interfaces/user';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, filter, Observable, Subscription, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, filter, Observable, of, Subscription, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -50,10 +50,14 @@ export class AuthService implements OnDestroy {
       .get<IUser>('/api/check-auth')
       .pipe(tap((user) => {
         console.log('Received user:', user);
-
         this.user$$.next(user);
         console.log('Updated user state:', this.user);
-      }))
+      }),
+      catchError((err) => {
+        this.user$$.next(null);
+        return of(err)
+      })
+    );
   }
 
 

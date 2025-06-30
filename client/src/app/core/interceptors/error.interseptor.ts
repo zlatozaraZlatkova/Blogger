@@ -5,9 +5,11 @@ import {
     HttpHandler,
     HttpInterceptor,
     HttpRequest,
+    HttpResponse,
 } from '@angular/common/http';
 import { Injectable, Provider } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -16,7 +18,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
-                    console.log('HTTP server error', error);
+                    
+                    if (error.status === 401) {
+                       return of(new HttpResponse({ status: 401, body: null })) as Observable<HttpEvent<any>>;
+                    }
 
                     let errorMessage = '';
                     if (error.error && error.error.message) {
