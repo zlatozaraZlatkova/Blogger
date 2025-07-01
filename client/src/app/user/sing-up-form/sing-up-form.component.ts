@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emailValidator } from 'src/app/shared/validators/email-validator';
 import { matchPasswordValidator } from 'src/app/shared/validators/match-password-validator';
 import { strongPasswordValidator } from 'src/app/shared/validators/srong-password-validator';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
 @Component({
   selector: 'app-sing-up-form',
@@ -16,7 +15,6 @@ export class SingUpFormComponent implements OnInit {
   registerForm!: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
-  errResponseMsg: string = '';
   isSubmitted = false;
 
 
@@ -89,7 +87,6 @@ export class SingUpFormComponent implements OnInit {
         this.router.navigate(['/auth/profile']);
       },
       error: (err) => {
-        this.errResponseMsg = err.message;
         this.isSubmitted = true;
       }
 

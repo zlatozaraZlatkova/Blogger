@@ -9,10 +9,13 @@ import {
 } from '@angular/common/http';
 import { Injectable, Provider } from '@angular/core';
 import { catchError, Observable, of, throwError } from 'rxjs';
+import { ErrorService } from 'src/app/shared/error-notification/error.service';
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+    constructor(private errorService: ErrorService) {}
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         return next.handle(req)
@@ -29,6 +32,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                     } else {
                         errorMessage = error.message;
                     }
+
+                    this.errorService.setError(errorMessage);
+
                     return throwError(() => new Error(errorMessage));
                 })
             );

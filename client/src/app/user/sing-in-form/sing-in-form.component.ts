@@ -12,7 +12,7 @@ import { emailValidator } from 'src/app/shared/validators/email-validator';
 export class SingInFormComponent implements OnInit {
   loginForm!: FormGroup;
   showPassword = false;
-  errResponseMsg: string = '';
+ 
   isSubmitted = false;
   timer: number | null = null;
 
@@ -57,7 +57,6 @@ export class SingInFormComponent implements OnInit {
         this.router.navigate(['/posts']);
       },
       error: (err) => {
-        this.errResponseMsg = err.message;
         this.isSubmitted = true;
 
       }
