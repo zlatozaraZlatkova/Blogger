@@ -5,10 +5,9 @@ import {
     HttpHandler,
     HttpInterceptor,
     HttpRequest,
-    HttpResponse,
 } from '@angular/common/http';
 import { Injectable, Provider } from '@angular/core';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, EMPTY, Observable } from 'rxjs';
 import { ErrorService } from 'src/app/shared/error-notification/error.service';
 
 
@@ -23,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 catchError((error: HttpErrorResponse) => {
                     
                     if (error.status === 401) {
-                       return of(new HttpResponse({ status: 401, body: null })) as Observable<HttpEvent<any>>;
+                       return EMPTY //of(new HttpResponse({ status: 401, body: null })) as Observable<HttpEvent<any>>;
                     }
 
                     let errorMessage = '';
@@ -35,7 +34,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                     this.errorService.setError(errorMessage);
 
-                    return throwError(() => new Error(errorMessage));
+                    return EMPTY; //return throwError(() => new Error(errorMessage));
+                    
                 })
             );
     }
