@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { filter, Subject, Subscription, switchMap, takeUntil, timer } from 'rxjs';
 import { ErrorService } from './error.service';
 
 @Component({
@@ -8,48 +8,37 @@ import { ErrorService } from './error.service';
   styleUrls: ['./error-notification.component.css']
 })
 export class ErrorNotificationComponent implements OnInit, OnDestroy {
-
-  timer: number | null = null;
   errResponseMsg: string | null = null;
+  private destroy$ = new Subject<void>();
 
   subscription!: Subscription;
 
   constructor(private errorService: ErrorService) { }
 
   ngOnInit(): void {
-    this.subscription = this.errorService.apiError$.subscribe((msg) => {
-      this.errResponseMsg = msg;
-
-      if(msg) {
-        this.restartTimer();
-      }
-    })
-
+    this.subscription = this.errorService.apiError$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((msg): msg is string => !!msg),
+        switchMap((msg) => {
+          this.errResponseMsg = msg;
+          return timer(5000);
+        })
+      )
+      .subscribe(() => {
+        this.errorService.clearError();
+        this.errResponseMsg = null;
+      });
   }
 
-
-
-  private restartTimer(): void {
-
-    if (!this.errResponseMsg) {
-      return; 
-    }
-
-    this.timer = setTimeout(() => {
-
-      this.errorService.clearError();
-
-    }, 5000) as unknown as number;
-  }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
 
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

@@ -14,7 +14,6 @@ export class SingInFormComponent implements OnInit {
   showPassword = false;
  
   isSubmitted = false;
-  timer: number | null = null;
 
 
   get isLoggedIn() {
