@@ -19,7 +19,7 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 })
 export class BlogCreateComponent implements OnInit {
   postForm!: FormGroup; 
-  errResponseMsg!: IServerResponse;
+
   configLoaded: boolean = false;
 
   constructor(
@@ -56,8 +56,6 @@ export class BlogCreateComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error loading config or GIS script', err);
-          this.errResponseMsg = err.error as IServerResponse;
-          
         }
       });
   }
@@ -95,9 +93,7 @@ export class BlogCreateComponent implements OnInit {
         this.router.navigate([`/posts/${createdPost._id}`]);
       },
       error: (err: HttpErrorResponse) => {
-        const errorResponse = err.error as IServerResponse;
-        this.errResponseMsg = errorResponse;
-        console.error('ErrorMsg creating post:', this.errResponseMsg);
+        console.log('Server Error', err)
       },
     });
   }

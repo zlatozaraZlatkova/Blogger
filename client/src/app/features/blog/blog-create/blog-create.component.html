@@ -179,14 +179,13 @@
           Cancel
         </button>
         <button type="submit" [disabled]="postForm.invalid"
-          class="rounded-md bg-indigo-600 py-2.5 px-5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
-          Save Post
+          [ngClass]="postForm.valid ? 'form-is-active' : 'form-is-not-active'"
+          class="rounded-md py-2.5 px-5 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+          Create
         </button>
+
       </div>
     </form>
-
-    <div *ngIf="errResponseMsg" class="error-message text-red-600 font-medium mt-2">
-      {{ errResponseMsg.message }}
-    </div>
+    <app-error-notification></app-error-notification>
   </div>
 </section>
