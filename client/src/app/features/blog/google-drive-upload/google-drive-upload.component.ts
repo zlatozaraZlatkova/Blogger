@@ -96,7 +96,7 @@ export class GoogleDriveUploadComponent {
       })
     ).subscribe({
       next: (uploadResponse) => {
-        const driveUrl = `https://drive.google.com/uc?export=view&id=${uploadResponse.id}`;
+        const driveUrl = `https://lh3.googleusercontent.com/d/${uploadResponse.id}`;
         this.updateFormWithImageUrl(driveUrl);
       },
       error: (error) => {
