@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { take } from 'rxjs/internal/operators/take';
 
 import { BlogService } from '../blog.service';
 import { GoogleDriveConfigService } from 'src/app/services/google-drive-config.service';
 import { ICreatePostDto } from 'src/app/interfaces/post';
-import { IServerResponse } from 'src/app/interfaces/serverResponse';
 import { GoogleAuthService } from 'src/app/services/google-auth.service';
 import { tap } from 'rxjs/internal/operators/tap';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
@@ -92,8 +90,8 @@ export class BlogCreateComponent implements OnInit {
         console.log('Post created successfully:', createdPost);
         this.router.navigate([`/posts/${createdPost._id}`]);
       },
-      error: (err: HttpErrorResponse) => {
-        console.log('Server Error', err)
+      error: (err) => {
+        console.log('Interceptor err:', err)
       },
     });
   }
