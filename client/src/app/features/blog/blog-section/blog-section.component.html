@@ -3,34 +3,33 @@
     <h2 class="text-4xl font-bold text-gray-900 text-center mb-14 font-sans">
       Our popular blogs
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-x-6 gap-y-8  mb-14">
-      <app-blog-card
-        *ngFor="let article of articles"
-        [article]="article"
-        (click)="navigateToArticle(article._id)"
-        class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
-      >
-      </app-blog-card>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-14">
+
+      <ng-container *ngIf="postsList$ | async as postsData">
+
+        <app-blog-card 
+          *ngFor="let article of postsData.data.items" 
+          [article]="article"
+          (click)="navigateToArticle(article._id)"
+          class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
+        </app-blog-card>
+
+
+      </ng-container>
     </div>
+
     <!-- Button section -->
-    <div class="flex justify-center m-20">
+    <div class="flex justify-center mt-20">
       <app-custom-button
         [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'"
-        [buttonText]="'View All'"
-        [routerLink]="'/posts'"
-      >
-        <svg
-          icon
-          aria-hidden="true"
-          class="h-4 w-4 flex-none"
-          fill="currentColor"
-          viewBox="0 0 20 21"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        [buttonText]="'View All'" [routerLink]="'/posts'">
+        <svg icon aria-hidden="true" class="h-4 w-4 flex-none ml-2" fill="currentColor" viewBox="0 0 20 21"
+          xmlns="http://www.w3.org/2000/svg">
           <title>Arrow Right</title>
           <polygon
-            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9"
-          ></polygon>
+            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
+          </polygon>
         </svg>
       </app-custom-button>
     </div>
