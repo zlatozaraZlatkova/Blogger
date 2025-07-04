@@ -8,12 +8,12 @@
     </div>
 
     <!-- Blog Content - Only show when currentArticle is loaded -->
-    <div *ngIf="currentArticle" class="flex flex-wrap -mx-4">
+    <div *ngIf="currentArticle$ | async as currentArticle" class="flex flex-wrap -mx-4">
       <div class="w-full lg:w-8/12 px-4">
         <!-- Featured Image -->
         <div class="relative rounded-2xl overflow-hidden mb-10 h-72 md:h-96 lg:h-120">
           <img [src]="currentArticle.postImageUrl" [alt]="currentArticle.postTitle"
-            class="w-full h-full object-cover object-center rounded-2xl" />
+            class="object-cover object-center rounded-2xl" />
         </div>
 
         <!-- Author Info -->
