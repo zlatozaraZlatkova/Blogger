@@ -1,6 +1,10 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 
+async function getAllWithouthPagination() {
+    return Post.find({}).sort({ createdAt: -1 });
+}
+
 async function getAll(startIndex = 0, limit = 3) {
 
   const paginatedPosts = await Post.find({})
@@ -79,6 +83,7 @@ async function dislikeItem(postId, userId) {
 
 
 module.exports = {
+  getAllWithouthPagination,
   getAll,
   getById,
   getByUserId,

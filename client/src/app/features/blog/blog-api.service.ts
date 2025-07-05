@@ -12,6 +12,11 @@ export class BlogApiService {
   private basicUrl = `/api/posts`;
 
   constructor(private httpClient: HttpClient) { }
+  
+  loadAllPosts(): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(`${this.basicUrl}/all`);
+  }
+
 
   getPosts(): Observable<IPostsResponse> {
     return this.httpClient.get<IPostsResponse>(`${this.basicUrl}`);

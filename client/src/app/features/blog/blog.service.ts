@@ -15,7 +15,24 @@ export class BlogService implements OnDestroy {
   private post$$ = new BehaviorSubject<IPost | null>(null);
   post$ = this.post$$.asObservable();
 
+  private arrPosts$$ = new BehaviorSubject<IPost[] | null>(null);
+  arrPosts$ = this.arrPosts$$.asObservable();
+
   constructor(private blogApiService: BlogApiService) { }
+
+  loadAllPosts(): Observable<IPost[]> {
+    return this.blogApiService.loadAllPosts().pipe(
+      tap((arr) => {
+        this.arrPosts$$.next(arr);
+        console.log('Server All posts response', arr);
+      }),
+      catchError((error) => {
+        this.arrPosts$$.next(null);
+        return throwError(() => error);
+      })
+    )
+  }
+
 
   getPosts(): Observable<IPostsResponse> {
     return this.blogApiService.getPosts().pipe(
@@ -82,9 +99,15 @@ export class BlogService implements OnDestroy {
     );
   }
 
+  clearState(): void {
+    this.postsList$$.next(null);
+    this.post$$.next(null);
+    this.arrPosts$$.next(null);
+  }
 
   ngOnDestroy(): void {
     this.postsList$$.complete();
     this.post$$.complete();
+    this.arrPosts$$.complete();
   }
 }

@@ -8,6 +8,7 @@ const { paginationMiddleware } = require("../middlewares/paginationMiddleware");
 const { formatPaginatedResponse } = require("../utils/formatPaginatedResponse");
 
 const {
+  getAllWithouthPagination,
   getAll,
   getById,
   getByUserId,
@@ -22,7 +23,7 @@ const {
 
 
 
-router.get("/", paginationMiddleware(),async (req, res, next) => {
+router.get("/", paginationMiddleware(), async (req, res, next) => {
   try {
     const { page, limit, skip } = req.pagination;
 
@@ -40,6 +41,23 @@ router.get("/", paginationMiddleware(),async (req, res, next) => {
 
 })
 
+
+router.get("/all", async (req, res, next) => {
+  try {
+
+    const allPosts = await getAllWithouthPagination();
+
+    if (!allPosts) {
+      throw new Error("No posts found.");
+    }
+
+    res.status(200).json(allPosts)
+
+  } catch (error) {
+    next(error);
+  }
+
+})
 
 router.get("/:id", async (req, res, next) => {
   try {
@@ -80,7 +98,7 @@ router.post("/create", hasUser(),
         postTitle: req.body.postTitle,
         postImageUrl: req.body.postImageUrl,
         postCategory: req.body.postCategory,
-        postText: req.body.postText, 
+        postText: req.body.postText,
         postTags: req.body.postTags?.split(",").map(tags => tags.trim()), // Add up to 5 tags
         avatar: user.avatar,
         ownerId: userId,

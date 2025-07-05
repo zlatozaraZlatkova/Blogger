@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IPostsResponse } from 'src/app/interfaces/post';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogService } from '../blog.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,42 +10,34 @@ import { Observable } from 'rxjs';
   styleUrls: ['./blog-section.component.css']
 })
 
-export class BlogSectionComponent implements OnInit {
-
+export class BlogSectionComponent implements OnInit, OnDestroy {
   postsList$: Observable<IPostsResponse | null> = this.blogService.postsList$;
-  
-  loading = false;
+  arrPosts$: Observable<IPost[] | null> = this.blogService.arrPosts$;
 
   constructor(
     private blogService: BlogService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadArticles();
   }
 
   loadArticles(): void {
-    this.loading = true;
-    
-    this.blogService.getPosts().subscribe({
-      next: () => {
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading posts:', err);
-        this.loading = false;
-      }
-    });
+    this.blogService.getPosts().subscribe();
   }
 
   viewAllArticles(): void {
-    console.log('View all blogs clicked');
-    this.loadArticles();
+    this.blogService.loadAllPosts().subscribe();
   }
 
   navigateToArticle(id: string): void {
     console.log('Article id: ', id);
     this.router.navigate(['/posts', id]);
+  }
+
+  ngOnDestroy() {
+    this.blogService.clearState();
+      
   }
 }
