@@ -37,7 +37,9 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.blogService.clearState();
-      
+    if (!this.router.url.startsWith('/posts')) {
+      this.blogService.clearState();
+    }
+
   }
 }
