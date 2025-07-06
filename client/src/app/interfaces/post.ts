@@ -13,6 +13,7 @@ export interface IPost {
   postText: string;
   postLikes: IUser[];
   comments?: IComment[];
+  views: number;
   ownerId: string;
   
   createdAt?: Date; 

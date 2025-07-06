@@ -2,7 +2,7 @@ const { Schema, model, Types } = require("mongoose");
 const URL_REGEX =
   /^((https|http):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/gim;
 
-  const postSchema = new Schema(
+const postSchema = new Schema(
   {
     name: {
       type: String,
@@ -87,6 +87,10 @@ const URL_REGEX =
         },
       },
     ],
+    views: {
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 );

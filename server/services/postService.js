@@ -18,7 +18,11 @@ async function getAll(startIndex = 0, limit = 3) {
 }
 
 async function getById(id) {
-  return Post.findById(id);
+  return Post.findByIdAndUpdate(
+    id,
+    { $inc: { views: 1 } },
+    { new: true }
+  );
 }
 
 async function getByUserId(id) {
