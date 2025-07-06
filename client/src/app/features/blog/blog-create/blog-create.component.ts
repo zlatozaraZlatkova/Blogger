@@ -85,7 +85,9 @@ export class BlogCreateComponent implements OnInit {
       postTags: formData.postTags,
     };
 
-    this.blogService.createPost(postData).subscribe({
+    this.blogService.createPost(postData)
+    .pipe(take(1))
+    .subscribe({
       next: (createdPost) => {
         console.log('Post created successfully:', createdPost);
         this.router.navigate([`/posts/${createdPost._id}`]);

@@ -33,7 +33,7 @@ export class BlogEditComponent implements OnInit {
   private setLoadingState(isLoading: boolean): void {
     this.loading = isLoading;
   }
-  
+
   private initializeForm(): void {
     this.editPostForm = this.fb.group({
       postTitle: ['', [Validators.required, Validators.maxLength(150)]],
@@ -105,10 +105,15 @@ export class BlogEditComponent implements OnInit {
     }
     console.log('Submitting edit form with data:', this.editPostForm.value);
 
+    this.setLoadingState(true);
+
     const postData = this.createPostDataFromForm();
 
     this.blogService.editPost(this.postId!, postData)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => this.setLoadingState(false))
+      )
       .subscribe({
         next: (updatedPost) => {
           console.log('Post updated successfully:', updatedPost);

@@ -66,6 +66,7 @@ export class BlogService implements OnDestroy {
         this.post$$.next(createdPost);
         console.log('Server create post response', createdPost);
 
+        this.refreshCurrentData();
       }),
       catchError((error) => {
         this.post$$.next(null);
@@ -79,6 +80,9 @@ export class BlogService implements OnDestroy {
       tap((updatedPost) => {
         this.post$$.next(updatedPost);
         console.log('Server edit post response', updatedPost);
+
+        this.refreshCurrentData();
+
       }),
       catchError((error) => {
         this.post$$.next(null);
@@ -92,12 +96,27 @@ export class BlogService implements OnDestroy {
       tap((response) => {
         this.post$$.next(null);
         console.log('Server delete post response', response);
+
+        this.refreshCurrentData();
+
       }),
       catchError((error) => {
         this.post$$.next(null);
         return throwError(() => error);
       })
     );
+  }
+
+  private refreshCurrentData(): void {
+
+    if (this.postsList$$.value !== null) {
+      this.getPosts().subscribe();
+    }
+
+    if (this.arrPosts$$.value !== null) {
+      this.loadAllPosts().subscribe();
+    }
+
   }
 
   clearState(): void {

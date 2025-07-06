@@ -45,7 +45,9 @@ export class BlogCardComponent {
       return;
     }
 
-    this.blogService.deletePost(id).subscribe({
+    this.blogService.deletePost(id)
+    .pipe(take(1))
+    .subscribe({
       next: (response) => {
         console.log('Delete successful:', response);
         this.router.navigate(['/posts']);
