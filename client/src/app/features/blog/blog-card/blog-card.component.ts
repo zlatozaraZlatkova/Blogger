@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { IPost } from 'src/app/interfaces/post';
 
 @Component({
@@ -8,4 +9,12 @@ import { IPost } from 'src/app/interfaces/post';
 })
 export class BlogCardComponent {
    @Input() article!: IPost;
+
+   constructor(private router: Router) {}
+
+   onEdit(id: string) {
+    console.log("clicked on button edit", id, "url:",`/posts/update/${id}` )
+    this.router.navigate(['/posts/update', id]);
+  }
+
 }

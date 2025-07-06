@@ -9,6 +9,7 @@ import { BlogCreateComponent } from './blog-create/blog-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleDriveUploadComponent } from './google-drive-upload/google-drive-upload.component';
 import { BlogRoutingModule } from './blog-routing.module';
+import { BlogEditComponent } from './blog-edit/blog-edit.component';
 
 
 
@@ -18,7 +19,8 @@ import { BlogRoutingModule } from './blog-routing.module';
     BlogDetailsComponent,
     BlogSectionComponent,
     BlogCreateComponent,
-    GoogleDriveUploadComponent
+    GoogleDriveUploadComponent,
+    BlogEditComponent
   ],
   imports: [
     CommonModule,

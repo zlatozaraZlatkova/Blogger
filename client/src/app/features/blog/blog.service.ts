@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, take, tap, throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogApiService } from './blog-api.service';
@@ -65,6 +65,7 @@ export class BlogService implements OnDestroy {
       tap((createdPost) => {
         this.post$$.next(createdPost);
         console.log('Server create post response', createdPost);
+
       }),
       catchError((error) => {
         this.post$$.next(null);
