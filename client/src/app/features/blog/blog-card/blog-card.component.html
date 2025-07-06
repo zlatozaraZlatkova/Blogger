@@ -11,6 +11,7 @@
   </div>
 
   <!-- Owner Action Buttons -->
+<ng-container *ngIf="isPostOwner(article)">
   <div class="pt-5 mt-8 flex justify-end space-x-3 border-t border-gray-200">
     <button type="button" (click)="onEdit(article._id)"
       class="inline-flex items-center rounded-md border border-green-300 bg-white py-2.5 px-4 text-sm font-medium text-green-700 shadow-sm hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
@@ -36,5 +37,6 @@
 
 
   </div>
+</ng-container>  
 
 </div>

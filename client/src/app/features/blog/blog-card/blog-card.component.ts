@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IPost } from 'src/app/interfaces/post';
 import { BlogService } from '../blog.service';
 import { finalize, take } from 'rxjs';
+import { AuthService } from 'src/app/user/auth.service';
 
 @Component({
   selector: 'app-blog-card',
@@ -12,7 +13,28 @@ import { finalize, take } from 'rxjs';
 export class BlogCardComponent {
   @Input() article!: IPost;
 
-  constructor(private router: Router, private blogService: BlogService) {}
+  post$ = this.blogService.post$;
+
+  constructor(
+    private router: Router,
+    private blogService: BlogService,
+    private authService: AuthService
+  ) {}
+
+
+  isPostOwner(post: IPost): boolean {
+    const currentUserId = this.authService.user?._id;
+
+    if (!currentUserId || !post.ownerId) {
+      return false;
+    }
+
+    const isOwner = post.ownerId === currentUserId;
+
+    return isOwner;
+  }
+
+
 
   onEdit(id: string) {
     this.router.navigate(['/posts/update', id]);
