@@ -29,8 +29,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                     let errorMessage = this.extractServerMsg(error);
                     this.errorService.setError(errorMessage);
 
-                    //return throwError(() => new Error(errorMessage));
-                    return EMPTY
+                    return throwError(() => new Error(errorMessage));
+                   
                  
                 })
             );

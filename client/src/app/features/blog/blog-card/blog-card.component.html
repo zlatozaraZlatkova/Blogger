@@ -22,7 +22,7 @@
       Edit
     </button>
 
-    <button type="button" 
+    <button type="button" (click)="onDelete(article._id)"
       class="inline-flex items-center rounded-md border border-red-300 bg-white py-2.5 px-4 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -31,6 +31,9 @@
       </svg>
       Delete
     </button>
+
+    <app-error-notification></app-error-notification>
+
 
   </div>
 
