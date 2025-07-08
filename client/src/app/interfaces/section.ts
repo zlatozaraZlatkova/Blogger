@@ -11,5 +11,5 @@ export interface ISection {
 
   createdAt?: Date;
   updatedAt?: Date;
-  _v?: number;
+  __v?: number;
 }

@@ -12,13 +12,13 @@ export interface IPost {
   postTitle: string;
   postText: string;
   postLikes: IUser[];
-  comments?: IComment[];
+  comments: IComment[];
   views: number;
   ownerId: string;
   
   createdAt?: Date; 
   updatedAt?: Date; 
-  _v?: number;     
+  __v?: number;     
 }
 
 

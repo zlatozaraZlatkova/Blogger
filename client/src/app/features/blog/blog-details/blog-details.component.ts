@@ -11,7 +11,7 @@ import { filter, Observable, switchMap, tap } from 'rxjs';
 })
 export class BlogDetailsComponent implements OnInit {
   postsList$: Observable<IPostsResponse | null> = this.blogService.postsList$;
-  currentArticle$: Observable<IPost | null> = this.blogService.post$;
+  post$: Observable<IPost | null> = this.blogService.post$;
 
   relatedArticles: IPost[] = [];
   popularArticles: IPost[] = [];
@@ -48,7 +48,7 @@ export class BlogDetailsComponent implements OnInit {
   }
 
   loadRelatedArticles(): void {
-    this.currentArticle$
+    this.post$
       .pipe(
         filter((article): article is IPost => article !== null),
         switchMap((currentArticle) => {

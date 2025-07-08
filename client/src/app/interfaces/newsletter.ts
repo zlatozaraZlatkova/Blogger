@@ -2,7 +2,7 @@ export interface INewsletter {
   subscriptionList: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  _v?: number;
+  __v?: number;
 }
 
 

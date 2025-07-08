@@ -8,5 +8,5 @@ export interface ITeam {
 
   createdAt?: Date;
   updatedAt?: Date;
-  _v?: number;
+  __v?: number;
 }

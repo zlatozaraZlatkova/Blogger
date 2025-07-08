@@ -21,7 +21,7 @@ export interface IUser {
   
   createdAt?: Date; 
   updatedAt?: Date; 
-  _v?: number;  
+  __v?: number;  
 }
 
 export interface IUserTest {

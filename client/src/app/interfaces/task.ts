@@ -8,5 +8,5 @@ export interface ITask {
 
   createdAt?: Date;
   updatedAt?: Date;
-  _v?: number;
+  __v?: number;
 }

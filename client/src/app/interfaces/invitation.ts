@@ -7,5 +7,5 @@ export interface IInvitation {
 
   createdAt?: Date;
   updatedAt?: Date;
-  _v?: number;
+  __v?: number;
 }
