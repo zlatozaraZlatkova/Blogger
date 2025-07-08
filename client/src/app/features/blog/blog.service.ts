@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, catchError, take, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogApiService } from './blog-api.service';
@@ -64,10 +64,26 @@ export class BlogService implements OnDestroy {
   createPost(data: ICreatePostDto): Observable<IPost> {
     return this.blogApiService.createPost(data).pipe(
       tap((createdPost) => {
-        this.post$$.next(createdPost);
+
         console.log('Server create post response', createdPost);
 
-        this.refreshCurrentData();
+        const currentPosts = this.arrPosts$$.value;
+        if (currentPosts !== null) {
+          this.arrPosts$$.next([createdPost, ...currentPosts]);
+        }
+
+        const currentPostsList = this.postsList$$.value;
+        if (currentPostsList !== null) {
+          const updatedPostsList: IPostsResponse = {
+            ...currentPostsList,
+            data: {
+              ...currentPostsList.data,
+              items: [createdPost, ...currentPostsList.data.items]
+            }
+          };
+          this.postsList$$.next(updatedPostsList);
+        }
+
       }),
       catchError((error) => {
         this.post$$.next(null);
@@ -82,7 +98,28 @@ export class BlogService implements OnDestroy {
         this.post$$.next(updatedPost);
         console.log('Server edit post response', updatedPost);
 
-        this.refreshCurrentData();
+        const currentPosts = this.arrPosts$$.value;
+        if (currentPosts !== null) {
+          const updatedPosts = currentPosts.map(post =>
+            post._id === id ? updatedPost : post
+          );
+          this.arrPosts$$.next(updatedPosts);
+        }
+
+        const currentPostsList = this.postsList$$.value;
+        if (currentPostsList !== null) {
+          const updatedItems = currentPostsList.data.items.map(post =>
+            post._id === id ? updatedPost : post
+          );
+          const updatedPostsList: IPostsResponse = {
+            ...currentPostsList,
+            data: {
+              ...currentPostsList.data,
+              items: updatedItems
+            }
+          };
+          this.postsList$$.next(updatedPostsList);
+        }
 
       }),
       catchError((error) => {
@@ -98,7 +135,25 @@ export class BlogService implements OnDestroy {
         this.post$$.next(null);
         console.log('Server delete post response', response);
 
-        this.refreshCurrentData();
+
+        const currentPosts = this.arrPosts$$.value;
+        if (currentPosts !== null) {
+          const filteredPosts = currentPosts.filter(post => post._id !== id);
+          this.arrPosts$$.next(filteredPosts);
+        }
+
+        const currentPostsList = this.postsList$$.value;
+        if (currentPostsList !== null) {
+          const filteredItems = currentPostsList.data.items.filter(post => post._id !== id);
+          const updatedPostsList: IPostsResponse = {
+            ...currentPostsList,
+            data: {
+              ...currentPostsList.data,
+              items: filteredItems
+            }
+          };
+          this.postsList$$.next(updatedPostsList);
+        }
 
       }),
       catchError((error) => {
@@ -125,6 +180,21 @@ export class BlogService implements OnDestroy {
           this.arrPosts$$.next(updatedPosts);
         }
 
+        const currentPostsList = this.postsList$$.value;
+        if (currentPostsList !== null) {
+          const updatedItems = currentPostsList.data.items.map(post =>
+            post._id === postId ? response : post
+          );
+          const updatedPostsList: IPostsResponse = {
+            ...currentPostsList,
+            data: {
+              ...currentPostsList.data,
+              items: updatedItems
+            }
+          };
+          this.postsList$$.next(updatedPostsList);
+        }
+
       }),
       catchError(error => {
         return throwError(() => error);
@@ -132,17 +202,6 @@ export class BlogService implements OnDestroy {
     );
   }
 
-  private refreshCurrentData(): void {
-
-    if (this.postsList$$.value !== null) {
-      this.getPosts().subscribe();
-    }
-
-    if (this.arrPosts$$.value !== null) {
-      this.loadAllPosts().subscribe();
-    }
-
-  }
 
   clearState(): void {
     this.postsList$$.next(null);
