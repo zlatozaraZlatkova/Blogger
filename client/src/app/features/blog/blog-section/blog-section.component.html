@@ -13,7 +13,7 @@
 
      
       <ng-template #paginatedPosts>
-        <ng-container *ngIf="postsList$ |async as response">
+        <ng-container *ngIf="paginatedPosts$ |async as response">
           <app-blog-card *ngFor="let post of response.data.items" [article]="post"
             (click)="navigateToArticle(post._id)"
             class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">

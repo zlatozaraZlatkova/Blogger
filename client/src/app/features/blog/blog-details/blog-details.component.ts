@@ -10,7 +10,7 @@ import { filter, Observable, switchMap, tap } from 'rxjs';
   styleUrls: ['./blog-details.component.css'],
 })
 export class BlogDetailsComponent implements OnInit {
-  postsList$: Observable<IPostsResponse | null> = this.blogService.postsList$;
+  paginatedPosts$: Observable<IPostsResponse | null> = this.blogService.paginatedPosts$;
   post$: Observable<IPost | null> = this.blogService.post$;
 
   relatedArticles: IPost[] = [];
@@ -55,7 +55,7 @@ export class BlogDetailsComponent implements OnInit {
           const currentCategory = currentArticle.postCategory;
           const currentId = currentArticle._id;
 
-          return this.postsList$.pipe(
+          return this.paginatedPosts$.pipe(
             filter((response): response is IPostsResponse => response !== null),
             tap((postsResponse) => {
               if (postsResponse?.success) {

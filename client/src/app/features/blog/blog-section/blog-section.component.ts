@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 
 export class BlogSectionComponent implements OnInit, OnDestroy {
-  postsList$: Observable<IPostsResponse | null> = this.blogService.postsList$;
+  paginatedPosts$: Observable<IPostsResponse | null> = this.blogService.paginatedPosts$;
   arrPosts$: Observable<IPost[] | null> = this.blogService.arrPosts$;
 
   constructor(
