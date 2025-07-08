@@ -58,4 +58,9 @@ export class BlogCardComponent {
 
     });
   }
+
+  onLike(id: string) {
+    console.log("liked post id", id)
+  }
+
 }
