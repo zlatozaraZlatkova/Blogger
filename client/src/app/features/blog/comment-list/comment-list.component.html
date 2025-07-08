@@ -6,6 +6,7 @@
     </h3>
 
     <!-- Comment Create Form Component -->
+     <app-comment-create [postId]="postId"></app-comment-create>
 
     <!-- Existing Comments -->
     <div class="space-y-4 md:space-y-6">
@@ -21,7 +22,7 @@
             <div class="flex items-center gap-2 mb-2">
               <div class="font-semibold text-gray-900 text-sm md:text-base truncate">{{comment.name}}</div>
               <div class="w-1 h-1 bg-gray-400 rounded-full flex-shrink-0"></div>
-              <div class="text-xs text-gray-500 flex-shrink-0">Just now</div>
+              <div class="text-xs text-gray-500 flex-shrink-0">{{ comment.date | dateTimeAgo  }}</div>
             </div>
             <!-- Comment Content -->
             <div class="text-gray-700 text-sm md:text-base leading-relaxed mb-3 break-words">{{comment.text}}</div>

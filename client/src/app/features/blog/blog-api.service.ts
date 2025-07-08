@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IComment } from 'src/app/interfaces/comment';
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
@@ -12,7 +13,7 @@ export class BlogApiService {
   private basicUrl = `/api/posts`;
 
   constructor(private httpClient: HttpClient) { }
-  
+
   loadAllPosts(): Observable<IPost[]> {
     return this.httpClient.get<IPost[]>(`${this.basicUrl}/all`);
   }
@@ -38,6 +39,11 @@ export class BlogApiService {
   deletePost(id: string): Observable<IServerResponse> {
     return this.httpClient
       .delete<IServerResponse>(`${this.basicUrl}/delete/${id}`, {});
+  }
+
+
+  createPostComment(postId: string, data: IComment): Observable<IPost> {
+    return this.httpClient.post<IPost>(`/api/posts/comment/${postId}/create`, data);
   }
 
 }

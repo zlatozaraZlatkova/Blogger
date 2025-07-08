@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogApiService } from './blog-api.service';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
+import { IComment } from 'src/app/interfaces/comment';
 
 @Injectable({
   providedIn: 'root',
@@ -102,6 +103,30 @@ export class BlogService implements OnDestroy {
       }),
       catchError((error) => {
         this.post$$.next(null);
+        return throwError(() => error);
+      })
+    );
+  }
+
+
+  createComment(postId: string, data: IComment) {
+    return this.blogApiService.createPostComment(postId, data).pipe(
+      tap((response) => {
+        this.post$$.next(response);
+
+        const currentPosts = this.arrPosts$$.value;
+        if (currentPosts !== null) {
+          const updatedPosts = currentPosts.map(post => {
+            if (post._id === postId) {
+              return response;
+            }
+            return post;
+          });
+          this.arrPosts$$.next(updatedPosts);
+        }
+
+      }),
+      catchError(error => {
         return throwError(() => error);
       })
     );

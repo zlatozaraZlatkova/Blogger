@@ -11,6 +11,7 @@ import { GoogleDriveUploadComponent } from './google-drive-upload/google-drive-u
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogEditComponent } from './blog-edit/blog-edit.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
+import { CommentCreateComponent } from './comment-create/comment-create.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CommentListComponent } from './comment-list/comment-list.component';
     BlogCreateComponent,
     GoogleDriveUploadComponent,
     BlogEditComponent,
-    CommentListComponent
+    CommentListComponent, 
+    CommentCreateComponent
   ],
   imports: [
     CommonModule,

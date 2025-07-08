@@ -1,0 +1,58 @@
+<div class="mb-12">
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()" class="space-y-4">
+    <div class="flex gap-4">
+      <div class="flex-shrink-0">
+        <img [src]="user?.avatar || '../../../../assets/images/blog/author-01.png'" alt="Your avatar" 
+             class="w-10 h-10 rounded-full object-cover border-2 border-gray-200" />
+      </div>
+      <div class="flex-1">
+        <div class="relative">
+          <textarea 
+            class="w-full min-h-[120px] p-4 border border-gray-300 rounded-xl resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-500 text-sm leading-relaxed transition-all duration-200"
+            placeholder="What are your thoughts?" 
+            rows="4" 
+            name="text"
+            formControlName="text">
+          </textarea>
+          <!-- Character counter -->
+          <div class="absolute bottom-3 right-3 text-xs text-gray-400">
+            {{ commentForm.get('text')?.value?.length || 0 }}/250
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-end pl-14">
+      <button type="submit" [disabled]="commentForm.invalid"
+        [ngClass]="commentForm.valid ? 'form-is-active' : 'form-is-not-active'"
+        class="rounded-full py-2.5 px-6 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+        Respond
+      </button>
+    </div>
+    
+    <!-- Error Messages -->
+    <ng-container *ngIf="commentForm.get('text')?.touched">
+      <div class="pl-14 space-y-1">
+        <p class="text-red-500 text-xs flex items-center gap-1" *ngIf="commentForm.get('text')?.errors?.['required']">
+          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          Comment is required!
+        </p>
+        <p class="text-red-500 text-xs flex items-center gap-1" *ngIf="commentForm.get('text')?.errors?.['minlength']">
+          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          Please enter at least 5 characters to comment.
+        </p>
+        <p class="text-red-500 text-xs flex items-center gap-1" *ngIf="commentForm.get('text')?.errors?.['maxlength']">
+          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          Feel free to comment using up to 250 characters.
+        </p>
+      </div>
+    </ng-container>
+    <app-error-notification></app-error-notification>
+  </form>
+</div>

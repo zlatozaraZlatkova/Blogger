@@ -22,7 +22,7 @@ const postSchema = new Schema(
     postImageUrl: {
       type: String,
       required: true,
-      validator: (value) => URL_REGEX.text(value),
+      validator: (value) => URL_REGEX.test(value),
       message: (props) => {
         console.log(props);
         return `${props.value} is not a valid image URL`;

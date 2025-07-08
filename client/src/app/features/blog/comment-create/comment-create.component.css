@@ -1,0 +1,18 @@
+.form-is-active {
+  background-color: #4f46e5;
+  color: white;
+  cursor: pointer;
+}
+
+.form-is-active:hover {
+  background-color: #4338ca; 
+  cursor: pointer;
+}
+
+.form-is-not-active {
+  background-color: #9ca3af; 
+  color: white;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none; 
+}
