@@ -16,7 +16,6 @@ export class BlogCardComponent {
   post$ = this.blogService.post$;
 
   constructor(
-    private router: Router,
     private blogService: BlogService,
     private authService: AuthService
   ) {}
@@ -36,31 +35,6 @@ export class BlogCardComponent {
 
 
 
-  onEdit(id: string) {
-    this.router.navigate(['/posts/update', id]);
-  }
-
-  onDelete(id: string) {
-    if (!confirm('Are you sure you want to delete this post?')) {
-      return;
-    }
-
-    this.blogService.deletePost(id)
-    .pipe(take(1))
-    .subscribe({
-      next: (response) => {
-        console.log('Delete successful:', response);
-        this.router.navigate(['/posts']);
-      },
-      error: (error) => {
-        console.error('Delete failed:', error);
-      },
-
-    });
-  }
-
-  onLike(id: string) {
-    console.log("liked post id", id)
-  }
+ 
 
 }

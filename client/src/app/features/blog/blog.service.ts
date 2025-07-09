@@ -6,6 +6,8 @@ import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogApiService } from './blog-api.service';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 import { IComment } from 'src/app/interfaces/comment';
+import { AuthService } from 'src/app/user/auth.service';
+import { IUser } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,12 @@ export class BlogService implements OnDestroy {
   private arrPosts$$ = new BehaviorSubject<IPost[] | null>(null);
   arrPosts$ = this.arrPosts$$.asObservable();
 
-  constructor(private blogApiService: BlogApiService) { }
+
+  constructor(
+    private authService: AuthService,
+    private blogApiService: BlogApiService,
+
+  ) { }
 
   loadAllPosts(): Observable<IPost[]> {
     return this.blogApiService.loadAllPosts().pipe(
@@ -107,6 +114,17 @@ export class BlogService implements OnDestroy {
       })
     );
   }
+
+
+  onLike(postId: string): Observable<IPost> {
+    return this.blogApiService.likePost(postId).pipe(
+      tap((updatedPost) => {
+        this.post$$.next(updatedPost);
+        this.updatePostToLocalState(updatedPost);
+      })
+    );
+  }
+
 
   private addPostToLocalState(createdPost: IPost): void {
     const posts = this.arrPosts$$.value;

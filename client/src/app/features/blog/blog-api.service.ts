@@ -46,6 +46,10 @@ export class BlogApiService {
     return this.httpClient.post<IPost>(`/api/posts/comment/${postId}/create`, data);
   }
 
+  likePost(postId: string): Observable<IPost> {
+    return this.httpClient.post<IPost>(`/api/posts/like/${postId}`, {});
+  }
+
 }
 
 

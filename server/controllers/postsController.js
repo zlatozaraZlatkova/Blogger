@@ -217,35 +217,29 @@ router.delete("/comment/:id/:commentId", hasUser(), loadItem("Post"),
 
   })
 
-router.post("/like/:id", hasUser(), loadItem("Post"),
-  async (req, res, next) => {
-    try {
-      const userId = req.user._id;
-      const postId = req.params.id;
-      const post = req.item;
+router.post("/like/:id", hasUser(), loadItem("Post"), async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const postId = req.params.id;
+    const post = req.item;
+    
 
-      if (post.ownerId.toString() == userId.toString()) {
-        throw new Error("Not able to like your own post.");
-      }
-
-      if (post.postLikes.map((c) => c.toString()).includes(userId.toString()) == true) {
-        throw new Error("Post already liked.");
-      }
-
-      if (post.ownerId._id.toString() !== req.user._id.toString() && post.postLikes.some(user => user._id.equals(req.user._id)) == false) {
-
-        await likeItem(postId, userId);
-
-        return res.status(200).json({ message: "Liked!" });
-      }
-
-
-    } catch (error) {
-      next(error);
+    if (post.ownerId.toString() === userId.toString()) {
+      throw new Error("Not able to like your own post.");
     }
 
-  })
+    if (post.postLikes.map(id => id.toString()).includes(userId.toString())) {
+      throw new Error("Post already liked.");
+    }
 
+    const updatedPost = await likeItem(postId, userId);
+    
+    return res.status(200).json(updatedPost); 
+    
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/unlike/:id", hasUser(), loadItem("Post"),
   async (req, res, next) => {

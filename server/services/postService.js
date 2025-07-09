@@ -76,8 +76,14 @@ async function deleteComment(postId, commentId) {
 
 async function likeItem(postId, userId) {
   await User.findByIdAndUpdate(userId, { $push: { likedPostList: postId } }, { new: true });
-  await Post.findByIdAndUpdate(postId, { $push: { postLikes: userId } }, { new: true });
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    postId, 
+    { $push: { postLikes: userId } }, 
+    { new: true }
+  )
   
+  return updatedPost;
 }
 
 async function dislikeItem(postId, userId) {
