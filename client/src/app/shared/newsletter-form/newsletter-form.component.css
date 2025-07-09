@@ -1,5 +1,13 @@
-p.error {
-   text-align: left;
-   color: var(--red);
-   padding: 0 0 0 8px;
+.success-fade-in {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 300px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

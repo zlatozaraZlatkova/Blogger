@@ -2,11 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewsletterService } from './newsletter.service';
 import { emailValidator } from '../validators/email-validator';
-import { HttpErrorResponse } from '@angular/common/http';
+import { IServerResponse } from 'src/app/interfaces/serverResponse';
+import { Subject, takeUntil, timer } from 'rxjs';
 
-interface IServerResponse {
-  message: string;
-}
 
 @Component({
   selector: 'app-newsletter-form',
@@ -17,12 +15,13 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
   newsletterForm!: FormGroup;
   error: string | null = null;
   successMessage: string | null = null;
-  messageTimeout: number | undefined;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private newsletterService: NewsletterService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.newsletterForm = this.fb.group({
@@ -30,24 +29,12 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  showMessage(isSuccess: boolean, message: string): void {
-    if (this.messageTimeout) {
-      clearTimeout(this.messageTimeout);
-    }
-
-    if (isSuccess) {
-      this.successMessage = message;
-      this.error = null;
-    } else {
-      this.error = message;
-      this.successMessage = null;
-    }
-
-    setTimeout(() => {
-      this.successMessage = null;
-      this.error = null;
-      this.messageTimeout = undefined;
-    }, 2000) as unknown as number;
+  private showSuccessMessage(): void {
+    timer(5000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.successMessage = null;
+      });
   }
 
   subscribeHandler(): void {
@@ -59,13 +46,9 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
 
     this.newsletterService.subscribeToNewsletter(email!).subscribe({
       next: (response: IServerResponse) => {
-        this.showMessage(true, response.message || 'Successfully subscribed!');
-
         this.newsletterForm.reset();
-      },
-      error: (err: HttpErrorResponse) => {
-        const errorResponse = err.error as IServerResponse;
-        this.showMessage(false, errorResponse.message);
+        this.successMessage = response.message;
+        this.showSuccessMessage();
       },
     });
   }
@@ -79,22 +62,16 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
 
     this.newsletterService.unsubscribeToNewsletter(email!).subscribe({
       next: (response) => {
-        this.showMessage(
-          true,
-          response.message || 'Successfully unsubscribed!'
-        );
         this.newsletterForm.reset();
-      },
-      error: (err: HttpErrorResponse) => {
-        const errorResponse = err.error as IServerResponse;
-        this.showMessage(false, errorResponse.message);
+        this.successMessage = response.message;
+        this.showSuccessMessage();
       },
     });
   }
 
   ngOnDestroy(): void {
-    if (this.messageTimeout) {
-      clearTimeout(this.messageTimeout);
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
+
   }
 }
