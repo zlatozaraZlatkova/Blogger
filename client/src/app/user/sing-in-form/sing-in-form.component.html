@@ -67,9 +67,12 @@
     <a href="#" class="text-indigo-600 hover:underline">Forgot password?</a>
   </div>
 
-  <app-custom-button [buttonClass]="
+  <app-custom-button [disabled]="loginForm.invalid"
+   [buttonClass]="
       'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
-    " [buttonText]="'Join Team Metrics'" [routerLink]="'/auth/login'">
+    " 
+    [buttonText]="'Join Team Metrics'"
+    >
     <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
       xmlns="http://www.w3.org/2000/svg">
       <title>Arrow Right</title>

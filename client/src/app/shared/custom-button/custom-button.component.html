@@ -1,6 +1,8 @@
 <button class="flex items-center justify-center"
-  [ngClass]="buttonClass"
+  [class]="buttonClass"
   [routerLink]="routerLink"
+  [disabled]="disabled"
+  [ngClass]="disabled ? 'form-is-not-active' : 'form-is-active'"
 >
   <span class="mr-2">{{ buttonText }}</span>
   <ng-content select="[icon]"></ng-content>

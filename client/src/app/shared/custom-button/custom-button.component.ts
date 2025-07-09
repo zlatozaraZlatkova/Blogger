@@ -9,4 +9,5 @@ export class CustomButtonComponent {
   @Input() buttonText: string = '';
   @Input() buttonClass: string = '';
   @Input() routerLink?: string | null = null;
+  @Input() disabled?: boolean = false;
 }
