@@ -11,6 +11,7 @@ const defaultController = require("../controllers/defaultController");
 
 const checkAuth = require('../middlewares/checkAuth');
 const googleDriveConfigController = require("../controllers/googleDriveConfig");
+const profileController = require("../controllers/profileController");
 
 module.exports = (app) => {
   app.get("/api/test", (req, res) => {
@@ -21,7 +22,8 @@ module.exports = (app) => {
 
 
   app.use("/api/auth", authController);
-  app.use("/api/check-auth", checkAuth(true), checkAuthController)
+  app.use("/api/check-auth", checkAuth(true), checkAuthController);
+  app.use("/api/profile", checkAuth(true), profileController);
   app.use("/api/boards", checkAuth(true), boardController);
   app.use("/api/sections", checkAuth(true), sectionController);
   app.use("/api/tasks", checkAuth(true), taskController);

@@ -5,7 +5,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minLength: [2, "Name should be at least 2 characters long"],
-        maxLength: [30, "Name shouldn't contain more than 30 characters "],
+        maxLength: [30, "Name shouldn't contain more than 30 characters"],
         match: [
             /^[a-zA-Z0-9\s]+$/gi,
             "Username may contain only english letters and numbers",
@@ -62,8 +62,6 @@ const userSchema = new Schema({
             email: {
                 type: String,
                 required: true,
-                minLength: [2, "Name should be at least 2 characters long"],
-                maxLength: [30, "Name shouldn't contain more than 30 characters "],
                 match: [
                     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi,
                     "Email is invalid",
@@ -78,7 +76,6 @@ const userSchema = new Schema({
                 type: Date,
                 default: Date.now
             }
-
         },
     ],
     receivedInvitations: {
@@ -87,7 +84,12 @@ const userSchema = new Schema({
         ref: "User",
         default: [],
     },
-    // date: { type: Date, default: Date.now },
+    publicProfile: {
+        type: Types.ObjectId,
+        ref: "Profile",
+      
+    }
+
 }, { timestamps: true });
 
 userSchema.index(
