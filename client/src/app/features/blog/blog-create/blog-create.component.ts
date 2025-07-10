@@ -89,12 +89,8 @@ export class BlogCreateComponent implements OnInit {
     .pipe(take(1))
     .subscribe({
       next: (createdPost) => {
-        console.log('Post created successfully:', createdPost);
         this.router.navigate([`/posts/${createdPost._id}`]);
-      },
-      error: (err) => {
-        console.log('Interceptor err:', err)
-      },
+      }
     });
   }
 

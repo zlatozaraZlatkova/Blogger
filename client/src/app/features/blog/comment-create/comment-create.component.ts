@@ -3,19 +3,19 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { IComment } from 'src/app/interfaces/comment';
 import { AuthService } from 'src/app/user/auth.service';
 import { BlogService } from '../blog.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-comment-create',
   templateUrl: './comment-create.component.html',
-  styleUrls: ['./comment-create.component.css']
+  styleUrls: ['./comment-create.component.css'],
 })
 export class CommentCreateComponent {
   @Input() postId: string = '';
 
   get user() {
-    return this.authService.user
+    return this.authService.user;
   }
-
 
   commentForm = this.fb.group({
     text: [
@@ -28,7 +28,7 @@ export class CommentCreateComponent {
     private authService: AuthService,
     private blogService: BlogService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   onSubmitComment(): void {
     if (this.commentForm.invalid || !this.user) {
@@ -36,12 +36,7 @@ export class CommentCreateComponent {
     }
 
     console.log('PostId:', this.postId);
-    console.log('User:', this.user);
-
-    console.log('User name:', this.user.name);
-    console.log('User avatar:', this.user.avatar);
     console.log('User ID:', this.user._id);
-
 
     const newCommentText = this.commentForm.get('text')?.value;
     if (!newCommentText) {
@@ -55,16 +50,14 @@ export class CommentCreateComponent {
       user: this.user._id,
     };
 
-    this.blogService.createComment(this.postId, newComment).subscribe({
-      next: (updatedPost) => {
-        this.commentForm.reset();
-        console.log('Comment created successfully');
-      },
-      error: (error) => {
-        console.error('Error creating comment:', error.message);
-      },
-    });
+    this.blogService
+      .createComment(this.postId, newComment)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.commentForm.reset();
+          console.log('Comment created successfully');
+        },
+      });
   }
-
-
 }

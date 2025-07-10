@@ -49,10 +49,10 @@ export class BlogEditComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
-      console.error('No post ID found in route parameters');
       this.router.navigate(['/posts']);
       return;
     }
+    
     this.postId = id;
   }
 
@@ -78,9 +78,7 @@ export class BlogEditComponent implements OnInit {
         finalize(() => this.setLoadingState(false)))
       .subscribe({
         next: (postData) => {
-          console.log('Post loaded successfully:', postData);
           this.populateFormWithPostData(postData);
-
         }
       });
   }
@@ -116,12 +114,8 @@ export class BlogEditComponent implements OnInit {
       )
       .subscribe({
         next: (updatedPost) => {
-          console.log('Post updated successfully:', updatedPost);
           this.router.navigate([`/posts/${updatedPost._id}`]);
-        },
-        error: (error) => {
-          console.error('Error updating post:', error);
-        },
+        }
       });
   }
 

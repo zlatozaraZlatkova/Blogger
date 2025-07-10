@@ -7,7 +7,7 @@ import { BlogApiService } from './blog-api.service';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 import { IComment } from 'src/app/interfaces/comment';
 import { AuthService } from 'src/app/user/auth.service';
-import { IUser } from 'src/app/interfaces/user';
+
 
 @Injectable({
   providedIn: 'root',
@@ -23,20 +23,12 @@ export class BlogService implements OnDestroy {
   arrPosts$ = this.arrPosts$$.asObservable();
 
 
-  constructor(
-    private authService: AuthService,
-    private blogApiService: BlogApiService,
-
-  ) { }
+  constructor( private blogApiService: BlogApiService ) { }
 
   loadAllPosts(): Observable<IPost[]> {
     return this.blogApiService.loadAllPosts().pipe(
       tap((arr) => {
         this.arrPosts$$.next(arr);
-      }),
-      catchError((error) => {
-        this.arrPosts$$.next(null);
-        return throwError(() => error);
       })
     );
   }
@@ -45,10 +37,6 @@ export class BlogService implements OnDestroy {
     return this.blogApiService.getPosts().pipe(
       tap((response) => {
         this.paginatedPosts$$.next(response);
-      }),
-      catchError((error) => {
-        this.paginatedPosts$$.next(null);
-        return throwError(() => error);
       })
     );
   }
@@ -57,10 +45,6 @@ export class BlogService implements OnDestroy {
     return this.blogApiService.getPostById(id).pipe(
       tap((post) => {
         this.post$$.next(post);
-      }),
-      catchError((error) => {
-        this.post$$.next(null);
-        return throwError(() => error);
       })
     );
   }
@@ -69,9 +53,6 @@ export class BlogService implements OnDestroy {
     return this.blogApiService.createPost(data).pipe(
       tap((createdPost) => {
         this.addPostToLocalState(createdPost);
-      }),
-      catchError((error) => {
-        return throwError(() => error);
       })
     );
   }
@@ -82,22 +63,16 @@ export class BlogService implements OnDestroy {
         this.post$$.next(updatedPost);
 
         this.updatePostToLocalState(updatedPost);
-      }),
-      catchError((error) => {
-        return throwError(() => error);
       })
     );
   }
 
   deletePost(id: string): Observable<IServerResponse> {
     return this.blogApiService.deletePost(id).pipe(
-      tap((response) => {
+      tap(() => {
         this.post$$.next(null);
 
         this.removePostFromLocalState(id);
-      }),
-      catchError((error) => {
-        return throwError(() => error);
       })
     );
   }
@@ -108,9 +83,6 @@ export class BlogService implements OnDestroy {
         this.post$$.next(response);
 
         this.updatePostToLocalState(response);
-      }),
-      catchError((error) => {
-        return throwError(() => error);
       })
     );
   }

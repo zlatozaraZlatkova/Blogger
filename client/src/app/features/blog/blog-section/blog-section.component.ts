@@ -33,7 +33,7 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   }
 
   viewAllArticles(): void {
-    this.blogService.loadAllPosts().subscribe();
+    this.blogService.loadAllPosts().pipe(take(1)).subscribe();
   }
 
   isPostOwner(post: IPost): boolean {
