@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from '../core/guards/auth.guard';
 import { guestGuard } from '../core/guards/guest.guard';
 import { LogoutComponent } from './logout/logout.component';
+import { authResolver } from '../core/resolvers/auth.resolver';
 
 
 const routes: Routes = [
@@ -56,6 +57,7 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard],
+    resolve: { user: authResolver },
     data: {
       title: "User's Profile",
       layout: 'default',

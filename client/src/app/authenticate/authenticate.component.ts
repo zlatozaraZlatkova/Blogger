@@ -20,7 +20,7 @@ export class AuthenticateComponent implements OnInit {
           this.isAuthenticated = true;
         } else {
           this.isAuthenticated = false;
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/']);
         }
       },
       error: (err) => {

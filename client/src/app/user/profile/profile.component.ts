@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -7,10 +8,18 @@ import { AuthService } from '../auth.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   get user() {
     return this.authService.user;
   }
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute,
+  ) { }
+
+  ngOnInit(): void {
+    const resolvedUser = this.route.snapshot.data['user'];
+  }
+
 }

@@ -1,13 +1,8 @@
-.form-is-active {
-  background-color: rgb(39 110 241);
-  color: white;
+.form-is-active, 
+.form-is-active:hover {
   cursor: pointer;
 }
 
-.form-is-active:hover {
-  background-color: rgb(39 110 241 / var(--tw-bg-opacity, 1));
-  cursor: pointer;
-}
 
 .form-is-not-active {
   background-color: #757980; 

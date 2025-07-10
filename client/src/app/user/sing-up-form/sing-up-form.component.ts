@@ -84,7 +84,7 @@ export class SingUpFormComponent implements OnInit {
       next: (user) => {
         this.isSubmitted = true;
         console.log('Registered user', user);
-        this.router.navigate(['/auth/profile']);
+        this.router.navigate(['/posts']);
       },
       error: (err) => {
         this.isSubmitted = true;
