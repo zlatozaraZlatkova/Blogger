@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { BlogModule } from './blog/blog.module';
+import { PublicProfileModule } from './public-profile/public-profile.module';
 
 
 
@@ -13,6 +14,7 @@ import { BlogModule } from './blog/blog.module';
     CommonModule,
     SharedModule,
     BlogModule,
+    PublicProfileModule,
     RouterModule,
    
   ]

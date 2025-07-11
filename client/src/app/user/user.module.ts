@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 
 import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-section.component';
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
-import { ProfileComponent } from './profile/profile.component';
-
 import { AuthRoutingModule } from './auth-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
@@ -16,7 +14,6 @@ import { LogoutComponent } from './logout/logout.component';
     AuthFormsSectionComponent,
     SingInFormComponent,
     SingUpFormComponent,
-    ProfileComponent,
     LogoutComponent
 
   ],
