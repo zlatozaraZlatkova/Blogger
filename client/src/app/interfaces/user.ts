@@ -14,7 +14,7 @@ export interface IUser {
   createdSections: ISection[];
   createdTasks: ITask[];
   createdPosts: IPost[];
-  likedPostList: string[];
+  likedPostList: IPost[];
   teams: ITeam[];
   sentInvitations: IInvitation[];
   receivedInvitations: IInvitation[];

@@ -9,7 +9,7 @@ import { IServerResponse } from 'src/app/interfaces/serverResponse';
 })
 export class PublicProfileService implements OnDestroy {
   private userPublicProfile$$ = new BehaviorSubject<IProfile | null>(null);
-  userPublicProfile$ = this.userPublicProfile$$.asObservable();
+  userPublicProfile$: Observable<IProfile | null> = this.userPublicProfile$$.asObservable();
 
   constructor(private profileApiService: ProfileApiService) { }
 
@@ -47,6 +47,11 @@ export class PublicProfileService implements OnDestroy {
         this.userPublicProfile$$.next(null);
       })
     )
+  }
+
+  clearState(): void {
+    this.userPublicProfile$$.next(null);
+
   }
 
 
