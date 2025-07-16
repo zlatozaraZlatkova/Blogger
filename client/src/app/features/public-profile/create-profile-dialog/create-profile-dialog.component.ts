@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ICreateProfileDto } from 'src/app/interfaces/profile';
 
 @Component({
   selector: 'app-create-profile-dialog',
@@ -8,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./create-profile-dialog.component.css'],
 })
 export class CreateProfileDialogComponent implements OnInit {
-  form!: FormGroup;
+  createProfileForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -20,16 +21,39 @@ export class CreateProfileDialogComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.form = this.fb.group({
-      description: ['', Validators.required],
+    this.createProfileForm = this.fb.group({
+      githubUsername: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(30),
+        ],
+      ],
+      linkedin: ['', [Validators.minLength(2), Validators.maxLength(30)]],
+      bio: ['', [Validators.required, Validators.maxLength(300)]],
     });
   }
 
-  onClose() {
-    this.dialogRef.close();
+  onSubmit() {
+    if (this.createProfileForm.invalid) {
+      return;
+    }
+
+    if (this.createProfileForm.valid) {
+      const formValue = this.createProfileForm.value;
+
+      const profileData: ICreateProfileDto = {
+        bio: formValue.bio.trim(),
+        githubUsername: formValue.githubUsername.trim(),
+        linkedin: formValue.linkedin?.trim(),
+      };
+
+      this.dialogRef.close(profileData);
+    }
   }
 
-  onSave() {
-    this.dialogRef.close(this.form.value);
+  onCancel() {
+    this.dialogRef.close();
   }
 }

@@ -1,6 +1,5 @@
 const { Schema, model, Types } = require("mongoose");
 
-const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 
 const profileSchema = new Schema(
   {
@@ -15,24 +14,10 @@ const profileSchema = new Schema(
     },
     socialMedia: {
       facebook: {
-        type: String,
-        validate: {
-          validator: (value) => {
-            if (!value) return true; 
-            return URL_REGEX.test(value);
-          },
-          message: (props) => `${props.value} is not a valid URL`, 
-        },
+        type: String
       },
       linkedin: {
-        type: String,
-        validate: {
-          validator: (value) => {
-            if (!value) return true; 
-            return URL_REGEX.test(value);
-          },
-          message: (props) => `${props.value} is not a valid URL`, 
-        },
+        type: String
       },
     },
     ownerId: {

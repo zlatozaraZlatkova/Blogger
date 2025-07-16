@@ -1,12 +1,50 @@
 <h2 mat-dialog-title>Create Public Profile</h2>
 
-<mat-dialog-content [formGroup]="form">
-  <mat-form-field>
-    <input matInput placeholder="Description" formControlName="description" />
+<form [formGroup]="createProfileForm" (ngSubmit)="onSubmit()">
+
+<mat-dialog-content>
+
+  <mat-form-field appearance="outline">
+    <input matInput formControlName="githubUsername" placeholder="Github username">
+    <mat-error *ngIf="createProfileForm.get('githubUsername')?.errors?.['required']">
+      Github username is required!
+    </mat-error>
+     <mat-error *ngIf="createProfileForm.get('githubUsername')?.errors?.['minlength']">
+      Username has to be at least 2 characters long.
+    </mat-error>
+    <mat-error *ngIf="createProfileForm.get('githubUsername')?.errors?.['maxlength']">
+      Username should be no more than 30 characters long.
+    </mat-error>
   </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <input matInput formControlName="linkedin" placeholder="LinkedIn username">
+   
+     <mat-error *ngIf="createProfileForm.get('linkedin')?.errors?.['minlength']">
+      Username has to be at least 2 characters long.
+    </mat-error>
+    <mat-error *ngIf="createProfileForm.get('linkedin')?.errors?.['maxlength']">
+       Username should be no more than 30 characters long.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <textarea matInput formControlName="bio" placeholder="Add your bio and story" rows="6"></textarea>
+    <mat-error *ngIf="createProfileForm.get('bio')?.errors?.['required']">
+      Content is required
+    </mat-error>
+    <mat-error *ngIf="createProfileForm.get('bio')?.errors?.['maxlength']">
+      Content should be no more than 300 characters long.
+    </mat-error>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button class="mat-raised-button" (click)="onClose()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="onSave()">Save</button>
+  <button mat-cancel-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!createProfileForm.valid">
+    Create
+  </button>
 </mat-dialog-actions>
+
+</form>

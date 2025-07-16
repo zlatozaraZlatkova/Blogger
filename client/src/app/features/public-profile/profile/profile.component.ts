@@ -18,8 +18,7 @@ import { CreateProfileDialogComponent } from '../create-profile-dialog/create-pr
 export class ProfileComponent implements OnInit, OnDestroy {
   activeSection: string = 'home';
 
-  userPublicProfile$: Observable<IProfile | null> =
-    this.publicProfileService.userPublicProfile$;
+  userPublicProfile$: Observable<IProfile | null> = this.publicProfileService.userPublicProfile$
 
   get user(): IUser | null {
     return this.authService.user;
@@ -42,8 +41,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private publicProfileService: PublicProfileService,
     private route: ActivatedRoute,
     private router: Router,
-    private matDialog: MatDialog
-  ) {}
+    private matDialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     const resolvedUser = this.route.snapshot.data['user'];
@@ -56,11 +55,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
       autoFocus: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('Form data:', result);
+    dialogRef.afterClosed().subscribe(userProfileData => {
+
+      if (userProfileData) {
+        
+        this.publicProfileService.createProfile(userProfileData).subscribe({
+          next(createdProfile) {
+            console.log("Profile created successfully:", createdProfile)
+          },
+          error(error) {
+            console.error("Error creating profile:", error);
+
+          }
+        });
       }
+
     });
+
   }
 
   getGitHubUrl(publicProfile: IProfile): string | null {
@@ -75,11 +86,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       : null;
   }
 
+
   navigateToPost(postId: string): void {
     this.router.navigate(['/posts', postId]);
   }
 
+
   ngOnDestroy(): void {
     this.publicProfileService.clearState();
   }
+
+
 }
