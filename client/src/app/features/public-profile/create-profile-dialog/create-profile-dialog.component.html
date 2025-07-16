@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Create Public Profile</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Description" formControlName="description" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="onClose()">Close</button>
+  <button class="mat-raised-button mat-primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>
