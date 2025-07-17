@@ -5,3 +5,10 @@ export interface IDialogData {
   data?: IProfile;
   title: string;
 }
+
+export interface IConfirmDialogData {
+  title: string;
+  message: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
+}

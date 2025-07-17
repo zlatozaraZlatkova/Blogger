@@ -9,6 +9,9 @@ import { EyeIconComponent } from './eye-icon/eye-icon.component';
 import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
 import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
 import { ErrorNotificationComponent } from './error-notification/error-notification.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -20,13 +23,16 @@ import { ErrorNotificationComponent } from './error-notification/error-notificat
     EyeIconComponent,
     DateTimeAgoPipe,
     SentenceUpperCasePipe,
-    ErrorNotificationComponent
+    ErrorNotificationComponent,
+    ConfirmDialogComponent
 
   ],
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   exports: [
     CustomButtonComponent,

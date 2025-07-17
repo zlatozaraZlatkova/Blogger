@@ -8,6 +8,7 @@ import { IProfile } from 'src/app/interfaces/profile';
 import { IUser } from 'src/app/interfaces/user';
 import { IPost } from 'src/app/interfaces/post';
 import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -89,8 +90,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEditProfileDialog(profileData: IProfile):void {
-     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
+  openEditProfileDialog(profileData: IProfile): void {
+    const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
       width: '500px',
       disableClose: true,
       autoFocus: true,
@@ -121,21 +122,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   openDeleteProfileDialog(): void {
 
-    if (!confirm('Are you sure you want to delete your public profile? This action cannot be undone.')) {
-      return;
-    }
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Delete Profile',
+        message: 'Are you sure you want to delete your public profile? This action cannot be undone.',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+      }
+    });
 
-    this.publicProfileService.deleteProfile()
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          console.log('Profile deleted successfully');
-        },
-        error: (error) => {
-          console.error('Error deleting profile:', error);
-        }
-      });
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.publicProfileService.deleteProfile()
+          .pipe(take(1))
+          .subscribe({
+            next: () => {
+              console.log('Profile deleted successfully');
+            },
+            error: (error) => {
+              console.error('Error deleting profile:', error);
+            }
+          });
+      }
 
+    })
   }
 
 

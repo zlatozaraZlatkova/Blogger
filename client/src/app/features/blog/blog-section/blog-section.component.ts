@@ -4,6 +4,8 @@ import { BlogService } from '../blog.service';
 import { Router } from '@angular/router';
 import { Observable, take } from 'rxjs';
 import { AuthService } from 'src/app/user/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-blog-section',
@@ -21,7 +23,9 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private blogService: BlogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private matDialog: MatDialog
+
   ) { }
 
   ngOnInit(): void {
@@ -41,16 +45,29 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
     return currentUserId === post.ownerId;
   }
 
- 
+
   onEdit(postId: string): void {
     this.router.navigate(['/posts/update', postId]);
   }
 
   onDelete(postId: string): void {
-    if (!confirm('Are you sure you want to delete this post?')) {
-      return;
-    }
-    this.blogService.deletePost(postId).pipe(take(1)).subscribe();
+
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Delete Profile',
+        message: 'Are you sure you want to delete this post?',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+      }
+    })
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.blogService.deletePost(postId).pipe(take(1)).subscribe();
+      }
+    })
+
+
   }
 
   onLike(postId: string): void {
