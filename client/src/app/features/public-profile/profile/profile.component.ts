@@ -69,14 +69,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
       data: {
         mode: 'create',
         data: null,
-        title: 'Create Public Profile',
-      },
+        title: 'Create Public Profile'
+      }
     });
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
       if (userProfileData) {
-        this.publicProfileService
-          .createProfile(userProfileData)
+        this.publicProfileService.createProfile(userProfileData)
           .pipe(take(1))
           .subscribe({
             next(createdProfile) {
@@ -90,17 +89,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEditProfileDialog(profileData: IProfile): void {
-    const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
+  openEditProfileDialog(profileData: IProfile):void {
+     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
       width: '500px',
       disableClose: true,
       autoFocus: true,
       data: {
         mode: 'edit',
         data: profileData,
-        title: 'Edit Public Profile',
-      },
+        title: 'Edit Public Profile'
+      }
     });
+
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
       if (userProfileData) {
