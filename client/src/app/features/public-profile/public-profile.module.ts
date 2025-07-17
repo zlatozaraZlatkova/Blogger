@@ -10,15 +10,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CreateProfileDialogComponent } from './create-profile-dialog/create-profile-dialog.component';
-
+import { ProfileFormDialogComponent } from './profile-form-dialog/profile-form-dialog.component';
 
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    CreateProfileDialogComponent
+    ProfileFormDialogComponent
   ],
   imports: [
     CommonModule,

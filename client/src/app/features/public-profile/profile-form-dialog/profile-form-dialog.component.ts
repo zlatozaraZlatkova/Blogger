@@ -4,16 +4,16 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ICreateProfileDto } from 'src/app/interfaces/profile';
 
 @Component({
-  selector: 'app-create-profile-dialog',
-  templateUrl: './create-profile-dialog.component.html',
-  styleUrls: ['./create-profile-dialog.component.css'],
+  selector: 'app-profile-form-dialog',
+  templateUrl: './profile-form-dialog.component.html',
+  styleUrls: ['./profile-form-dialog.component.css'],
 })
-export class CreateProfileDialogComponent implements OnInit {
+export class ProfileFormDialogComponent implements OnInit {
   createProfileForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CreateProfileDialogComponent>
+    private dialogRef: MatDialogRef<ProfileFormDialogComponent>
   ) { }
 
   ngOnInit() {

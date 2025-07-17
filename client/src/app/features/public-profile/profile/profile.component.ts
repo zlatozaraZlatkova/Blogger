@@ -7,7 +7,7 @@ import { PublicProfileService } from '../public-profile.service';
 import { IProfile } from 'src/app/interfaces/profile';
 import { IUser } from 'src/app/interfaces/user';
 import { IPost } from 'src/app/interfaces/post';
-import { CreateProfileDialogComponent } from '../create-profile-dialog/create-profile-dialog.component';
+import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -62,7 +62,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   openCreateProfileDialog(): void {
-    const dialogRef = this.matDialog.open(CreateProfileDialogComponent, {
+    const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
       width: '500px',
       disableClose: true,
       autoFocus: true,
