@@ -66,6 +66,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       width: '500px',
       disableClose: true,
       autoFocus: true,
+      data: {
+        mode: 'create',
+        data: null,
+        title: 'Create Public Profile'
+      }
     });
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
@@ -83,6 +88,38 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  openEditProfileDialog(profileData: IProfile):void {
+     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      autoFocus: true,
+      data: {
+        mode: 'edit',
+        data: profileData,
+        title: 'Edit Public Profile'
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe((userProfileData) => {
+      if (userProfileData) {
+        this.publicProfileService.editProfile(userProfileData)
+          .pipe(take(1))
+          .subscribe({
+            next(editProfile) {
+              console.log('LinkedIn data:', editProfile.socialMedia?.linkedin);
+              console.log('Profile edited successfully:', editProfile);
+            },
+            error(error) {
+              console.error('Error editing profile:', error);
+            },
+          });
+      }
+    });
+
+  }
+
 
   getGitHubUrl(publicProfile: IProfile): string | null {
     return publicProfile.githubUsername

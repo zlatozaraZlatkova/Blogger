@@ -47,13 +47,13 @@ router.get("/:id", hasUser(),
 router.post("/create", hasUser(),
     body("bio", "Short bio is required").notEmpty(),
     body("bio", "Short description up to 3000 characters long").isLength({ max: 3000 }),
+    body("githubUsername", "GitHub username is required").optional(),
+    body("socialMedia.linkedin", "LinkedIn is required").optional(),
     validateRequest,
     async (req, res, next) => {
 
         try {
             const userId = req.user._id;
-            const { bio, githubUsername, linkedin } = req.body;
-
             let publicProfile = await getUserById(userId);
 
 
@@ -61,18 +61,16 @@ router.post("/create", hasUser(),
                 throw new Error("Profile already exists.");
             }
 
-
+             const { bio, githubUsername, socialMedia } = req.body;
+           
             const profileInputFields = {
                 bio,
                 githubUsername,
-                socialMedia: {
-                    linkedin
-                },
                 ownerId: userId
             };
 
-            if (linkedin) {
-                profileInputFields.socialMedia = { linkedin };
+            if (socialMedia?.linkedin) {
+                profileInputFields.socialMedia = { linkedin: socialMedia.linkedin };
             }
 
             const profile = await createItem(userId, profileInputFields);
@@ -90,7 +88,7 @@ router.post("/update", hasUser(),
     body("bio", "Short bio is required").notEmpty(),
     body("bio", "Short description up to 3000 characters long").isLength({ max: 3000 }),
     body("githubUsername", "GitHub username is required").optional(),
-    body("linkedin", "LinkedIn is required").optional(),
+    body("socialMedia.linkedin", "LinkedIn is required").optional(),
     validateRequest,
     async (req, res, next) => {
         try {
@@ -104,15 +102,15 @@ router.post("/update", hasUser(),
                 throw new Error("User not found.");
             }
 
-            const { bio, githubUsername, linkedin } = req.body;
+            const { bio, githubUsername, socialMedia } = req.body;
            
             const profileInputFields = {
                 bio,
                 githubUsername
             };
 
-            if (linkedin) {
-                profileInputFields.socialMedia = { linkedin };
+            if (socialMedia?.linkedin) {
+                profileInputFields.socialMedia = { linkedin: socialMedia.linkedin };
             }
 
            

@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Create Public Profile</h2>
+<h2 mat-dialog-title>{{profileData.title}}</h2>
 
 <form [formGroup]="createProfileForm" (ngSubmit)="onSubmit()">
 
@@ -43,7 +43,7 @@
 <mat-dialog-actions>
   <button mat-cancel-button (click)="onCancel()">Cancel</button>
   <button mat-raised-button color="primary" [disabled]="!createProfileForm.valid">
-    Create
+    Submit
   </button>
 </mat-dialog-actions>
 
