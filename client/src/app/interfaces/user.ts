@@ -1,6 +1,7 @@
 import { IBoard } from "./board";
 import { IInvitation } from "./invitation";
 import { IPost } from "./post";
+import { IProfile } from "./profile";
 import { ISection } from "./section";
 import { ITask } from "./task";
 import { ITeam } from "./team";
@@ -18,7 +19,7 @@ export interface IUser {
   teams: ITeam[];
   sentInvitations: IInvitation[];
   receivedInvitations: IInvitation[];
-   publicProfile?: string;
+   publicProfile?: IProfile;
   
   createdAt?: Date; 
   updatedAt?: Date; 

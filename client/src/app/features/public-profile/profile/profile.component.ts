@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AuthService } from '../../../user/auth.service';
 import { PublicProfileService } from '../public-profile.service';
 import { IProfile } from 'src/app/interfaces/profile';
 import { IUser } from 'src/app/interfaces/user';
@@ -17,20 +16,21 @@ import { CreateProfileDialogComponent } from '../create-profile-dialog/create-pr
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   activeSection: string = 'home';
+  resolvedUser: IUser | null = null;
 
   userPublicProfile$: Observable<IProfile | null> =
     this.publicProfileService.userPublicProfile$;
 
   get user(): IUser | null {
-    return this.authService.user;
-  }
-
-  get userLikedPosts(): IPost[] {
-    return this.user?.likedPostList || [];
+    return this.resolvedUser;
   }
 
   get userCreatedPosts(): IPost[] {
-    return this.user?.createdPosts || [];
+    return this.resolvedUser?.createdPosts || [];
+  }
+
+  get userLikedPosts(): IPost[] {
+    return this.resolvedUser?.likedPostList || [];
   }
 
   get hasLikedPosts(): boolean {
@@ -38,7 +38,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private authService: AuthService,
     private publicProfileService: PublicProfileService,
     private route: ActivatedRoute,
     private router: Router,
@@ -46,17 +45,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const resolvedUser = this.route.snapshot.data['user'];
+    this.resolvedUser = this.route.snapshot.data['user'];
 
-    if (this.user?.publicProfile) {
-      this.publicProfileService.getProfile().subscribe({
-        next: (profile) => {
-          console.log('Profile loaded successfully:', profile);
-        },
-        error: (error) => {
-          console.error('Error loading profile:', error);
-        },
-      });
+    if (this.resolvedUser?.publicProfile) {
+      this.publicProfileService.getProfile()
+        .pipe(take(1))
+        .subscribe({
+          next: (profile) => {
+            console.log('Profile loaded successfully:', profile);
+          },
+          error: (error) => {
+            console.error('Error loading profile:', error);
+          },
+        });
     }
   }
 
@@ -69,14 +70,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
       if (userProfileData) {
-        this.publicProfileService.createProfile(userProfileData).subscribe({
-          next(createdProfile) {
-            console.log('Profile created successfully:', createdProfile);
-          },
-          error(error) {
-            console.error('Error creating profile:', error);
-          },
-        });
+        this.publicProfileService.createProfile(userProfileData)
+          .pipe(take(1))
+          .subscribe({
+            next(createdProfile) {
+              console.log('Profile created successfully:', createdProfile);
+            },
+            error(error) {
+              console.error('Error creating profile:', error);
+            },
+          });
       }
     });
   }
