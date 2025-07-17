@@ -69,13 +69,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       data: {
         mode: 'create',
         data: null,
-        title: 'Create Public Profile'
-      }
+        title: 'Create Public Profile',
+      },
     });
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
       if (userProfileData) {
-        this.publicProfileService.createProfile(userProfileData)
+        this.publicProfileService
+          .createProfile(userProfileData)
           .pipe(take(1))
           .subscribe({
             next(createdProfile) {
@@ -89,18 +90,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEditProfileDialog(profileData: IProfile):void {
-     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
+  openEditProfileDialog(profileData: IProfile): void {
+    const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
       width: '500px',
       disableClose: true,
       autoFocus: true,
       data: {
         mode: 'edit',
         data: profileData,
-        title: 'Edit Public Profile'
-      }
+        title: 'Edit Public Profile',
+      },
     });
-
 
     dialogRef.afterClosed().subscribe((userProfileData) => {
       if (userProfileData) {
@@ -117,6 +117,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
       }
     });
+  }
+
+  openDeleteProfileDialog(): void {
+
+    if (!confirm('Are you sure you want to delete your public profile? This action cannot be undone.')) {
+      return;
+    }
+
+    this.publicProfileService.deleteProfile()
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          console.log('Profile deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting profile:', error);
+        }
+      });
 
   }
 
