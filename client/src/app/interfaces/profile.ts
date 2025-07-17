@@ -12,7 +12,9 @@ export interface IProfile {
 export interface ICreateProfileDto {
   bio: string;
   githubUsername?: string;
-  linkedin?: string;
+  socialMedia?: {
+    linkedin?: string;
+  };
 }
 
 export interface ISocialMedia {

@@ -14,7 +14,7 @@ export class CreateProfileDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CreateProfileDialogComponent>
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -46,7 +46,9 @@ export class CreateProfileDialogComponent implements OnInit {
       const profileData: ICreateProfileDto = {
         bio: formValue.bio.trim(),
         githubUsername: formValue.githubUsername.trim(),
-        linkedin: formValue.linkedin?.trim(),
+        socialMedia: {
+          linkedin: formValue.linkedin?.trim()
+        }
       };
 
       this.dialogRef.close(profileData);

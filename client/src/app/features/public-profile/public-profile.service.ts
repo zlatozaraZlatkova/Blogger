@@ -13,7 +13,7 @@ export class PublicProfileService implements OnDestroy {
 
   constructor(private profileApiService: ProfileApiService) { }
 
-  getProfile(): Observable<IProfile> {
+  getProfile(): Observable<IProfile | null> {
     return this.profileApiService.getUserPublicProfile().pipe(
       tap((user) => this.userPublicProfile$$.next(user))
     )

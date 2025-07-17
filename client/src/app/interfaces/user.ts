@@ -18,17 +18,9 @@ export interface IUser {
   teams: ITeam[];
   sentInvitations: IInvitation[];
   receivedInvitations: IInvitation[];
+   publicProfile?: string;
   
   createdAt?: Date; 
   updatedAt?: Date; 
   __v?: number;  
-}
-
-export interface IUserTest {
-  _id: string,
-  name: string,
-  email: string,
-  avatar?: string;
-  bio?: string,
-  nickname?: string
 }
