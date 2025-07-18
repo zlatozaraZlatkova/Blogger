@@ -12,16 +12,6 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: '',
-        component: BlogSectionComponent,
-        data: {
-          title: 'Blog Posts',
-          layout: 'default',
-          showHeader: true,
-          showFooter: true,
-        },
-      },
-      {
         path: 'create',
         component: BlogCreateComponent,
         canActivate: [authGuard],
@@ -48,6 +38,16 @@ const routes: Routes = [
         component: BlogDetailsComponent,
         data: {
           title: 'Post Details',
+          layout: 'default',
+          showHeader: true,
+          showFooter: true,
+        },
+      },
+      {
+        path: '',
+        component: BlogSectionComponent,
+        data: {
+          title: 'Blog Posts',
           layout: 'default',
           showHeader: true,
           showFooter: true,

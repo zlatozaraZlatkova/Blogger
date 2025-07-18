@@ -3,6 +3,7 @@ import { IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogService } from '../blog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, switchMap, tap } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-blog-details',
@@ -20,7 +21,8 @@ export class BlogDetailsComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class BlogDetailsComponent implements OnInit {
       error: (err) => {
         console.error('Error loading article:', err);
         this.loading = false;
+        this.location.back();
       },
     });
   }

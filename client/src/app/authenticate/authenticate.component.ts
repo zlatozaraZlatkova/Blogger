@@ -8,7 +8,7 @@ import { AuthService } from '../user/auth.service';
   styleUrls: ['./authenticate.component.css']
 })
 export class AuthenticateComponent implements OnInit {
-  isAuthenticated = false;
+  isAuthenticated: boolean = false;
 
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -20,7 +20,6 @@ export class AuthenticateComponent implements OnInit {
           this.isAuthenticated = true;
         } else {
           this.isAuthenticated = false;
-          this.router.navigate(['/']);
         }
       },
       error: (err) => {

@@ -27,7 +27,7 @@ module.exports = (app) => {
   app.use("/api/boards", checkAuth(true), boardController);
   app.use("/api/sections", checkAuth(true), sectionController);
   app.use("/api/tasks", checkAuth(true), taskController);
-  app.use("/api/posts", postsController);
+  app.use("/api/posts", checkAuth(false), postsController);
   app.use("/api/search", checkAuth(false), searchController);
   app.use("/api/teams", checkAuth(true), teamController);
   app.use("/api/newsletter", checkAuth(false), newsletterController);
