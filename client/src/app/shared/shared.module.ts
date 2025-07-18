@@ -12,6 +12,9 @@ import { ErrorNotificationComponent } from './error-notification/error-notificat
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 
@@ -32,7 +35,9 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     CustomButtonComponent,

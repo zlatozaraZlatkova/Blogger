@@ -11,4 +11,5 @@ export interface IConfirmDialogData {
   message: string;
   confirmButtonText?: string;
   cancelButtonText?: string;
+  emailInputTag?: boolean;
 }

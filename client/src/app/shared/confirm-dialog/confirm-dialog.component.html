@@ -1,6 +1,22 @@
 <mat-dialog-content>
   <h2 mat-dialog-title>{{ data.title }}</h2>
   <p mat-dialog-text>{{ data.message }}</p>
+
+  <ng-container *ngIf="data.emailInputTag">
+    <form [formGroup]="emailForm">
+      <mat-form-field appearance="outline" class="email-field">
+        <input matInput formControlName="email" placeholder="Enter your email" autocomplete="email" />
+        
+        <mat-error *ngIf="emailForm.get('email')?.errors?.['required'] && emailForm.get('email')?.touched">
+          Email is required!
+        </mat-error>
+
+        <mat-error *ngIf="emailForm.get('email')?.errors?.['invalidEmail'] && emailForm.get('email')?.touched">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions>

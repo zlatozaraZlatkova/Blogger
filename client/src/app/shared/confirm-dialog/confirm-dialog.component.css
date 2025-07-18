@@ -14,8 +14,14 @@ mat-dialog-content {
 }
 
 mat-dialog-content .mat-mdc-form-field {
-  width: 100%;
+  width: 60%;
 }
+
+mat-form-field {
+  width: 60%;
+  padding-left: 24px;
+}
+
 
 mat-dialog-actions {
   display: flex;
@@ -29,10 +35,6 @@ mat-dialog-actions .mat-raised-button {
   height: 36px;
 }
 
-mat-form-field {
-  width: 100%;
-  margin-bottom: 16px;
-}
 
 mat-error {
   color: #f44336;

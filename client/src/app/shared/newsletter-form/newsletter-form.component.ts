@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, take, takeUntil, timer } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+
 import { NewsletterService } from './newsletter.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { emailValidator } from '../validators/email-validator';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
-import { Subject, takeUntil, timer } from 'rxjs';
-
 
 @Component({
   selector: 'app-newsletter-form',
@@ -20,10 +22,15 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private newsletterService: NewsletterService
+    private newsletterService: NewsletterService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
     this.newsletterForm = this.fb.group({
       email: ['', [Validators.required, emailValidator()]],
     });
@@ -50,22 +57,36 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
         this.successMessage = response.message;
         this.showSuccessMessage();
       },
+      error: (err) => {
+        this.newsletterForm.reset();
+      },
     });
   }
 
   unsubscribeHandler(): void {
-    if (this.newsletterForm.invalid) {
-      return;
-    }
-
-    const email = this.newsletterForm.get('email')?.value;
-
-    this.newsletterService.unsubscribeToNewsletter(email!).subscribe({
-      next: (response) => {
-        this.newsletterForm.reset();
-        this.successMessage = response.message;
-        this.showSuccessMessage();
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Newsletter Unsubscibe',
+        message: 'Are you sure you want to remove yourself from the list?',
+        confirmButtonText: 'Unsubscribe',
+        cancelButtonText: 'Cancel',
+        emailInputTag: true,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((modalResponseEmail) => {
+      if (modalResponseEmail) {
+        this.newsletterService
+          .unsubscribeToNewsletter(modalResponseEmail)
+          .subscribe({
+            next: (response) => {
+              this.newsletterForm.reset();
+              this.successMessage = response.message;
+              this.showSuccessMessage();
+            },
+          });
+      }
     });
   }
 
