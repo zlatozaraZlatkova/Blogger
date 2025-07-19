@@ -22,7 +22,7 @@ module.exports = (app) => {
 
 
   app.use("/api/auth", authController);
-  app.use("/api/check-auth", checkAuth(true), checkAuthController);
+  app.use("/api/check-auth", checkAuth(false), checkAuthController);
   app.use("/api/profile", checkAuth(true), profileController);
   app.use("/api/boards", checkAuth(true), boardController);
   app.use("/api/sections", checkAuth(true), sectionController);

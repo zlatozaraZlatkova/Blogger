@@ -1,7 +1,7 @@
 const cors = require("cors");
 
 const corsWhitelists = {
-  development: ["http://localhost:5000", "http://localhost:4200" ],
+  development: ["http://localhost:5000", "http://localhost:4200"],
   production: [
     "https://scrum-board.herokuapp.com"
   ]
@@ -25,6 +25,16 @@ const corsMiddleware = cors({
   maxAge: 36000, // 1 hour in seconds
   origin: function (origin, callback) {
 
+    if (environment === "development") {
+
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+
+
     if (!origin) {
       return callback(null, true);
     }
@@ -33,7 +43,7 @@ const corsMiddleware = cors({
       return callback(null, true);
     }
 
-    return callback(null, false);
+    return callback(new Error('Not allowed by CORS'), false);
   }
 });
 

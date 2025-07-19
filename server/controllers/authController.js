@@ -1,16 +1,16 @@
 const router = require("express").Router();
 const { body } = require("express-validator");
 
-const { register, login, logout} = require("../services/authService");
+const { register, login, logout } = require("../services/authService");
 const { hasUser } = require("../middlewares/guards");
 const validateRequest = require("../middlewares/validateBodyRequest");
 
 router.post("/register",
   body("name", "Name is required").not().isEmpty(),
-  body("name", "Please enter a name with 2 or more character").isLength({ min: 2}),
+  body("name", "Please enter a name with 2 or more character").isLength({ min: 2 }),
   body("email", "Email is required").not().isEmpty(),
   body("email", "Please provide a valid email address").isEmail(),
-  body("password","Please enter a password with 8 or more characters").isLength({ min: 8 }),
+  body("password", "Please enter a password with 8 or more characters").isLength({ min: 8 }),
   validateRequest,
   async (req, res, next) => {
     try {
@@ -18,17 +18,29 @@ router.post("/register",
         req.body.name,
         req.body.email,
         req.body.password,
-    
       );
 
-      res.cookie("jwt", accessToken, {
+      const cookieOptions = {
         httpOnly: true,
-        maxAge: 3600000, // 1 hour in ms
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-      });
+        maxAge: 3600000,
+        path: '/',
+      };
+
+
+      if (process.env.NODE_ENV === "production") {
+        cookieOptions.secure = true;
+        cookieOptions.sameSite = "lax";
+      } else {
+        // development (HTTP localhost)
+        cookieOptions.secure = false;
+        cookieOptions.sameSite = "lax";
+      }
+
+
+      res.cookie("jwt", accessToken, cookieOptions);
 
       res.status(200).json({ _id, email });
+
     } catch (error) {
       next(error);
     }
@@ -47,14 +59,26 @@ router.post("/login",
         req.body.password
       );
 
-      res.cookie("jwt", accessToken, {
-        httpOnly: true,
-        maxAge: 3600000, // 1 hour in ms
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-      });
 
-      res.status(200).json({ _id, email});
+      const cookieOptions = {
+        httpOnly: true,
+        maxAge: 3600000,
+        path: '/',
+      };
+
+      if (process.env.NODE_ENV === "production") {
+        cookieOptions.secure = true;
+        cookieOptions.sameSite = "lax";
+
+      } else {
+        cookieOptions.secure = false;
+        cookieOptions.sameSite = "lax";
+      }
+
+      res.cookie("jwt", accessToken, cookieOptions);
+
+      res.status(200).json({ _id, email });
+
     } catch (error) {
       next(error);
     }
@@ -70,18 +94,26 @@ router.get("/logout", hasUser(), async (req, res, next) => {
 
     await logout(token);
 
-    res.clearCookie("jwt", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-    });
 
+    const clearCookieOptions = {
+      httpOnly: true,
+      path: '/',
+    };
+
+    if (process.env.NODE_ENV === "production") {
+      clearCookieOptions.secure = true;
+      clearCookieOptions.sameSite = "lax";
+
+    } else {
+      clearCookieOptions.secure = false;
+      clearCookieOptions.sameSite = "lax";
+    }
+
+    res.clearCookie("jwt", clearCookieOptions);
     res.status(204).end();
   } catch (error) {
     next(error);
   }
 });
-
-
 
 module.exports = router;

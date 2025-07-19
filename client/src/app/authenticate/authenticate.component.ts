@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../user/auth.service';
 
 @Component({
@@ -10,23 +10,37 @@ import { AuthService } from '../user/auth.service';
 export class AuthenticateComponent implements OnInit {
   isAuthenticated: boolean = false;
 
-
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.authService.checkIsUserAuthenticated().subscribe({
-      next: (user) => {
-        if (user && user.email) {
-          this.isAuthenticated = true;
-        } else {
+
+    const resolvedUser = this.route.snapshot.data['user'];
+
+    if (resolvedUser && resolvedUser !== null) {
+      this.isAuthenticated = true;
+    } else {
+
+      this.authService.checkIsUserAuthenticated().subscribe({
+        next: (user) => {
+
+          if (user && user.email) {
+
+            this.isAuthenticated = true;
+          } else {
+
+            this.isAuthenticated = false;
+          }
+        },
+        error: (err) => {
           this.isAuthenticated = false;
+          this.router.navigate(['/auth/login']);
         }
-      },
-      error: (err) => {
-        this.isAuthenticated = false;
-        this.router.navigate(['/auth/login']);
-      }
-    })
+      });
+    }
   }
 
 }
