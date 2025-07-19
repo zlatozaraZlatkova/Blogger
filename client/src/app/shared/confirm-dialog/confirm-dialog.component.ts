@@ -32,11 +32,17 @@ export class ConfirmDialogComponent implements OnInit {
   onConfirm(): void {
     if (this.data.emailInputTag && this.emailForm.invalid) {
       return;
+
+    } else if (this.emailForm.valid) {
+      const email = this.emailForm.get('email')?.value;
+
+      this.dialogRef.close(email);
+
+    } else {
+      this.dialogRef.close(true);
     }
 
-    const email = this.emailForm.get('email')?.value;
 
-    this.dialogRef.close(email);
   }
 
   onCancel(): void {
