@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IComment } from 'src/app/interfaces/comment';
@@ -19,8 +19,13 @@ export class BlogApiService {
   }
 
 
-  getPosts(): Observable<IPostsResponse> {
-    return this.httpClient.get<IPostsResponse>(`${this.basicUrl}`);
+  getPosts(page: number, limit: number): Observable<IPostsResponse> {
+    
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    return this.httpClient.get<IPostsResponse>(`${this.basicUrl}`, { params });
   }
 
   getPostById(id: string): Observable<IPost> {

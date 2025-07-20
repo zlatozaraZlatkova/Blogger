@@ -1,95 +1,101 @@
 <section class="py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <h2 class="text-4xl font-bold text-gray-900 text-center mb-14 font-sans">
-      Our popular blogs
+      Hot Fixes & Hotter Takes
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-14">
 
-      <ng-container *ngIf="arrPosts$ | async as posts; else paginatedPosts">
-        <ng-container *ngTemplateOutlet="postTemplate; context: { posts: posts }"></ng-container>
+      <ng-container *ngIf="paginatedPosts$ | async as postsResponse">
+        <ng-container *ngIf="postsResponse.data.items.length > 0; else noItemsTemplate">
+          <div *ngFor="let post of postsResponse.data.items"
+            class="group border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
+
+            <div class="cursor-pointer" (click)="navigateToArticle(post._id)">
+              <app-blog-card [article]="post"></app-blog-card>
+            </div>
+
+            <div class="pt-4 border-t border-gray-200" *ngIf="isLoggedIn">
+
+
+              <div class="flex items-center text-sm text-gray-500 mb-3">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <span>{{ post.views || 0 }}</span>
+              </div>
+
+
+              <div class="flex items-center justify-between" *ngIf="isPostOwner(post); else notOwnerActions">
+                <div class="flex items-center space-x-2">
+                  <button type="button" (click)="onEdit(post._id)"
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                      </path>
+                    </svg>
+                    Edit
+                  </button>
+
+                  <button type="button" (click)="onDelete(post._id)"
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                      </path>
+                    </svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+
+              <ng-template #notOwnerActions>
+                <div class="flex items-center justify-end">
+                  <button type="button" (click)="onLike(post._id)"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span>{{ post.postLikes.length || 0 }}</span>
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
 
-      <ng-template #paginatedPosts>
-        <ng-container *ngIf="paginatedPosts$ | async as response">
-          <ng-container *ngTemplateOutlet="postTemplate; context: { posts: response.data.items }"></ng-container>
-        </ng-container>
-      </ng-template>
-
-      <ng-template #postTemplate let-posts="posts">
-        <div *ngFor="let post of posts"
-          class="group border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
-
-          <div class="cursor-pointer" (click)="navigateToArticle(post._id)">
-            <app-blog-card [article]="post"></app-blog-card>
-          </div>
-
-          <div class="pt-4 border-t border-gray-200" *ngIf="isLoggedIn">
-            
-
-            <div class="flex items-center text-sm text-gray-500 mb-3">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      <ng-template #noItemsTemplate>
+        <div class="col-span-full">
+          <div class="text-center py-16">
+            <div class="mx-auto w-24 h-24 mb-6 text-gray-400">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-full h-full">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
-              <span>{{ post.views || 0 }}</span>
             </div>
-
-
-            <div class="flex items-center justify-between" *ngIf="isPostOwner(post); else notOwnerActions">
-              <div class="flex items-center space-x-2">
-                <button type="button" (click)="onEdit(post._id)"
-                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors duration-200">
-                  <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                    </path>
-                  </svg>
-                  Edit
-                </button>
-
-                <button type="button" (click)="onDelete(post._id)"
-                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200">
-                  <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                    </path>
-                  </svg>
-                  Delete
-                </button>
-              </div>
-            </div>
-
-
-            <ng-template #notOwnerActions>
-              <div class="flex items-center justify-end">
-                <button type="button" (click)="onLike(post._id)"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200">
-                  <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                  <span>{{ post.postLikes.length || 0 }}</span>
-                </button>
-              </div>
-            </ng-template>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No blog posts found</h3>
+            <p class="text-gray-600 mb-6 max-w-md mx-auto">
+              There are currently no blog posts available. Check back later for new content!
+            </p>
+            <a href="/"
+              class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Go to Home
+            </a>
           </div>
         </div>
       </ng-template>
+
     </div>
 
-    <!-- Buttons section -->
-    <div class="flex justify-center mt-20">
-      <app-custom-button *ngIf="!(arrPosts$ | async)" (click)="viewAllArticles()" [buttonText]="'View All'"
-        [routerLink]="'/posts'"
-        [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
-      </app-custom-button>
-
-      <app-custom-button *ngIf="arrPosts$ | async" [buttonText]="'Go To Home'" [routerLink]="'/'"
-        [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
-      </app-custom-button>
-    </div>
 
     <div class="flex justify-center mt-20" *ngIf="paginatedPosts$ | async as postsResponse">
       <app-pagination [paginationData]="postsResponse.data.pagination" (pageChange)="onPageChange($event)">

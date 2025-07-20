@@ -14,8 +14,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
 })
 export class BlogSectionComponent implements OnInit, OnDestroy {
   paginatedPosts$: Observable<IPostsResponse | null> = this.blogService.paginatedPosts$;
-  arrPosts$: Observable<IPost[] | null> = this.blogService.arrPosts$;
-
+ 
   get isLoggedIn() {
     return this.authService.isLoggedIn;
   }
@@ -32,13 +31,10 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
     this.loadArticles();
   }
 
-  loadArticles(): void {
-    this.blogService.getPosts().subscribe();
+  loadArticles(page: number = 1): void {
+    this.blogService.getPosts(page, 3).pipe(take(1)).subscribe();
   }
 
-  viewAllArticles(): void {
-    this.blogService.loadAllPosts().pipe(take(1)).subscribe();
-  }
 
   isPostOwner(post: IPost): boolean {
     const currentUserId = this.authService.user?._id;

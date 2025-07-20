@@ -1,12 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { ICreatePostDto, IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { BlogApiService } from './blog-api.service';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 import { IComment } from 'src/app/interfaces/comment';
-import { AuthService } from 'src/app/user/auth.service';
+
 
 
 @Injectable({
@@ -19,22 +19,11 @@ export class BlogService implements OnDestroy {
   private post$$ = new BehaviorSubject<IPost | null>(null);
   post$ = this.post$$.asObservable();
 
-  private arrPosts$$ = new BehaviorSubject<IPost[] | null>(null);
-  arrPosts$ = this.arrPosts$$.asObservable();
 
+  constructor(private blogApiService: BlogApiService) { }
 
-  constructor( private blogApiService: BlogApiService ) { }
-
-  loadAllPosts(): Observable<IPost[]> {
-    return this.blogApiService.loadAllPosts().pipe(
-      tap((arr) => {
-        this.arrPosts$$.next(arr);
-      })
-    );
-  }
-
-  getPosts(): Observable<IPostsResponse> {
-    return this.blogApiService.getPosts().pipe(
+  getPosts(page: number = 1, limit: number = 3): Observable<IPostsResponse> {
+    return this.blogApiService.getPosts(page, limit).pipe(
       tap((response) => {
         this.paginatedPosts$$.next(response);
       })
@@ -99,12 +88,6 @@ export class BlogService implements OnDestroy {
 
 
   private addPostToLocalState(createdPost: IPost): void {
-    const posts = this.arrPosts$$.value;
-
-    if (posts) {
-      this.arrPosts$$.next([createdPost, ...posts]);
-    }
-
     const response = this.paginatedPosts$$.value;
 
     if (response) {
@@ -120,14 +103,6 @@ export class BlogService implements OnDestroy {
   }
 
   private updatePostToLocalState(updatedPost: IPost): void {
-    const posts = this.arrPosts$$.value;
-
-    if (posts) {
-      const updatedPosts = posts.map((post) => post._id === updatedPost._id ? updatedPost : post);
-
-      this.arrPosts$$.next(updatedPosts);
-    }
-
     const response = this.paginatedPosts$$.value;
 
     if (response) {
@@ -145,14 +120,6 @@ export class BlogService implements OnDestroy {
   }
 
   private removePostFromLocalState(deletedPostId: string): void {
-    const posts = this.arrPosts$$.value;
-
-    if (posts) {
-      const filteredPosts = posts.filter((post) => post._id !== deletedPostId);
-
-      this.arrPosts$$.next(filteredPosts);
-    }
-
     const response = this.paginatedPosts$$.value;
 
     if (response) {
@@ -174,12 +141,10 @@ export class BlogService implements OnDestroy {
   clearState(): void {
     this.paginatedPosts$$.next(null);
     this.post$$.next(null);
-    this.arrPosts$$.next(null);
   }
 
   ngOnDestroy(): void {
     this.paginatedPosts$$.complete();
     this.post$$.complete();
-    this.arrPosts$$.complete();
   }
 }
