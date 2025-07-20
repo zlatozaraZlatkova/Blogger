@@ -90,5 +90,11 @@
         [buttonClass]="'flex justify-center items-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
       </app-custom-button>
     </div>
+
+    <div class="flex justify-center mt-20" *ngIf="paginatedPosts$ | async as postsResponse">
+      <app-pagination [paginationData]="postsResponse.data.pagination" (pageChange)="onPageChange($event)">
+      </app-pagination>
+    </div>
+
   </div>
 </section>

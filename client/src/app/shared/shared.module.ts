@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 
@@ -27,7 +28,8 @@ import { MatInputModule } from '@angular/material/input';
     DateTimeAgoPipe,
     SentenceUpperCasePipe,
     ErrorNotificationComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PaginationComponent
 
   ],
   imports: [
@@ -45,7 +47,8 @@ import { MatInputModule } from '@angular/material/input';
     EyeIconComponent,
     DateTimeAgoPipe,
     SentenceUpperCasePipe,
-    ErrorNotificationComponent
+    ErrorNotificationComponent,
+    PaginationComponent
     
   ]
 })

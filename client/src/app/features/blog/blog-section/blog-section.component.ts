@@ -79,6 +79,10 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
     this.router.navigate(['/posts', postId]);
   }
 
+  onPageChange(page: number): void {
+    console.log("Current Page", page)
+  }
+
   ngOnDestroy(): void {
     if (!this.router.url.startsWith('/posts')) {
       this.blogService.clearState();

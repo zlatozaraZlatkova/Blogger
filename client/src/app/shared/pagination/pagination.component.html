@@ -1,0 +1,31 @@
+<nav class="pagination-nav" aria-label="Pagination">
+  <div class="pagination-controls">
+    <button
+      [disabled]="!paginationData.hasPrevPage"
+      (click)="onPrevious()"
+      class="nav-button"
+    >
+      Previous
+    </button>
+
+    <div class="page-numbers">
+      <button
+        *ngFor="let page of getPageNumbers()"
+        (click)="onPageChange(page)"
+        class="page-button"
+        [class.page-button--active]="page === paginationData.currentPage"
+        [class.page-button--inactive]="page !== paginationData.currentPage"
+      >
+        {{ page }}
+      </button>
+    </div>
+
+    <button
+      [disabled]="!paginationData.hasNextPage"
+      (click)="onNext()"
+      class="nav-button"
+    >
+      Next
+    </button>
+  </div>
+</nav>

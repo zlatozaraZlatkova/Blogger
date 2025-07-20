@@ -1,0 +1,136 @@
+.pagination-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+}
+
+.pagination-info {
+  display: none;
+}
+
+.pagination-text {
+  font-size: 14px;
+  color: #374151;
+  margin: 0;
+}
+
+.pagination-number {
+  font-weight: 600;
+}
+
+.pagination-controls {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  background-color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-button:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.nav-button:focus {
+  outline: none;
+  outline-offset: 0;
+}
+
+.nav-button:focus-visible {
+  outline: 2px solid rgb(39 110 241);
+  outline-offset: 2px;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-button:first-child {
+  margin-right: 12px;
+}
+.nav-button:last-child {
+  margin-left: 12px;
+}
+
+.page-numbers {
+  display: none;
+  margin-top: -1px;
+}
+
+.page-button {
+  margin-right: 12px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.page-button:focus {
+  z-index: 20;
+  outline: none;
+}
+
+.page-button:focus-visible {
+  outline: 2px solid rgb(39 110 241);
+  outline-offset: 2px;
+}
+
+.page-button--active {
+  z-index: 10;
+  background-color: rgb(39 110 241);
+  color: white;
+}
+
+.page-button--active:focus-visible {
+  outline-color: rgb(39 110 241);
+}
+
+.page-button--inactive {
+  color: #111827;
+  border: 1px solid #d1d5db;
+  background-color: white;
+}
+
+.page-button--inactive:hover {
+  background-color: #f9fafb;
+}
+
+.page-button--inactive:focus-visible {
+  outline-color: rgb(39 110 241);
+}
+
+@media (min-width: 640px) {
+  .pagination-info {
+    display: block;
+  }
+
+  .pagination-controls {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-numbers {
+    display: flex;
+  }
+}
