@@ -18,8 +18,12 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  get isLoggedIn() {
+  get isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
+  }
+
+  get currentUserId(): string | undefined {
+    return this.authService.user?._id.toString();
   }
 
   constructor(
@@ -99,8 +103,16 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   }
 
   onLike(postId: string): void {
-    console.log('post id', postId);
     this.blogService.onLike(postId).pipe(take(1)).subscribe();
+  }
+
+  isPostLiked(post: IPost): boolean {
+    if (!this.currentUserId) {
+      return false;
+    } 
+   
+    return post.postLikes.some((likeId) => likeId.toString() === this.currentUserId);
+
   }
 
   navigateToArticle(postId: string): void {

@@ -47,10 +47,18 @@
 
                   <button type="button" (click)="onLike(post._id)"
                     class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200">
-                    
-                    <!-- todo create toggel for favorite <-> favorite_border -->
-                    <mat-icon class="text-base mr-1">favorite</mat-icon>
-                    
+
+                    <mat-icon class="text-base mr-1">
+                      <ng-container *ngIf="isPostLiked(post); else notLiked">
+                        favorite
+                      </ng-container>
+
+                      <ng-template #notLiked>
+                        favorite_border
+                      </ng-template>
+                      
+                    </mat-icon>
+
                     <span>{{ post.postLikes.length || 0 }}</span>
                   </button>
                 </div>
