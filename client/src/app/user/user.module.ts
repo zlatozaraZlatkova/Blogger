@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-section.component';
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
@@ -21,7 +22,8 @@ import { LogoutComponent } from './logout/logout.component';
     CommonModule,
     SharedModule,
     AuthRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ]
 })
 export class UserModule {}

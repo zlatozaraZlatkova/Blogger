@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 import { CustomButtonComponent } from './custom-button/custom-button.component';
 import { NewsletterFormComponent } from './newsletter-form/newsletter-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { EyeIconComponent } from './eye-icon/eye-icon.component';
 import { DateTimeAgoPipe } from './pipes/date-time-ago.pipe';
 import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
 import { ErrorNotificationComponent } from './error-notification/error-notification.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { PaginationComponent } from './pagination/pagination.component';
 
 
@@ -39,7 +40,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
   exports: [
     CustomButtonComponent,

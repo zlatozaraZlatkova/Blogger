@@ -4,6 +4,6 @@
   [disabled]="disabled"
   [ngClass]="disabled ? 'form-is-not-active' : 'form-is-active'"
 >
-  <span class="mr-2">{{ buttonText }}</span>
-  <ng-content select="[icon]"></ng-content>
+  <span class="mr-1">{{ buttonText }}</span>
+  <ng-content select="mat-icon"></ng-content>
 </button>

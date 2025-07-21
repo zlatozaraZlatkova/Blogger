@@ -6,7 +6,7 @@
        <div class="absolute top-6 left-6 z-10">
       <a 
         routerLink="/" 
-        class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-200 text-gray-600 hover:text-indigo-600"
+        class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-200 text-gray-600 hover:text-blue-600"
         title="Back to Home"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@
               (click)="setActiveTab('signInForm')"
               class="w-1/2 text-center pb-2 font-medium border-b-2 focus:outline-none transition"
               [ngClass]="{
-                'text-indigo-600 border-indigo-500': isActive('signInForm'),
+                'text-blue-600 border-indigo-500': isActive('signInForm'),
                 'text-gray-600 border-transparent hover:border-indigo-500':
                   !isActive('signInForm')
               }"
@@ -56,7 +56,7 @@
               id="signUpTab"
               class="w-1/2 text-center pb-2 font-medium border-b-2 focus:outline-none transition"
               [ngClass]="{
-                'text-indigo-600 border-indigo-500': isActive('signUpForm'),
+                'text-blue-600 border-indigo-500': isActive('signUpForm'),
                 'text-gray-600 border-transparent hover:border-indigo-500':
                   !isActive('signUpForm')
               }"

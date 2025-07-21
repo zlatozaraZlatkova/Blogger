@@ -56,13 +56,14 @@ export class BlogEditComponent implements OnInit {
     this.postId = id;
   }
 
-  private populateFormWithPostData(postData: IPost): void {
+  private populateFormWithPostData(postData: IPost): void {    
+
     this.editPostForm.patchValue({
       postTitle: postData.postTitle,
       postImageUrl: postData.postImageUrl,
       postCategory: postData.postCategory,
       postText: postData.postText,
-      postTags: postData.postTags,
+      postTags: postData.postTags.map((tag:string) => tag.trim()).join(", ")
     });
   }
 
@@ -92,7 +93,7 @@ export class BlogEditComponent implements OnInit {
       postImageUrl: formValue.postImageUrl,
       postCategory: formValue.postCategory,
       postText: formValue.postText,
-      postTags: formValue.postTags,
+      postTags: formValue.postTags.split(",").map((tag: string) => tag.trim()) 
     };
   }
 

@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
         'lato': ['Lato', 'sans-serif'],
       },

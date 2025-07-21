@@ -1,53 +1,50 @@
 <div class="relative isolate px-6 pt-14 lg:px-8">
-    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-        <div class="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
-        </div>
-    </div>
-    <div class="mx-auto max-w-2xl py-18 sm:py-20 lg:py-30">
+    <div class="mx-auto max-w-4xl py-18 sm:py-20 lg:py-30">
+        <div class="text-center font-sans">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl tracking-tight text-gray-900 leading-tight mb-8">
+                The mystical land between
+              
+                <code class="bg-slate-800 text-red-300 px-4 py-2 rounded-lg text-lg md:text-xl font-mono shadow-lg border border-slate-700 inline-flex items-center mx-2 my-2">
+                    <span class="text-red-500 mr-2"><mat-icon>clear</mat-icon></span>
+                    undefined is not a function
+                </code>
+                <br class="sm:hidden">
+                <span class="text-4xl md:text-5xl lg:text-6xl">and</span>
+               
+                <code class="bg-slate-800 text-amber-300 px-4 py-2 rounded-lg text-lg md:text-xl font-mono shadow-lg border border-slate-700 inline-flex items-center mx-2 my-2">
+                    <span class="text-amber-500 mr-2"><mat-icon>report_problem</mat-icon></span>
+                    I forgot the return
+                </code>
+            </h1>
+            
+            <p class="mt-8 text-lg md:text-xl text-gray-500 leading-relaxed max-w-3xl mx-auto">
+                We share code, bugs, lessons, and question our life choices
+                <br class="sm:hidden">
+                <span class="inline-block bg-slate-900 rounded-md px-3 py-2 mx-1 my-1 shadow-lg">
+                    <br class="sm:hidden">
+                    <span class="text-gray-400 font-mono text-sm">~/project$</span>
+                    <code class="text-green-400 font-mono text-lg ml-2">git push --force</code>
+                </span>
+            </p>
 
-        <div class="text-center">
-            <h1 class="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">Simplify your
-                workflow</h1>
-            <p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">Spend less time on meetings, and
-                more on what matters — automate your agile routines.</p>
-            <div class="mt-10 flex items-center justify-center gap-x-6">
-
+            <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                 <!-- Buttons -->
-                <app-custom-button *ngIf="!isLoggedIn"
-                [buttonText]="'Sing Up'"
-                [routerLink]="'/auth/register'"
-                [buttonClass]="'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
-                    <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <title>Arrow Right</title>
-                        <polygon
-                            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
-                        </polygon>
-                    </svg>
+                <app-custom-button 
+                    *ngIf="!isLoggedIn" 
+                    [buttonText]="'Sign Up'" 
+                    [routerLink]="'/auth/register'"
+                    [buttonClass]="'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
+                    <mat-icon>login</mat-icon>
                 </app-custom-button>
 
-                <app-custom-button *ngIf="isLoggedIn"
-                [buttonText]="'Learn more'" 
-                [buttonClass]="'text-sm/6 font-semibold text-gray-900'"
-                [routerLink]="'/features'"
-                >
-                    <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <title>Arrow Right</title>
-                        <polygon
-                            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
-                        </polygon>
-                    </svg>
+                <app-custom-button 
+                    *ngIf="isLoggedIn" 
+                    [buttonText]="'Start Writing'" 
+                    [routerLink]="'/posts/create'"
+                    [buttonClass]="'text-sm/6 font-semibold text-gray-900 hover:text-blue-600'">
+                    <mat-icon>arrow_forward</mat-icon>
                 </app-custom-button>
-
             </div>
-        </div>
-    </div>
-    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        aria-hidden="true">
-        <div class="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
         </div>
     </div>
 </div>

@@ -1,13 +1,11 @@
 <form id="signInForm" class="space-y-4 mx-auto mb-4 pb-4" [formGroup]="loginForm" (ngSubmit)="loginFormHandler()">
-  
+
 
   <div class="relative">
-    <svg class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
-      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-      <polyline points="22,6 12,13 2,6"></polyline>
-    </svg>
+
+    <mat-icon
+      class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">mail_outline</mat-icon>
+
     <input type="email" name="email"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
       maxlength="30" placeholder="Email Address" autocomplete="username" formControlName="email" [class.border-red-500]="
@@ -27,12 +25,10 @@
   </ng-container>
 
   <div class="relative mb-4">
-    <svg class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500"
-      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-    </svg>
+
+    <mat-icon
+      class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">work_outline</mat-icon>
+
     <input [type]="showPassword ? 'text' : 'password'" name="password"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
       placeholder="Password (min 8 characters)" autocomplete="current-password" formControlName="password"
@@ -59,27 +55,11 @@
     </div>
   </ng-container>
 
-  <div class="flex justify-between text-sm text-gray-600 pb-6">
-    <label class="flex items-center space-x-2">
-      <input type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-      <span>Remember me</span>
-    </label>
-    <a href="#" class="text-indigo-600 hover:underline">Forgot password?</a>
-  </div>
 
   <app-custom-button [disabled]="loginForm.invalid"
-   [buttonClass]="
-      'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
-    " 
-    [buttonText]="'Join Team Metrics'"
-    >
-    <svg icon aria-hidden="true" class="h-4 w-4 flex-none" fill="currentColor" viewBox="0 0 20 21"
-      xmlns="http://www.w3.org/2000/svg">
-      <title>Arrow Right</title>
-      <polygon
-        points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9">
-      </polygon>
-    </svg>
+    [buttonClass]="'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'"
+    [buttonText]="'Join Blogger'">
+
   </app-custom-button>
 
 </form>

@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+import { Component, OnInit } from '@angular/core';
+import { MatIconService } from './shared/mat-icon.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
  
-   constructor() {
-        // Logs false for development environment
-        console.log(environment.production);
-    }
+ constructor(private matIconService: MatIconService) { }
+
+  ngOnInit(): void {
+    this.matIconService.loadMatIcons();
+  }
 }
