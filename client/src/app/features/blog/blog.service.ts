@@ -86,6 +86,17 @@ export class BlogService implements OnDestroy {
     );
   }
 
+  onDislike(postId: string): Observable<IPost> {
+    return this.blogApiService.unlikePost(postId).pipe(
+      tap((updatedPost) => {
+        this.post$$.next(updatedPost);
+
+        this.updatePostToLocalState(updatedPost);
+      })
+    );
+  }
+
+ 
 
   private addPostToLocalState(createdPost: IPost): void {
     const response = this.paginatedPosts$$.value;

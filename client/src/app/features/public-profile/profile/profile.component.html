@@ -72,6 +72,14 @@
             </div>
 
             <img *ngIf="post.postImageUrl" [src]="post.postImageUrl" class="w-20 h-16 object-cover rounded">
+            
+            <div class="flex items-center">
+              <button (click)="removeFromReadingList(post._id)"
+                class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg"
+                title="Remove from reading list">
+                <mat-icon class="w-5 h-5">delete_outline</mat-icon>
+              </button>
+            </div>
           </div>
         </ng-container>
 

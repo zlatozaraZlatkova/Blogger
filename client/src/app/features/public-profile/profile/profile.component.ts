@@ -9,6 +9,7 @@ import { IUser } from 'src/app/interfaces/user';
 import { IPost } from 'src/app/interfaces/post';
 import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { BlogService } from '../../blog/blog.service';
 
 @Component({
   selector: 'app-profile',
@@ -42,7 +43,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private publicProfileService: PublicProfileService,
     private route: ActivatedRoute,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private blogService: BlogService,
   ) { }
 
   ngOnInit(): void {
@@ -147,6 +149,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
 
     })
+  }
+
+  removeFromReadingList(postId: string): void {
+    this.blogService.onDislike(postId).pipe(take(1)).subscribe({
+      next: () => {
+        this.router.navigate(['/posts']);
+      }
+    });
+
   }
 
 
