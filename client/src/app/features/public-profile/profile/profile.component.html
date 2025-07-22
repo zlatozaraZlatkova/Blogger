@@ -63,16 +63,18 @@
         </div>
 
 
-        <ng-container *ngIf="userLikedPosts; else noLikedPosts">
-          <div *ngFor="let post of userLikedPosts" (click)="navigateToPost(post._id)"
-            class="flex gap-4 p-4 border-b border-gray-100 hover:bg-gray-50">
+        <ng-container *ngIf="userLikedPosts$ | async as likedPosts; else noLikedPosts">
 
-            <div class="flex-1">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">{{post.postTitle | titlecase }}</h3>
+          <div *ngFor="let post of likedPosts"
+            class="group flex gap-4 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
+
+            <div (click)="navigateToPost(post._id)" class="flex-1 flex gap-4 cursor-pointer">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{post.postTitle | titlecase }}</h3>
+              </div>
+              <img *ngIf="post.postImageUrl" [src]="post.postImageUrl" class="w-20 h-16 object-cover rounded">
             </div>
 
-            <img *ngIf="post.postImageUrl" [src]="post.postImageUrl" class="w-20 h-16 object-cover rounded">
-            
             <div class="flex items-center">
               <button (click)="removeFromReadingList(post._id)"
                 class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg"
@@ -113,11 +115,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="text-center p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl">
-            <div class="text-3xl font-bold text-red-600 mb-2">{{userLikedPosts.length}}</div>
+            <div class="text-3xl font-bold text-red-600 mb-2"> {{(userLikedPosts$ | async)?.length || 0}}</div>
             <div class="text-sm text-gray-600">Saved Articles</div>
           </div>
           <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
-            <div class="text-3xl font-bold text-blue-600 mb-2">{{userCreatedPosts.length}}</div>
+            <div class="text-3xl font-bold text-blue-600 mb-2">{{(userCreatedPosts$ | async)?.length}}</div>
             <div class="text-sm text-gray-600">Published Posts</div>
           </div>
           <!-- todo followers -->

@@ -60,6 +60,17 @@ export class AuthService implements OnDestroy {
     );
   }
 
+  removePostFromLikedPosts(postId: string) {
+    const currentProfile = this.user$$.value;
+
+    if (currentProfile) {
+      const updatedProfile = {
+        ...currentProfile,
+        likedPostList: currentProfile.likedPostList.filter(post => post._id !== postId)
+      };
+      this.user$$.next(updatedProfile);
+    }
+  }
 
 
 

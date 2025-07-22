@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { PublicProfileService } from '../public-profile.service';
@@ -10,6 +10,7 @@ import { IPost } from 'src/app/interfaces/post';
 import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { BlogService } from '../../blog/blog.service';
+import { AuthService } from 'src/app/user/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,24 +21,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   activeSection: string = 'home';
   resolvedUser: IUser | null = null;
 
-  userPublicProfile$: Observable<IProfile | null> =
-    this.publicProfileService.userPublicProfile$;
+  userPublicProfile$: Observable<IProfile | null> = this.publicProfileService.userPublicProfile$;
+  user$: Observable<IUser | null> = this.authService.user$;
 
   get user(): IUser | null {
     return this.resolvedUser;
   }
 
-  get userCreatedPosts(): IPost[] {
-    return this.resolvedUser?.createdPosts || [];
-  }
+  userCreatedPosts$: Observable<IPost[]> = this.user$.pipe(
+    map(user => user?.createdPosts || [])
+  );
 
-  get userLikedPosts(): IPost[] {
-    return this.resolvedUser?.likedPostList || [];
-  }
+  userLikedPosts$: Observable<IPost[]> = this.user$.pipe(
+    map(user => user?.likedPostList || [])
+  )
 
-  get hasLikedPosts(): boolean {
-    return this.userLikedPosts.length > 0;
-  }
 
   constructor(
     private publicProfileService: PublicProfileService,
@@ -45,6 +43,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private matDialog: MatDialog,
     private blogService: BlogService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -154,7 +153,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   removeFromReadingList(postId: string): void {
     this.blogService.onDislike(postId).pipe(take(1)).subscribe({
       next: () => {
-        this.router.navigate(['/posts']);
+        this.authService.removePostFromLikedPosts(postId);
       }
     });
 
