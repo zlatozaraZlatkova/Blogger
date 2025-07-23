@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { Subscription, take, timer } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { NewsletterService } from './newsletter.service';
@@ -18,7 +18,7 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
   error: string | null = null;
   successMessage: string | null = null;
 
-  private destroy$ = new Subject<void>();
+  private subscriptions = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +38,7 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
 
   private showSuccessMessage(): void {
     timer(5000)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(take(1))
       .subscribe(() => {
         this.successMessage = null;
       });
@@ -75,7 +75,7 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.afterClosed().subscribe((modalResponseEmail) => {
+    const dialogSub = dialogRef.afterClosed().subscribe((modalResponseEmail) => {
       if (modalResponseEmail) {
         this.newsletterService
           .unsubscribeToNewsletter(modalResponseEmail)
@@ -87,12 +87,15 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
             },
           });
       }
+
+      this.subscriptions.add(dialogSub);
+
     });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+
+    this.subscriptions.unsubscribe();
 
   }
 }

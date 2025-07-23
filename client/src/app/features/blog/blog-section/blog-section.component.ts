@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { IPost, IPostsResponse } from 'src/app/interfaces/post';
@@ -15,6 +15,8 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
 })
 export class BlogSectionComponent implements OnInit, OnDestroy {
   paginatedPosts$: Observable<IPostsResponse | null> = this.blogService.paginatedPosts$;
+
+  private subscriptions = new Subscription();
 
   private destroy$ = new Subject<void>();
 
@@ -89,7 +91,7 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    const dialogSub = dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
         const currentPage = this.route.snapshot.queryParams['page'];
         const pageNumber = parseInt(currentPage, 10);
@@ -99,6 +101,9 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
         });
 
       }
+
+      this.subscriptions.add(dialogSub);
+
     });
   }
 
@@ -123,5 +128,7 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.subscriptions.unsubscribe();
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { PublicProfileComponent } from '../public-profile/public-profile.compone
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
-export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UserProfileComponent implements OnInit, AfterViewInit {
   activeSection: string = 'home';
   resolvedUser: IUser | null = null;
 
@@ -86,7 +86,5 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/posts', postId]);
   }
 
-  ngOnDestroy(): void {
-    this.profileService.clearState();
-  }
+
 }
