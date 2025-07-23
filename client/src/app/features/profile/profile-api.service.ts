@@ -18,7 +18,7 @@ export class ProfileApiService {
   }
 
   getUserPublicProfileById(id: string): Observable<IProfile> {
-    return this.httpClient.get<IProfile>(`${this.basicUrl}/${id}`);
+    return this.httpClient.get<IProfile>(`${this.basicUrl}/public/${id}`);
   }
 
   createUserPublicProfile(data: ICreateProfileDto): Observable<IProfile> {

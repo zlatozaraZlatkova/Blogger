@@ -3,7 +3,7 @@ const { body } = require("express-validator");
 
 const validateRequest = require("../middlewares/validateBodyRequest");
 const { hasUser } = require("../middlewares/guards");
-const { getUserById, createItem, updateItem, deleteById } = require("../services/profileService");
+const { getUserById, createItem, updateItem, deleteById, getProfileById } = require("../services/profileService");
 
 
 router.get("/", hasUser(),
@@ -23,19 +23,19 @@ router.get("/", hasUser(),
         }
     });
 
-router.get("/:id", hasUser(),
+router.get("/public/:id", hasUser(),
     async (req, res, next) => {
 
         try {
-            const userProfile = req.user._id;
+            const requestedUserId = req.params.id;
+           
+            const publicProfile = await getProfileById(requestedUserId);
 
-            const existingUser = await getUserById(userProfile);
-
-            if (!existingUser) {
-                throw new Error("User not found.");
+            if (!publicProfile) {
+                throw new Error("Public profile not found.");
             }
 
-            res.status(200).json(existingUser);
+            res.status(200).json(publicProfile);
 
         } catch (error) {
             next(error);
