@@ -8,16 +8,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { ProfileComponent } from './profile/profile.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileFormDialogComponent } from './profile-form-dialog/profile-form-dialog.component';
+import { PublicProfileComponent } from './public-profile/public-profile.component';
 
 
 
 @NgModule({
   declarations: [
-    ProfileComponent,
-    ProfileFormDialogComponent
+    UserProfileComponent,
+    ProfileFormDialogComponent,
+    PublicProfileComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { ProfileFormDialogComponent } from './profile-form-dialog/profile-form-d
     MatIconModule 
   ],
   exports: [
-    ProfileComponent
+    UserProfileComponent,
   ]
 })
-export class PublicProfileModule { }
+export class ProfileModule { }

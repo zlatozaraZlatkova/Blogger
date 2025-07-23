@@ -1,0 +1,112 @@
+<!-- Public Profile Content -->
+<div *ngIf="userPublicProfile$ | async as publicProfile" class="space-y-8">
+
+  <!-- Bio Section -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="flex items-center mb-6">
+      <div class="flex items-center justify-center w-12 h-12 bg-blue-50 rounded-xl mr-4">
+
+        <mat-icon svgIcon="person" class="w-6 h-6 text-blue-600"></mat-icon>
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">About</h2>
+        <p class="text-gray-500 text-sm mt-1">Tell the world about yourself</p>
+      </div>
+    </div>
+
+    <div class="prose prose-lg max-w-none">
+      <p class="text-gray-700 leading-relaxed text-lg">
+        {{ publicProfile.bio }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Social Links Section -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="flex items-center mb-6">
+      <div class="flex items-center justify-center w-12 h-12 bg-purple-50 rounded-xl mr-4">
+
+        <mat-icon svgIcon="connect" class="w-6 h-6 text-purple-600"></mat-icon>
+
+      </div>
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900">Connect</h2>
+        <p class="text-gray-500 text-sm mt-1">Find me on social media</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+      <!-- GitHub -->
+      <a *ngIf="getGitHubUrl(publicProfile)" [href]="getGitHubUrl(publicProfile)" target="_blank"
+        class="group flex items-center justify-center p-6 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 transform hover:scale-105">
+
+        <mat-icon svgIcon="github" class="w-8 h-8 mr-3"></mat-icon>
+        <div>
+          <div class="font-semibold">GitHub</div>
+          <div class="text-sm opacity-75">"&#64;" {{ publicProfile.githubUsername }}</div>
+        </div>
+      </a>
+
+      <!-- LinkedIn -->
+
+      <a *ngIf="getLinkedInUrl(publicProfile)" [href]="getLinkedInUrl(publicProfile)" target="_blank"
+        class="group flex items-center justify-center p-6 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
+
+        <mat-icon svgIcon="linkedin" class="w-8 h-8 mr-3"></mat-icon>
+
+        <div>
+          <div class="font-semibold">LinkedIn</div>
+          <div class="text-sm opacity-75">Professional</div>
+        </div>
+      </a>
+
+
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+    <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+
+      <button type="button" (click)="openDeleteProfileDialog()"
+        class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border-2 border-red-200 rounded-xl text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+
+        <mat-icon svgIcon="delete" class="w-5 h-5 mr-2"></mat-icon>
+
+        Delete Profile
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- No Public Profile State -->
+<div *ngIf="!(userPublicProfile$ | async)"
+  class="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
+
+  <h3 class="text-3xl font-bold text-gray-900 mb-4">Create Your Public Profile</h3>
+  <p class="text-lg text-gray-600 max-w-lg mx-auto mb-8 leading-relaxed">
+    Share your story with the world. Add a bio, showcase your work, and connect with others through your public
+    profile.
+  </p>
+
+  <div class="space-y-4 mb-8">
+    <div class="flex items-center justify-center text-gray-600">
+
+      <mat-icon class="w-5 h-5 text-blue-500 mr-3">done</mat-icon>
+      Add your bio and story
+    </div>
+    <div class="flex items-center justify-center text-gray-600">
+      <mat-icon class="w-5 h-5 text-blue-500 mr-3">done</mat-icon>
+      Connect your social media
+    </div>
+    <div class="flex items-center justify-center text-gray-600">
+      <mat-icon class="w-5 h-5 text-blue-500 mr-3">done</mat-icon>
+      Showcase your work
+    </div>
+  </div>
+
+  <app-custom-button (click)="openCreateProfileDialog()" [buttonText]="'Get Started'"
+    [buttonClass]="'inline-flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
+  </app-custom-button>
+</div>

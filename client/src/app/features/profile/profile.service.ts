@@ -7,7 +7,7 @@ import { IServerResponse } from 'src/app/interfaces/serverResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class PublicProfileService implements OnDestroy {
+export class ProfileService implements OnDestroy {
   private userPublicProfile$$ = new BehaviorSubject<IProfile | null>(null);
   userPublicProfile$: Observable<IProfile | null> = this.userPublicProfile$$.asObservable();
 

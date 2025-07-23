@@ -5,7 +5,7 @@ import { AuthFormsSectionComponent } from './auth-forms-section/auth-forms-secti
 import { SingInFormComponent } from './sing-in-form/sing-in-form.component';
 import { SingUpFormComponent } from './sing-up-form/sing-up-form.component';
 
-import { ProfileComponent } from '../features/public-profile/profile/profile.component';
+import { UserProfileComponent } from '../features/profile/user-profile/user-profile.component';
 import { authGuard } from '../core/guards/auth.guard';
 import { guestGuard } from '../core/guards/guest.guard';
 import { LogoutComponent } from './logout/logout.component';
@@ -55,7 +55,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    component: UserProfileComponent,
     canActivate: [authGuard],
     resolve: { user: authResolver },
     data: {
