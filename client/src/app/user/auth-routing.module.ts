@@ -52,19 +52,8 @@ const routes: Routes = [
       showHeader: true,
       showFooter: true,
     },
-  },
-  {
-    path: 'profile',
-    component: UserProfileComponent,
-    canActivate: [authGuard],
-    resolve: { user: authResolver },
-    data: {
-      title: "User's Profile",
-      layout: 'default',
-      showHeader: true,
-      showFooter: true,
-    },
-  },
+  }
+  
 ];
 
 @NgModule({

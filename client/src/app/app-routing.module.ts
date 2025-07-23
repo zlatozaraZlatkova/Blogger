@@ -26,6 +26,12 @@ const routes: Routes = [
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
   {
+    path: 'profile',
+    loadChildren: () =>
+      import('./features/profile/profile.module').then((m) => m.ProfileModule)
+
+  },
+  {
     path: 'page-not-found',
     component: PageNotFoundComponent,
     data: {

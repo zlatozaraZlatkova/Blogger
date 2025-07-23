@@ -12,6 +12,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileFormDialogComponent } from './profile-form-dialog/profile-form-dialog.component';
 import { PublicProfileComponent } from './public-profile/public-profile.component';
+import { ProfileRoutingModule } from './profile-routing.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -24,7 +26,9 @@ import { PublicProfileComponent } from './public-profile/public-profile.componen
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
     ReactiveFormsModule,
+    ProfileRoutingModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
