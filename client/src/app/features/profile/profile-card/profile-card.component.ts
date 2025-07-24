@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { IProfile } from 'src/app/interfaces/profile';
+import { IProfile, IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
 
 @Component({
   selector: 'app-profile-card',
@@ -13,6 +13,19 @@ export class ProfileCardComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("provide data form parent", this.profileData)
+  }
+
+
+  getGitHubUrl(publicProfile: IProfile): string | null {
+    return publicProfile.githubUsername
+      ? `https://github.com/${publicProfile.githubUsername}`
+      : null;
+  }
+
+  getLinkedInUrl(publicProfile: IProfile): string | null {
+    return publicProfile.socialMedia?.linkedin
+      ? `https://linkedin.com/in/${publicProfile.socialMedia.linkedin}`
+      : null;
   }
 
 
