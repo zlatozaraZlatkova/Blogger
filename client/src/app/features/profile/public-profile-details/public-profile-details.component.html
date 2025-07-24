@@ -1,0 +1,60 @@
+<section class="bg-white py-12 sm:py-16 min-h-screen">
+    <div class="mx-auto max-w-6xl py-12 px-4 sm:px-6 lg:px-8">
+
+        <ng-container *ngIf="viewedProfile$ | async as profileData; else noProfileData">
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-7">
+                    <div class="flex items-center mb-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-blue-50 rounded-xl mr-4">
+                            <mat-icon class="w-6 h-6 text-blue-600">list</mat-icon>
+                        </div>
+
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">From the Dev's Desk</h2>
+                            <p class="text-gray-500 text-sm mt-1">Recommended Reads</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="group flex gap-8 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200 cursor-pointer">
+                        <div class="flex-1 flex gap-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-bold text-gray-900 mb-2">
+                                    Lorem ipsum dolor sit amet.
+                                </h3>
+                            </div>
+                            <img class="w-20 h-16 object-cover rounded-lg flex-shrink-0" src="" />
+                        </div>
+                    </div>
+
+                    <div class="text-center py-8 bg-gray-50 rounded-xl">
+                        <mat-icon class="w-12 h-12 text-gray-300 mb-3">article</mat-icon>
+                        <p class="text-gray-500">No articles published yet</p>
+                    </div>
+
+                </div>
+
+                <div class="lg:col-span-4 lg:col-start-9">
+                    <app-profile-card [profileData]="profileData.profile"></app-profile-card>
+                </div>
+
+            </div>
+
+        </ng-container>
+
+        <ng-template #noProfileData>
+            <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
+                <div class="flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+                    <mat-icon class="w-10 h-10 text-gray-400">person</mat-icon>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Profile Not Found</h3>
+                <p class="text-gray-500 max-w-md">
+                    The profile you're looking for doesn't exist or is not available.
+                </p>
+            </div>
+        </ng-template>
+
+    </div>
+</section>

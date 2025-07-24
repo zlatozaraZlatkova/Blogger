@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+
 import { authGuard } from 'src/app/core/guards/auth.guard';
 import { authResolver } from 'src/app/core/resolvers/auth.resolver';
-import { ProfileCardComponent } from './profile-card/profile-card.component';
+
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { PublicProfileDetailsComponent } from './public-profile-details/public-profile-details.component';
 
 const routes: Routes = [
   {
@@ -23,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'public/:id',
-        component: ProfileCardComponent,
+        component: PublicProfileDetailsComponent,
         canActivate: [authGuard],
         data: {
           title: "Profile Card",

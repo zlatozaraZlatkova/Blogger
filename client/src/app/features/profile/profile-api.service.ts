@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ICreateProfileDto, IProfile } from 'src/app/interfaces/profile';
+import { ICreateProfileDto, IProfile, IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
 @Injectable({
@@ -17,8 +17,8 @@ export class ProfileApiService {
     return this.httpClient.get<IProfile>(`${this.basicUrl}`)
   }
 
-  getUserPublicProfileById(id: string): Observable<IProfile> {
-    return this.httpClient.get<IProfile>(`${this.basicUrl}/public/${id}`);
+  getUserPublicProfileById(id: string): Observable<IProfileWithCreatedPosts> {
+    return this.httpClient.get<IProfileWithCreatedPosts>(`${this.basicUrl}/public/${id}`);
   }
 
   createUserPublicProfile(data: ICreateProfileDto): Observable<IProfile> {

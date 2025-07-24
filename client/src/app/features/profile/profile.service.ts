@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { ICreateProfileDto, IProfile } from 'src/app/interfaces/profile';
+
+import { ICreateProfileDto, IProfile, IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
 import { ProfileApiService } from './profile-api.service';
 import { IServerResponse } from 'src/app/interfaces/serverResponse';
 
@@ -11,6 +12,9 @@ export class ProfileService implements OnDestroy {
   private userPublicProfile$$ = new BehaviorSubject<IProfile | null>(null);
   userPublicProfile$: Observable<IProfile | null> = this.userPublicProfile$$.asObservable();
 
+  private viewedProfile$$ = new BehaviorSubject<IProfileWithCreatedPosts | null>(null);
+  viewedProfile$: Observable<IProfileWithCreatedPosts | null> = this.viewedProfile$$.asObservable();
+
   constructor(private profileApiService: ProfileApiService) { }
 
   getProfile(): Observable<IProfile | null> {
@@ -19,9 +23,9 @@ export class ProfileService implements OnDestroy {
     )
   }
 
-  getProfileById(id: string): Observable<IProfile> {
+  getProfileById(id: string): Observable<IProfileWithCreatedPosts> {
     return this.profileApiService.getUserPublicProfileById(id).pipe(
-      tap((user) => this.userPublicProfile$$.next(user))
+      tap((userData) => this.viewedProfile$$.next(userData))
     )
   }
 
@@ -51,11 +55,13 @@ export class ProfileService implements OnDestroy {
 
   clearState(): void {
     this.userPublicProfile$$.next(null);
+    this.viewedProfile$$.next(null);
 
   }
 
 
   ngOnDestroy(): void {
     this.userPublicProfile$$.complete();
+    this.viewedProfile$$.complete();
   }
 }

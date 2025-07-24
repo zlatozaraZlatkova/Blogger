@@ -3,7 +3,19 @@ const User = require("../models/User");
 
 
 async function getProfileById(id) {
-  return Profile.findById(id);
+  const profile = await Profile.findById(id);
+  if (!profile) {
+    throw new Error('Profile not found');
+  }
+
+  const user = await User.findById(profile.ownerId)
+    .select('createdPosts')
+    .populate('createdPosts')
+
+  return {
+    profile: profile,
+    createdPosts: user.createdPosts
+  };
 }
 
 async function getUserById(id) {

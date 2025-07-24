@@ -1,3 +1,5 @@
+import { IPost } from "./post"
+
 export interface IProfile {
   _id: string;
   ownerId: string;
@@ -20,3 +22,9 @@ export interface ICreateProfileDto {
 export interface ISocialMedia {
   linkedin?: string;
 }
+
+export interface IProfileWithCreatedPosts {
+  profile: IProfile;
+  createdPosts: IPost[]
+}
+
