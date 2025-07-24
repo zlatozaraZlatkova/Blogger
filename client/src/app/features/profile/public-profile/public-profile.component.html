@@ -1,5 +1,5 @@
 <!-- Public Profile Content -->
-<div *ngIf="userPublicProfile$ | async as publicProfile" class="space-y-8">
+<div *ngIf="profileData" class="space-y-8">
 
   <!-- Bio Section -->
   <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
@@ -16,7 +16,7 @@
 
     <div class="prose prose-lg max-w-none">
       <p class="text-gray-700 leading-relaxed text-lg">
-        {{ publicProfile.bio }}
+        {{ profileData.bio }}
       </p>
     </div>
   </div>
@@ -38,19 +38,19 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
       <!-- GitHub -->
-      <a *ngIf="getGitHubUrl(publicProfile)" [href]="getGitHubUrl(publicProfile)" target="_blank"
+      <a *ngIf="getGitHubUrl(profileData)" [href]="getGitHubUrl(profileData)" target="_blank"
         class="group flex items-center justify-center p-6 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 transform hover:scale-105">
 
         <mat-icon svgIcon="github" class="w-8 h-8 mr-3"></mat-icon>
         <div>
           <div class="font-semibold">GitHub</div>
-          <div class="text-sm opacity-75">"&#64;" {{ publicProfile.githubUsername }}</div>
+          <div class="text-sm opacity-75">"&#64;" {{ profileData.githubUsername }}</div>
         </div>
       </a>
 
       <!-- LinkedIn -->
 
-      <a *ngIf="getLinkedInUrl(publicProfile)" [href]="getLinkedInUrl(publicProfile)" target="_blank"
+      <a *ngIf="getLinkedInUrl(profileData)" [href]="getLinkedInUrl(profileData)" target="_blank"
         class="group flex items-center justify-center p-6 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105">
 
         <mat-icon svgIcon="linkedin" class="w-8 h-8 mr-3"></mat-icon>
@@ -81,7 +81,7 @@
 </div>
 
 <!-- No Public Profile State -->
-<div *ngIf="!(userPublicProfile$ | async)"
+<div *ngIf="!(profileData)"
   class="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
 
   <h3 class="text-3xl font-bold text-gray-900 mb-4">Create Your Public Profile</h3>

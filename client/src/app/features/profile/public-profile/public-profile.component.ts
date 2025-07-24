@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subscription, take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { IProfile } from 'src/app/interfaces/profile';
 import { ProfileService } from '../profile.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
@@ -12,7 +12,7 @@ import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-
   styleUrls: ['./public-profile.component.css']
 })
 export class PublicProfileComponent implements OnDestroy{
-  userPublicProfile$: Observable<IProfile | null> = this.profileService.userPublicProfile$;
+  @Input() profileData: IProfile | null = null;
 
   private subscriptions = new Subscription();
 

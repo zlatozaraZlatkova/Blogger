@@ -135,7 +135,7 @@
 
     <!-- About Section -->
     <div id="aboutSection" [class]="activeSection === 'about' ? 'block' : 'hidden'">
-      <app-public-profile></app-public-profile>
+      <app-public-profile [profileData]="userPublicProfile$ | async"></app-public-profile>
 
     </div>
 

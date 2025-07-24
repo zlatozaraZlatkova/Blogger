@@ -14,6 +14,7 @@ import { ProfileFormDialogComponent } from './profile-form-dialog/profile-form-d
 import { PublicProfileComponent } from './public-profile/public-profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { RouterModule } from '@angular/router';
+import { ProfileCardComponent } from './profile-card/profile-card.component';
 
 
 
@@ -21,7 +22,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     UserProfileComponent,
     ProfileFormDialogComponent,
-    PublicProfileComponent
+    PublicProfileComponent,
+    ProfileCardComponent
   ],
   imports: [
     CommonModule,

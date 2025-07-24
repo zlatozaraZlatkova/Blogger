@@ -45,26 +45,30 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     private authService: AuthService
   ) {}
 
-  ngAfterViewInit(): void {
-    console.log('ViewChild component PublicProfileComponent is ready');
-  }
 
   ngOnInit(): void {
     this.resolvedUser = this.route.snapshot.data['user'];
 
     if (this.resolvedUser?.publicProfile) {
-      this.profileService
-        .getProfile()
-        .pipe(take(1))
-        .subscribe({
-          next: (profile) => {
-            console.log('Profile loaded successfully:', profile);
-          },
-          error: (error) => {
-            console.error('Error loading profile:', error);
-          },
-        });
+      this.loadUserProfile();
     }
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ViewChild component PublicProfileComponent is ready');
+  }
+
+
+  loadUserProfile(): void {
+    this.profileService.getProfile().pipe(take(1))
+      .subscribe({
+        next: (profile) => {
+          console.log('Profile loaded successfully:', profile);
+        },
+        error: (error) => {
+          console.error('Error loading profile:', error);
+        },
+      });
   }
 
   openEditProfileDialog(profileData: IProfile): void {
