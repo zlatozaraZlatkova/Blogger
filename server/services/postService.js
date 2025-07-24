@@ -2,7 +2,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 async function getAllWithouthPagination() {
-    return Post.find({}).sort({ createdAt: -1 });
+  return Post.find({}).sort({ createdAt: -1 });
 }
 
 async function getAll(startIndex = 0, limit = 3) {
@@ -18,11 +18,14 @@ async function getAll(startIndex = 0, limit = 3) {
 }
 
 async function getById(id) {
-  return Post.findByIdAndUpdate(
-    id,
-    { $inc: { views: 1 } },
-    { new: true }
-  );
+  return await Post.findById(id)
+    .populate({
+      path: 'ownerId',
+      select: 'publicProfile',
+      populate: {
+        path: 'publicProfile'
+      }
+    });
 }
 
 async function getByUserId(id) {
@@ -54,7 +57,7 @@ async function deleteById(postId, userId) {
 };
 
 async function createComment(postId, newItem) {
- 
+
   return Post.findOneAndUpdate(
     { _id: postId },
     { $push: { comments: newItem } },
@@ -66,11 +69,11 @@ async function deleteComment(postId, commentId) {
 
   await Post.findByIdAndUpdate(
     { _id: postId },
-    { $pull: { comments: {_id: commentId } } },
+    { $pull: { comments: { _id: commentId } } },
     { new: true }
   )
 
-  
+
 }
 
 
@@ -78,11 +81,11 @@ async function likeItem(postId, userId) {
   await User.findByIdAndUpdate(userId, { $push: { likedPostList: postId } }, { new: true });
 
   const updatedPost = await Post.findByIdAndUpdate(
-    postId, 
-    { $push: { postLikes: userId } }, 
+    postId,
+    { $push: { postLikes: userId } },
     { new: true }
   )
-  
+
   return updatedPost;
 }
 

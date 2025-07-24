@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IPost, IPostsResponse } from 'src/app/interfaces/post';
-import { BlogService } from '../blog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, switchMap, tap } from 'rxjs';
 import { Location } from '@angular/common';
+
+import { IPost, IPostsResponse } from 'src/app/interfaces/post';
+import { BlogService } from '../blog.service';
 
 @Component({
   selector: 'app-blog-details',
@@ -18,12 +19,14 @@ export class BlogDetailsComponent implements OnInit {
   popularArticles: IPost[] = [];
   loading = false;
 
+  authorProfileId?: string;
+
   constructor(
     private blogService: BlogService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -40,6 +43,12 @@ export class BlogDetailsComponent implements OnInit {
     this.blogService.getPostById(id).subscribe({
       next: (postData) => {
         console.log('Post loaded successfully', postData);
+
+        const owner = postData.ownerId as { publicProfile?: { _id: string } } | undefined;
+        this.authorProfileId = owner?.publicProfile?._id;
+        console.log("author profile id", this.authorProfileId)
+
+
         this.loadRelatedArticles();
       },
       error: (err) => {
@@ -70,7 +79,7 @@ export class BlogDetailsComponent implements OnInit {
                 // Related articles (same category)
                 this.getRelatedArticles(filteredItems, currentCategory);
 
-  
+
                 // Popular articles (most comments)
                 this.getPopularArticles(filteredItems);
               }
@@ -101,8 +110,19 @@ export class BlogDetailsComponent implements OnInit {
 
 
   navigateToArticle(id: string): void {
-    console.log('Article id: ', id);
     this.router.navigate(['/posts', id]);
   }
+
+  navigateToAutorProfile(): void {
+    if (this.authorProfileId === undefined) {
+      return;
+
+    }
+
+    this.router.navigate([`/profile/public/${this.authorProfileId}`]);
+
+
+  }
+
 
 }
