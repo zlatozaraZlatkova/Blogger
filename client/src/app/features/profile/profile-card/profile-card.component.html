@@ -51,10 +51,9 @@
   </div>
 
   <div class="m-6">
-    <app-custom-button
+    <app-custom-button (click)="onFollow(profile._id)"
       [buttonText]="'Follow'"
       [routerLink]="'/profile/public/follow'"
-      [routerLink]="'/auth/register'"
       [buttonClass]="
         'w-full min-w-32 bg-[#276ef1] py-2 px-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
       "

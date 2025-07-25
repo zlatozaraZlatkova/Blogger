@@ -1,4 +1,5 @@
 import { IPost } from "./post"
+import { IUser } from "./user";
 
 export interface IProfile {
   _id: string;
@@ -6,6 +7,7 @@ export interface IProfile {
   bio: string;
   githubUsername?: string;
   socialMedia?: ISocialMedia;
+  followerList?: IUser[];
   createdAt: string;  
   updatedAt: string;  
   __v: number;

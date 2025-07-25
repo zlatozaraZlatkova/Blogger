@@ -53,6 +53,15 @@ export class ProfileService implements OnDestroy {
     )
   }
 
+  followProfile(id: string): Observable<IProfile | null> {
+    return this.profileApiService.followUserProfile(id).pipe(
+      tap((user) => {
+        this.userPublicProfile$$.next(user)
+      })
+    )
+  }
+
+
   clearState(): void {
     this.userPublicProfile$$.next(null);
     this.viewedProfile$$.next(null);
