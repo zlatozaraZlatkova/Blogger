@@ -11,6 +11,7 @@ import { take, timer } from 'rxjs';
 })
 export class ProfileCardComponent implements OnInit {
   @Input() profileData: IProfile | null = null;
+  successMessage: string | null = null;
 
   constructor(private profileService: ProfileService) { }
 
@@ -22,12 +23,21 @@ export class ProfileCardComponent implements OnInit {
     this.profileService.followProfile(id).pipe(take(1))
       .subscribe({
         next: (profile) => {
-          console.log('Followed!:', profile);
+          this.successMessage = 'Successfully followed profile!';
+          this.showSuccessMessage();
 
         },
         error: (error) => {
           console.error('Error loading profile:', error);
         },
+      });
+  }
+
+   private showSuccessMessage(): void {
+    timer(5000)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.successMessage = null;
       });
   }
 
