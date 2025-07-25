@@ -18,14 +18,17 @@ async function getAll(startIndex = 0, limit = 3) {
 }
 
 async function getById(id) {
-  return await Post.findById(id)
-    .populate({
-      path: 'ownerId',
-      select: 'publicProfile',
-      populate: {
-        path: 'publicProfile'
-      }
-    });
+  return Post.findByIdAndUpdate(
+    id,
+    { $inc: { views: 1 } },
+    { new: true }
+  ).populate({
+    path: 'ownerId',
+    select: 'publicProfile',
+    populate: {
+      path: 'publicProfile'
+    }
+  });
 }
 
 async function getByUserId(id) {
