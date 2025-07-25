@@ -3,7 +3,7 @@ const { body } = require("express-validator");
 
 const validateRequest = require("../middlewares/validateBodyRequest");
 const { hasUser } = require("../middlewares/guards");
-const { getUserById, createItem, updateItem, deleteById, getProfileById } = require("../services/profileService");
+const { getUserById, createItem, updateItem, deleteById, getProfileById, followProfile, getProfileByIdSimple } = require("../services/profileService");
 
 
 router.get("/", hasUser(),
@@ -42,6 +42,38 @@ router.get("/public/:id", hasUser(),
 
         }
     })
+
+router.post("/public/:id/follow", hasUser(),
+    async (req, res, next) => {
+        try {
+            const requestedUserId = req.params.id;
+            const userId = req.user._id
+
+            const publicProfile = await getProfileByIdSimple(requestedUserId);
+          
+        
+            if (!publicProfile) {
+                throw new Error("Public profile not found.");
+            }
+
+            if (publicProfile.ownerId.toString() == userId.toString()) {
+                throw new Error("Not able to follow your own profile.");
+            }
+
+            if (publicProfile.followerList.some(user => user._id.equals(req.user._id))) {
+                throw new Error("You are already following this profile.");
+            }
+
+            const updatedProfile = await followProfile(requestedUserId, userId);
+
+            return res.status(200).json({ message: "Followed!" });
+
+
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 
 router.post("/create", hasUser(),

@@ -56,6 +56,20 @@ async function deleteById(userId) {
 }
 
 
+async function getProfileByIdSimple(id) {
+  return await Profile.findById(id);
+}
+
+async function followProfile(profileId, userId) {
+
+  return await Profile.findByIdAndUpdate(
+    profileId,
+    { $push: { followerList: userId } },
+    { new: true }
+  )
+
+}
+
 
 
 module.exports = {
@@ -63,6 +77,8 @@ module.exports = {
   getUserById,
   createItem,
   updateItem,
-  deleteById
+  deleteById,
+  getProfileByIdSimple,
+  followProfile
 
 };

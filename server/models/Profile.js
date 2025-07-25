@@ -25,6 +25,12 @@ const profileSchema = new Schema(
       required: true,
       ref: "User",
     },
+    followerList: {
+      type: [Types.ObjectId],
+      required: true,
+      ref: "User",
+      default: [],
+    },
   },
   { timestamps: true }
 );
