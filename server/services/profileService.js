@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 
 async function getProfileById(id) {
-  const profile = await Profile.findById(id);
+  const profile = await Profile.findById(id).populate("followerList");
   if (!profile) {
     throw new Error('Profile not found');
   }

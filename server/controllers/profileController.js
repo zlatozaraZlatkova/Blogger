@@ -66,7 +66,11 @@ router.post("/public/:id/follow", hasUser(),
 
             const updatedProfile = await followProfile(requestedUserId, userId);
 
-            return res.status(200).json(updatedProfile);
+            const updatedProfileWithPosts = await getProfileById(requestedUserId);
+        
+            return res.status(200).json(updatedProfileWithPosts);
+
+          
 
 
         } catch (error) {

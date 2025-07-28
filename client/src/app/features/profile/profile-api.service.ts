@@ -33,8 +33,8 @@ export class ProfileApiService {
     return this.httpClient.delete<IServerResponse>(`${this.basicUrl}/delete`, {});
   }
 
-  followUserProfile(id:string): Observable<IProfile> {
-    return this.httpClient.post<IProfile>(`${this.basicUrl}/public/${id}/follow`, {})
+  followUserProfile(id:string): Observable<IProfileWithCreatedPosts> {
+    return this.httpClient.post<IProfileWithCreatedPosts>(`${this.basicUrl}/public/${id}/follow`, {})
   }
 
 }

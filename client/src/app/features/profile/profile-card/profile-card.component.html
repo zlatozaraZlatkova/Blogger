@@ -1,21 +1,19 @@
-<div
-  *ngIf="profileData as profile"
-  class="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg p-6 w-full max-w-sm mx-auto"
->
+<div *ngIf="profileData as profileData"
+  class="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg p-6 w-full max-w-sm mx-auto">
   <div class="text-center mb-6">
     <!-- <div class="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full">
             <img class="w-full h-full object-cover" [src]="/assets/images/blog/blog-01.jpg" alt="profile" />
         </div> -->
     <h1 class="text-xl font-bold text-gray-900 mb-1">
-      {{ profile.githubUsername | uppercase }}
+      {{ profileData.profile.githubUsername | uppercase }}
     </h1>
 
-    <p class="text-sm text-gray-500 mb-2">125+ followers</p>
+    <p class="text-sm text-gray-500 mb-2">{{profileData.profile.followerList?.length}} followers</p>
   </div>
 
   <div class="mb-6">
     <p class="text-sm text-gray-600 leading-relaxed text-center">
-      {{ profile.bio }}
+      {{ profileData.profile.bio }}
     </p>
   </div>
 
@@ -23,12 +21,8 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- GitHub -->
-    <a
-      *ngIf="getGitHubUrl(profile)"
-      [href]="getGitHubUrl(profile)"
-      target="_blank"
-      class="group flex items-center justify-center p-3 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 transform hover:scale-105"
-    >
+    <a *ngIf="getGitHubUrl(profileData.profile)" [href]="getGitHubUrl(profileData.profile)" target="_blank"
+      class="group flex items-center justify-center p-3 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 transform hover:scale-105">
       <mat-icon svgIcon="github" class="w-4 h-4 mr-3"></mat-icon>
       <div>
         <div class="font-semibold">GitHub</div>
@@ -36,12 +30,8 @@
     </a>
 
     <!-- LinkedIn -->
-    <a
-      *ngIf="getLinkedInUrl(profile)"
-      [href]="getLinkedInUrl(profile)"
-      target="_blank"
-      class="group flex items-center justify-center p-3 bg-gradient-to-br from-blue-900 to-blue-800 text-white rounded-xl hover:from-blue-800 hover:to-blue-700 transition-all duration-200 transform hover:scale-105"
-    >
+    <a *ngIf="getLinkedInUrl(profileData.profile)" [href]="getLinkedInUrl(profileData.profile)" target="_blank"
+      class="group flex items-center justify-center p-3 bg-gradient-to-br from-blue-900 to-blue-800 text-white rounded-xl hover:from-blue-800 hover:to-blue-700 transition-all duration-200 transform hover:scale-105">
       <mat-icon svgIcon="linkedin" class="w-4 h-4 mr-3"></mat-icon>
 
       <div>
@@ -50,14 +40,11 @@
     </a>
   </div>
 
-  <div class="m-6">
-    <app-custom-button (click)="onFollow(profile._id)"
-      [buttonText]="'Follow'"
-      [routerLink]="'/profile/public/follow'"
+  <div class="m-6" *ngIf="!isAlreadyFollowed">
+    <app-custom-button (click)="onFollow(profileData.profile._id)" [buttonText]="'Follow'" [routerLink]="'/profile/public/follow'"
       [buttonClass]="
         'w-full min-w-32 bg-[#276ef1] py-2 px-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
-      "
-    >
+      ">
       <mat-icon>add</mat-icon>
       >
     </app-custom-button>

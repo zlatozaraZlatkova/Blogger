@@ -53,11 +53,9 @@ export class ProfileService implements OnDestroy {
     )
   }
 
-  followProfile(id: string): Observable<IProfile | null> {
+  followProfile(id: string): Observable<IProfileWithCreatedPosts> {
     return this.profileApiService.followUserProfile(id).pipe(
-      tap((user) => {
-        this.userPublicProfile$$.next(user)
-      })
+      tap((updatedData) =>  this.viewedProfile$$.next(updatedData))
     )
   }
 
