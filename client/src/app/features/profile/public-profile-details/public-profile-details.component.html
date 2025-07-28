@@ -18,7 +18,7 @@
 
                     <div *ngIf="profileData.createdPosts">
 
-                        <div *ngFor="let post of profileData.createdPosts"
+                        <div *ngFor="let post of profileData.createdPosts" (click)="navigateToPost(post._id)"
                             class="group flex gap-8 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200 cursor-pointer">
 
                             <div class="flex-1 flex gap-4">

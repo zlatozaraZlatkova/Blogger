@@ -37,13 +37,17 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     map((user) => user?.likedPostList || [])
   );
 
+  userFollowers$: Observable<IUser[]> = this.userPublicProfile$.pipe(
+    map((user) => user?.followerList || [])
+  )
+
   constructor(
     private profileService: ProfileService,
     private route: ActivatedRoute,
     private router: Router,
     private blogService: BlogService,
     private authService: AuthService
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {

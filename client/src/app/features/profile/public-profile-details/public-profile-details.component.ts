@@ -3,7 +3,7 @@ import { Observable, take } from 'rxjs';
 
 import { ProfileService } from '../profile.service';
 import { IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-public-profile-details',
@@ -16,7 +16,8 @@ export class PublicProfileDetailsComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +42,11 @@ export class PublicProfileDetailsComponent implements OnInit {
         },
       });
   }
+
+   navigateToPost(postId: string): void {
+    this.router.navigate(['/posts', postId]);
+  }
+
 
   
 }

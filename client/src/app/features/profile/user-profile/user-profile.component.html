@@ -123,10 +123,10 @@
             <div class="text-3xl font-bold text-blue-600 mb-2">{{(userCreatedPosts$ | async)?.length}}</div>
             <div class="text-sm text-gray-600">Published Posts</div>
           </div>
-          <!-- todo followers -->
+       
           <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
-            <div class="text-3xl font-bold text-green-600 mb-2">0</div>
-            <div class="text-sm text-gray-600">Followers</div>
+            <div class="text-3xl font-bold text-green-600 mb-2">{{ (userFollowers$ | async)?.length || 0}}</div>
+            <div class="text-sm text-gray-600"> Followers</div>
           </div>
         </div>
       </div>
