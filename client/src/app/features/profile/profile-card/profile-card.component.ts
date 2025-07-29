@@ -3,16 +3,17 @@ import { Location } from '@angular/common';
 import { take, timer } from 'rxjs';
 
 import { IProfile, IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
+import { IUser } from 'src/app/interfaces/user';
 import { ProfileService } from '../profile.service';
 import { AuthService } from 'src/app/user/auth.service';
-import { IUser } from 'src/app/interfaces/user';
+import { getGitHubUrl, getLinkedInUrl } from 'src/app/shared/utils/genSocialMediaUrl';
 
 @Component({
   selector: 'app-profile-card',
   templateUrl: './profile-card.component.html',
   styleUrls: ['./profile-card.component.css'],
 })
-export class ProfileCardComponent  {
+export class ProfileCardComponent {
   @Input() profileData: IProfileWithCreatedPosts  | null = null;
   successMessage: string | null = null;
 
@@ -65,18 +66,13 @@ export class ProfileCardComponent  {
       });
   }
 
-
-  getGitHubUrl(publicProfile: IProfile): string | null {
-    return publicProfile.githubUsername
-      ? `https://github.com/${publicProfile.githubUsername}`
-      : null;
+  getGitHubProfileUrl(profile: IProfile): string | null {
+    return getGitHubUrl(profile);
   }
 
-  getLinkedInUrl(publicProfile: IProfile): string | null {
-    return publicProfile.socialMedia?.linkedin
-      ? `https://linkedin.com/in/${publicProfile.socialMedia.linkedin}`
-      : null;
+  getLinkedInProfileUrl(profile: IProfile): string | null {
+    return getLinkedInUrl(profile);
   }
-
+ 
 
 }

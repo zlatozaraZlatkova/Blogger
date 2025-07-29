@@ -21,7 +21,7 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- GitHub -->
-    <a *ngIf="getGitHubUrl(profileData.profile)" [href]="getGitHubUrl(profileData.profile)" target="_blank"
+    <a *ngIf="getGitHubProfileUrl(profileData.profile)" [href]="getGitHubProfileUrl(profileData.profile)" target="_blank"
       class="group flex items-center justify-center p-3 bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 transform hover:scale-105">
       <mat-icon svgIcon="github" class="w-4 h-4 mr-3"></mat-icon>
       <div>
@@ -30,7 +30,7 @@
     </a>
 
     <!-- LinkedIn -->
-    <a *ngIf="getLinkedInUrl(profileData.profile)" [href]="getLinkedInUrl(profileData.profile)" target="_blank"
+    <a *ngIf="getLinkedInProfileUrl(profileData.profile)" [href]="getLinkedInProfileUrl(profileData.profile)" target="_blank"
       class="group flex items-center justify-center p-3 bg-gradient-to-br from-blue-900 to-blue-800 text-white rounded-xl hover:from-blue-800 hover:to-blue-700 transition-all duration-200 transform hover:scale-105">
       <mat-icon svgIcon="linkedin" class="w-4 h-4 mr-3"></mat-icon>
 

@@ -1,17 +1,19 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription, take } from 'rxjs';
+
 import { IProfile } from 'src/app/interfaces/profile';
 import { ProfileService } from '../profile.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
+import { getGitHubUrl, getLinkedInUrl } from 'src/app/shared/utils/genSocialMediaUrl';
 
 @Component({
   selector: 'app-public-profile',
   templateUrl: './public-profile.component.html',
   styleUrls: ['./public-profile.component.css']
 })
-export class PublicProfileComponent implements OnDestroy{
+export class PublicProfileComponent implements OnDestroy {
   @Input() profileData: IProfile | null = null;
 
   private subscriptions = new Subscription();
@@ -118,17 +120,14 @@ export class PublicProfileComponent implements OnDestroy{
   }
 
 
-  getGitHubUrl(publicProfile: IProfile): string | null {
-    return publicProfile.githubUsername
-      ? `https://github.com/${publicProfile.githubUsername}`
-      : null;
+  getGitHubProfileUrl(profile: IProfile): string | null {
+    return getGitHubUrl(profile);
   }
 
-  getLinkedInUrl(publicProfile: IProfile): string | null {
-    return publicProfile.socialMedia?.linkedin
-      ? `https://linkedin.com/in/${publicProfile.socialMedia.linkedin}`
-      : null;
+  getLinkedInProfileUrl(profile: IProfile): string | null {
+    return getLinkedInUrl(profile);
   }
+  
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
