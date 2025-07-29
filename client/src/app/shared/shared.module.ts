@@ -16,6 +16,7 @@ import { SentenceUpperCasePipe } from './pipes/sentence-upper-case.pipe';
 import { ErrorNotificationComponent } from './error-notification/error-notification.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { TypewriterComponent } from './typewriter/typewriter.component';
 
 
 
@@ -30,7 +31,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     SentenceUpperCasePipe,
     ErrorNotificationComponent,
     ConfirmDialogComponent,
-    PaginationComponent
+    PaginationComponent,
+    TypewriterComponent
 
   ],
   imports: [
@@ -50,7 +52,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     DateTimeAgoPipe,
     SentenceUpperCasePipe,
     ErrorNotificationComponent,
-    PaginationComponent
+    PaginationComponent,
+    TypewriterComponent
     
   ]
 })
