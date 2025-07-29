@@ -1,36 +1,46 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { interval, Subject, take, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'app-typewriter',
   templateUrl: './typewriter.component.html',
-  styleUrls: ['./typewriter.component.css']
+  styleUrls: ['./typewriter.component.css'],
 })
-export class TypewriterComponent implements OnInit {
+export class TypewriterComponent implements OnInit, OnDestroy {
+  displayedText = signal('');
+  private destroy$ = new Subject<void>();
 
-  displayedCode = signal('');
+  private text: string = 'git push --force';
 
-  text: string = 'git push --force';
 
   ngOnInit(): void {
     this.startAnimation();
   }
 
-  private startAnimation() {
-    let currentIndex = 0;
+  private startAnimation(): void {
+    this.displayedText.set('');
 
-    setInterval(() => {
-      if (currentIndex >= this.text.length) return;
+    const typingText = interval(100).pipe(
+        take(this.text.length),
+        takeUntil(this.destroy$)
 
-      const newCode = this.text.substring(0, currentIndex + 1);
-      this.displayedCode.set(newCode);
-      currentIndex++;
+      ).subscribe({
+        next: (index) => {
+          const newText = this.text.substring(0, index + 1);
+          this.displayedText.set(newText);
+        },
+        complete: () => {
+          const restartTimer = timer(2000)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.startAnimation());
+        },
 
-    }, 100);
+      });
   }
 
-
-
-
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 }
