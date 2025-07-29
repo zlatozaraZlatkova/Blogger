@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Location } from '@angular/common';
 import { take, timer } from 'rxjs';
 
 import { IProfile, IProfileWithCreatedPosts } from 'src/app/interfaces/profile';
@@ -11,14 +12,25 @@ import { IUser } from 'src/app/interfaces/user';
   templateUrl: './profile-card.component.html',
   styleUrls: ['./profile-card.component.css'],
 })
-export class ProfileCardComponent implements OnInit {
-  @Input() profileData: IProfileWithCreatedPosts | null = null;
+export class ProfileCardComponent  {
+  @Input() profileData: IProfileWithCreatedPosts  | null = null;
   successMessage: string | null = null;
 
-  isAlreadyFollowed: boolean = false;
+
 
   get currentUserId(): string | undefined {
     return this.authService.user?._id.toString();
+  }
+
+
+  get isAlreadyFollowed(): boolean {
+    if (!this.currentUserId || !this.profileData?.profile?.followerList) {
+      return false;
+    }
+
+    return this.profileData.profile.followerList.some(
+      (follower: IUser) => follower._id?.toString() === this.currentUserId
+    );
   }
 
   constructor(
@@ -27,21 +39,7 @@ export class ProfileCardComponent implements OnInit {
     private location: Location
   ) { }
 
-  ngOnInit(): void {
-    console.log('Provide data form parent', this.profileData);
-    console.log('Current user id', this.currentUserId)
 
-
-    if (!this.currentUserId || !this.profileData?.profile?.followerList) {
-      return;
-    }
-
-    this.isAlreadyFollowed = this.profileData?.profile?.followerList?.some(
-      (follower: IUser) => follower._id?.toString() === this.currentUserId
-    );
-
-    console.log('Flag already followed', this.isAlreadyFollowed);
-  }
 
   onFollow(id: string): void {
     this.profileService.followProfile(id).pipe(take(1))
@@ -49,6 +47,8 @@ export class ProfileCardComponent implements OnInit {
         next: (profile) => {
           this.successMessage = 'Successfully followed profile!';
           this.showSuccessMessage();
+          
+          this.location.back();
 
         },
         error: (error) => {

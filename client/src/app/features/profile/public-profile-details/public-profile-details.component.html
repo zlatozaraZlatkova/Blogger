@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="lg:col-span-4 lg:col-start-9">
-                    <app-profile-card [profileData]="profileData"></app-profile-card>
+                    <app-profile-card [profileData]="viewedProfile$ | async"></app-profile-card>
                 </div>
                 
             </div>
