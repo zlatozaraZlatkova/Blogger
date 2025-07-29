@@ -15,6 +15,7 @@ import { getGitHubUrl, getLinkedInUrl } from 'src/app/shared/utils/genSocialMedi
 })
 export class PublicProfileComponent implements OnDestroy {
   @Input() profileData: IProfile | null = null;
+  @Input() userFollowersCount: number = 0;
 
   private subscriptions = new Subscription();
 

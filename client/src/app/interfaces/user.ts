@@ -19,7 +19,8 @@ export interface IUser {
   teams: ITeam[];
   sentInvitations: IInvitation[];
   receivedInvitations: IInvitation[];
-   publicProfile?: IProfile;
+  publicProfile?: IProfile;
+  followedUsersList?: IUser[];
   
   createdAt?: Date; 
   updatedAt?: Date; 

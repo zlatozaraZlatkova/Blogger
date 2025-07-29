@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, startWith, take } from 'rxjs';
 
 import { ProfileService } from '../profile.service';
 import { IProfile } from 'src/app/interfaces/profile';
@@ -37,9 +37,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     map((user) => user?.likedPostList || [])
   );
 
-  userFollowers$: Observable<IUser[]> = this.userPublicProfile$.pipe(
-    map((user) => user?.followerList || [])
+  userFollowingList$: Observable<number> = this.user$.pipe(
+    map((user) => (user?.followedUsersList || []).length)
   )
+
+  userFollowersCount$: Observable<number> = this.userPublicProfile$.pipe(
+    map(user => (user?.followerList || []).length),
+    startWith(0)
+  );
 
   constructor(
     private profileService: ProfileService,

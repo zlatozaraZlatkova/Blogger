@@ -88,7 +88,13 @@ const userSchema = new Schema({
         type: Types.ObjectId,
         ref: "Profile",
       
-    }
+    },
+    followedUsersList: {
+        type: [Types.ObjectId],
+        required: true,
+        ref: "User",
+        default: [],
+    },
 
 }, { timestamps: true });
 

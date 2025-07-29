@@ -1,27 +1,26 @@
 const Profile = require("../models/Profile");
 const User = require("../models/User");
 
-
 async function getProfileById(id) {
   const profile = await Profile.findById(id).populate("followerList");
   if (!profile) {
-    throw new Error('Profile not found');
+    throw new Error("Profile not found");
   }
 
   const user = await User.findById(profile.ownerId)
-    .select('createdPosts')
-    .populate('createdPosts')
+    .select("createdPosts")
+    .populate("createdPosts");
 
   return {
     profile: profile,
-    createdPosts: user.createdPosts
+    createdPosts: user.createdPosts,
   };
 }
 
 async function getUserById(id) {
   return Profile.findOne({ ownerId: id }).populate("ownerId", [
-    "likedPostList"
-  ])
+    "likedPostList",
+  ]);
 }
 
 async function createItem(userId, profileData) {
@@ -34,7 +33,6 @@ async function createItem(userId, profileData) {
   );
 
   return newProfile;
-
 }
 
 async function updateItem(userId, profileData) {
@@ -50,27 +48,27 @@ async function deleteById(userId) {
     userId,
     { $unset: { publicProfile: 1 } },
     { new: true }
-
-  )
+  );
   await Profile.findOneAndDelete({ ownerId: userId });
 }
-
 
 async function getProfileByIdSimple(id) {
   return await Profile.findById(id);
 }
 
 async function followProfile(profileId, userId) {
-
-  return await Profile.findByIdAndUpdate(
-    profileId,
-    { $push: { followerList: userId } },
+  await User.findByIdAndUpdate(
+    userId,
+    { $addToSet: { followedUsersList: profileId } },
     { new: true }
-  )
+  );
 
+  await Profile.findByIdAndUpdate(
+    profileId,
+    { $addToSet: { followerList: userId } },
+    { new: true }
+  );
 }
-
-
 
 module.exports = {
   getProfileById,
@@ -79,6 +77,5 @@ module.exports = {
   updateItem,
   deleteById,
   getProfileByIdSimple,
-  followProfile
-
+  followProfile,
 };
