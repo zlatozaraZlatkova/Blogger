@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PublicProfileDetailsComponent } from './public-profile-details.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PublicProfileDetailsComponent', () => {
   let component: PublicProfileDetailsComponent;
@@ -8,7 +11,22 @@ describe('PublicProfileDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PublicProfileDetailsComponent]
+      declarations: [PublicProfileDetailsComponent],
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: { subscribe: () => { } },
+            snapshot: {
+              paramMap: {
+                get: (key: string) => 'user-id'
+              }
+            }
+          }
+        }
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     fixture = TestBed.createComponent(PublicProfileDetailsComponent);
     component = fixture.componentInstance;
