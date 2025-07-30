@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
 import { authResolver } from './auth.resolver';
+import { IUser } from 'src/app/interfaces/user';
 
 describe('authResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
+  const executeResolver: ResolveFn<IUser> = (...resolverParameters) => 
       TestBed.runInInjectionContext(() => authResolver(...resolverParameters));
 
   beforeEach(() => {
