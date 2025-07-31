@@ -17,13 +17,13 @@
 
   <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
     <button type="submit" [disabled]="newsletterForm.invalid"
-      class="flex w-full items-center justify-center rounded-md border border-transparent bg-[#276ef1] px-4 py-2 text-base font-medium text-white hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed">
+      class="subscribe-btn flex w-full items-center justify-center rounded-md border border-transparent bg-[#276ef1] px-4 py-2 text-base font-medium text-white hover:bg-[#1d4ed8] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed">
       Subscribe
     </button>
   </div>
 </form>
 
-<div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-md success-fade-in">
+<div *ngIf="successMessage" class="message-container mb-4 p-4 bg-green-50 border border-green-200 rounded-md success-fade-in">
   <div class="flex">
     <div class="flex-shrink-0">
       <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -42,7 +42,7 @@
 
 <div class="mt-4">
   <button type="button" (click)="unsubscribeHandler()"
-    class="text-sm text-gray-800 hover:text-gray-600 underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/20 rounded">
+    class="unsubscribe-btn text-sm text-gray-800 hover:text-gray-600 underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/20 rounded">
     Already subscribed? Unsubscribe here
   </button>
 </div>
