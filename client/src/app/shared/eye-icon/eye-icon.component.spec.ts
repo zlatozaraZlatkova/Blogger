@@ -20,4 +20,29 @@ describe('EyeIconComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('should display open eye icon when closed is false', () => {
+    component.closed = false;
+    fixture.detectChanges();
+
+   const openPath = fixture.nativeElement.querySelector('path.open-eye');
+
+    expect(openPath).toBeTruthy();
+  });
+
+
+
+  it('should display closed eye icon when closed is true', () => {
+    component.closed = true;
+    fixture.detectChanges();
+
+   
+    const closedPath = fixture.nativeElement.querySelector('path.closed-eye');
+
+    expect(closedPath).toBeTruthy();
+  });
+
+
+
 });
