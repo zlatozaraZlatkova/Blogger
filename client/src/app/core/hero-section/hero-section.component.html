@@ -34,7 +34,7 @@
                     *ngIf="!isLoggedIn" 
                     [buttonText]="'Sign Up'" 
                     [routerLink]="'/auth/register'"
-                    [buttonClass]="'flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
+                    [buttonClass]="'login-btn flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'">
                     <mat-icon>login</mat-icon>
                 </app-custom-button>
 
@@ -42,7 +42,7 @@
                     *ngIf="isLoggedIn" 
                     [buttonText]="'Start Writing'" 
                     [routerLink]="'/posts/create'"
-                    [buttonClass]="'text-sm/6 font-semibold text-gray-900 hover:text-blue-600'">
+                    [buttonClass]="'write-btn text-sm/6 font-semibold text-gray-900 hover:text-blue-600'">
                     <mat-icon>arrow_forward</mat-icon>
                 </app-custom-button>
             </div>

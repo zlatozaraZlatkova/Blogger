@@ -7,9 +7,9 @@ import { AuthService } from 'src/app/user/auth.service';
   styleUrls: ['./hero-section.component.css']
 })
 export class HeroSectionComponent {
-    get isLoggedIn() {
-      return this.authService.isLoggedIn;
-    }
-  
-    constructor(private authService: AuthService) {}
+  get isLoggedIn() {
+    return this.authService.isLoggedIn;
+  }
+
+  constructor(private authService: AuthService) { }
 }

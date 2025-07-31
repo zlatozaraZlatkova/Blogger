@@ -39,7 +39,7 @@
       <app-custom-button 
       [buttonText]="'Write'"
       [routerLink]="'/posts/create'"
-      [buttonClass]="'text-sm font-semibold text-gray-900 hover:text-blue-600'"
+      [buttonClass]="' write-btn text-sm font-semibold text-gray-900 hover:text-blue-600'"
 
       >
         <mat-icon svgIcon="write" class="icon-align" class="text-base"></mat-icon>
@@ -53,7 +53,7 @@
         <app-custom-button
           [buttonText]="'Sign in'"
           [buttonClass]="
-            'text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
+            'login-btn text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
           "
           [routerLink]="'/auth/login'"
         >
@@ -66,7 +66,7 @@
         <app-custom-button
           [buttonText]="'Profile'"
           [buttonClass]="
-            'text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
+            'profile-btn text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
           "
           [routerLink]="'/profile'"
         >
@@ -76,7 +76,7 @@
         <app-custom-button
           [buttonText]="'Logout'"
           [buttonClass]="
-            'text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
+            'logout-btn text-sm font-semibold text-gray-900 hover:text-blue-600 flex items-center gap-x-1'
           "
           [routerLink]="'/auth/logout'"
         >
@@ -105,12 +105,8 @@
     <!-- Header with logo and close button -->
     <div class="flex items-center justify-between mb-8">
       <a [routerLink]="'/'" class="-m-1.5 p-1.5">
-        <span class="sr-only">Your Company</span>
-        <img
-          class="h-8 w-auto"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          alt=""
-        />
+        <span class="sr-only">Blogger</span>
+        <mat-icon svgIcon="logo" class="icon-align"></mat-icon>
       </a>
       <button
         type="button"
