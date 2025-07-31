@@ -193,5 +193,89 @@ describe('PaginationComponent', () => {
     expect(notActiveButton?.classList).toContain('page-button--inactive');
   });
 
+
+  it('should call onPrevious() when button is clicked', () => {
+
+    component.paginationData = {
+      hasPrevPage: true,
+      hasNextPage: false,
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 5
+    } as IPagination
+
+    spyOn(component, 'onPrevious');
+
+    fixture.detectChanges();
+
+
+    const button = fixture.nativeElement.querySelector('button.previous.nav-button');
+
+    button.click();
+
+    expect(component.onPrevious).toHaveBeenCalled();
+
+  });
+
+
+  it('should call onNext() when button is clicked', () => {
+    component.paginationData = {
+      hasPrevPage: true,
+      hasNextPage: true,
+      currentPage: 2,
+      totalPages: 3,
+      totalItems: 15
+    } as IPagination
+
+    spyOn(component, 'onNext');
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button.next.nav-button');
+
+    button.click();
+
+    expect(component.onNext).toHaveBeenCalled();
+
+  });
+
   
+
+  it('should call onPageChange() when button is clicked', () => {
+
+    spyOn(component, 'onPageChange');
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button.page-button');
+
+    button.click();
+
+    expect(component.onPageChange).toHaveBeenCalled();
+
+  });
+
+
+
+  it('should call onPageChange(5) with correct page number when button is clicked', () => {
+
+    component.paginationData = {
+      hasPrevPage: true,
+      hasNextPage: true,
+      currentPage: 5,
+      totalPages: 10,
+      totalItems: 50
+    } as IPagination
+
+    spyOn(component, 'onPageChange');
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll('button.page-button');
+
+    buttons[4].click();
+
+    expect(component.onPageChange).toHaveBeenCalledWith(5);
+
+  });
+
+
 });
