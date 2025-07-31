@@ -11,7 +11,7 @@ describe('TypewriterComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TypewriterComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule],
     });
     fixture = TestBed.createComponent(TypewriterComponent);
     component = fixture.componentInstance;
@@ -21,4 +21,41 @@ describe('TypewriterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('should display text', () => {
+
+    component.displayedText.set('Signal');
+    fixture.detectChanges();
+
+    const code = fixture.nativeElement.querySelector('code');
+
+    expect(code.textContent).toContain('Signal');
+  });
+
+
+
+  it('should display text with CSS class text-green-400', () => {
+
+    component.displayedText.set('Some green text');
+    fixture.detectChanges();
+
+    const code = fixture.nativeElement.querySelector('code');
+
+    expect(code.classList).toContain('text-green-400');
+  });
+
+
+
+  it('should initialize displayedText as empty string', () => {
+
+    component.displayedText.set('');
+    fixture.detectChanges();
+
+    expect(component.displayedText()).toBe('');
+
+  });
+
+
+
 });
