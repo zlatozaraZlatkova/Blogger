@@ -1,4 +1,4 @@
-  <div *ngIf="errResponseMsg" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md error-fade-in">
+  <div *ngIf="errResponseMsg" class="error-container mb-4 p-4 bg-red-50 border border-red-200 rounded-md error-fade-in">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -8,7 +8,7 @@
         </svg>
       </div>
       <div class="ml-3">
-        <div class="mt-2 text-sm text-red-700">
+        <div class="error-message mt-2 text-sm text-red-700">
           {{ errResponseMsg }}
         </div>
       </div>
