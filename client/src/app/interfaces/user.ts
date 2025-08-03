@@ -11,14 +11,14 @@ export interface IUser {
   name: string;
   email: string;
   avatar?: string;
-  createdBoards: IBoard[];
-  createdSections: ISection[];
-  createdTasks: ITask[];
+  createdBoards?: IBoard[];
+  createdSections?: ISection[];
+  createdTasks?: ITask[];
   createdPosts: IPost[];
   likedPostList: IPost[];
-  teams: ITeam[];
-  sentInvitations: IInvitation[];
-  receivedInvitations: IInvitation[];
+  teams?: ITeam[];
+  sentInvitations?: IInvitation[];
+  receivedInvitations?: IInvitation[];
   publicProfile?: IProfile;
   followedUsersList?: IUser[];
   
