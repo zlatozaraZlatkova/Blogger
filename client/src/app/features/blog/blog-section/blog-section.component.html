@@ -7,7 +7,7 @@
 
       <ng-container *ngIf="paginatedPosts$ | async as postsResponse">
         <ng-container *ngIf="postsResponse.data.items.length > 0; else noItemsTemplate">
-          <div *ngFor="let post of postsResponse.data.items"
+          <div data-testid="post" *ngFor="let post of postsResponse.data.items"
             class="group border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
 
             <div class="cursor-pointer" (click)="navigateToArticle(post._id)">
