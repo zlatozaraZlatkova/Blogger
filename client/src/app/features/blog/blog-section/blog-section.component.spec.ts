@@ -4,7 +4,7 @@ import { BlogSectionComponent } from './blog-section.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { map, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { BlogService } from '../blog.service';
 
@@ -18,13 +18,50 @@ import { IUser } from 'src/app/interfaces/user';
 describe('BlogSectionComponent', () => {
   let component: BlogSectionComponent;
   let fixture: ComponentFixture<BlogSectionComponent>;
+  let postsSubject$: BehaviorSubject<IPostsResponse>;
+
+  const mockPostsData = {
+    success: true,
+    data: {
+      items: [
+        {
+          _id: '1',
+          name: 'Test User',
+          avatar: 'www.avatar.com',
+          postImageUrl: 'www.url.com',
+          postCategory: '',
+          postTags: ['angular', 'nodejs', 'typescript'],
+          postTitle: 'Post Title',
+          postText: 'Post Text',
+          postLikes: [],
+          comments: [],
+          views: 88,
+          ownerId: '01',
+        } as IPost,
+      ],
+      pagination: {
+        hasPrevPage: false,
+        hasNextPage: false,
+        currentPage: 1,
+        totalPages: 1,
+        totalItems: 1,
+      } as IPagination,
+    },
+  } as IPostsResponse;
 
   beforeEach(() => {
+    postsSubject$ = new BehaviorSubject(mockPostsData);
+
+    const blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPosts'], {
+      paginatedPosts$: postsSubject$
+    });
+
+
     TestBed.configureTestingModule({
       declarations: [BlogSectionComponent, BlogCardComponent],
       imports: [HttpClientTestingModule, SharedModule, RouterTestingModule],
       providers: [
-        BlogService,
+        { provide: BlogService, useValue: blogServiceSpy },
         { provide: MatDialog, useValue: { open: () => { } } },
         {
           provide: ActivatedRoute,
@@ -48,41 +85,7 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should display posts when data is available', () => {
-    const blogService = TestBed.inject(BlogService);
 
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
 
     const allPosts = fixture.nativeElement.querySelectorAll(
@@ -92,55 +95,34 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should NOT display posts data is NOT available', () => {
-    const blogService = TestBed.inject(BlogService);
 
-    const emptyPostData = {
-      success: true,
+    const emptyData = {
+      ...mockPostsData,
       data: {
-        items: [],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 0,
-        } as IPagination,
-      },
-    } as IPostsResponse;
+        ...mockPostsData.data,
+        items: []
+      }
+    };
 
-    blogService.paginatedPosts$ = of(emptyPostData);
+    postsSubject$.next(emptyData);
 
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const allPosts = fixture.nativeElement.querySelectorAll(
-      '[data-testid="post"]'
-    );
+    const allPosts = fixture.nativeElement.querySelectorAll('[data-testid="post"]');
+
     expect(allPosts.length).toBe(0);
   });
 
   it('should provide navigation back to home when no posts available', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const emptyPostData = {
-      success: true,
+    const emptyData = {
+      ...mockPostsData,
       data: {
-        items: [],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 0,
-        } as IPagination,
-      },
-    } as IPostsResponse;
+        ...mockPostsData.data,
+        items: []
+      }
+    };
 
-    blogService.paginatedPosts$ = of(emptyPostData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
+    postsSubject$.next(emptyData);
     fixture.detectChanges();
 
     const homeLink = fixture.nativeElement.querySelector(
@@ -153,41 +135,6 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should show clickable owner action buttons', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
 
     spyOn(component, 'isPostOwner').and.returnValue(true);
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(true);
@@ -212,42 +159,6 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should hide owner actions and show like button for non-owners', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
-
 
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(true);
     spyOn(component, 'isPostOwner').and.returnValue(false);
@@ -264,42 +175,6 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should hide all action buttons for unauthenticated users', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
-
 
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(false);
     spyOn(component, 'isPostOwner').and.returnValue(false);
@@ -316,42 +191,6 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should show heart icon for liked posts', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
-
 
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(true);
     spyOn(component, 'isPostOwner').and.returnValue(false);
@@ -370,42 +209,6 @@ describe('BlogSectionComponent', () => {
 
 
   it('should show empty heart icon for non-liked posts', () => {
-    const blogService = TestBed.inject(BlogService);
-
-    const mockPostsData = {
-      success: true,
-      data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
-
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
-
 
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(true);
     spyOn(component, 'isPostOwner').and.returnValue(false);
@@ -424,56 +227,34 @@ describe('BlogSectionComponent', () => {
 
 
   it('should display like count correctly in UI', () => {
-    const blogService = TestBed.inject(BlogService);
 
-    const mockPostsData = {
-      success: true,
+    const dataWithLikes = {
+      ...mockPostsData,
       data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [
-              {
-                _id: '2',
-                name: 'user name',
-                email: 'user@email.com',
-                createdPosts: [],
-                likedPostList: []
-              },
-              {
-                _id: '3',
-                name: 'user name',
-                email: 'user@email.com',
-                createdPosts: [],
-                likedPostList: []
-              }
-            ] as IUser[],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
+        ...mockPostsData.data,
+        items: [{
+          ...mockPostsData.data.items[0],
+          postLikes: [
+            {
+              _id: '2',
+              name: 'user name',
+              email: 'user@email.com',
+              createdPosts: [],
+              likedPostList: []
+            },
+            {
+              _id: '3',
+              name: 'user name',
+              email: 'user@email.com',
+              createdPosts: [],
+              likedPostList: []
+            }
+          ] as IUser[]
+        }]
+      }
+    };
 
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
+    postsSubject$.next(dataWithLikes);
 
 
     spyOnProperty(component, 'isLoggedIn', 'get').and.returnValue(true);
@@ -487,56 +268,34 @@ describe('BlogSectionComponent', () => {
   });
 
   it('should have correct like count in data', () => {
-    const blogService = TestBed.inject(BlogService);
 
-    const mockPostsData = {
-      success: true,
+    const dataWithLikes = {
+      ...mockPostsData,
       data: {
-        items: [
-          {
-            _id: '1',
-            name: 'Test User',
-            avatar: 'www.avatar.com',
-            postImageUrl: 'www.url.com',
-            postCategory: '',
-            postTags: ['angular', 'nodejs', 'typescript'],
-            postTitle: 'Post Title',
-            postText: 'Post Text',
-            postLikes: [
-              {
-                _id: '2',
-                name: 'user name',
-                email: 'user@email.com',
-                createdPosts: [],
-                likedPostList: []
-              },
-              {
-                _id: '3',
-                name: 'user name',
-                email: 'user@email.com',
-                createdPosts: [],
-                likedPostList: []
-              }
-            ] as IUser[],
-            comments: [],
-            views: 88,
-            ownerId: '01',
-          } as IPost,
-        ],
-        pagination: {
-          hasPrevPage: false,
-          hasNextPage: false,
-          currentPage: 1,
-          totalPages: 1,
-          totalItems: 1,
-        } as IPagination,
-      },
-    } as IPostsResponse;
+        ...mockPostsData.data,
+        items: [{
+          ...mockPostsData.data.items[0],
+          postLikes: [
+            {
+              _id: '2',
+              name: 'user name',
+              email: 'user@email.com',
+              createdPosts: [],
+              likedPostList: []
+            },
+            {
+              _id: '3',
+              name: 'user name',
+              email: 'user@email.com',
+              createdPosts: [],
+              likedPostList: []
+            }
+          ] as IUser[]
+        }]
+      }
+    };
 
-    blogService.paginatedPosts$ = of(mockPostsData);
-
-    fixture = TestBed.createComponent(BlogSectionComponent);
-    component = fixture.componentInstance;
+    postsSubject$.next(dataWithLikes);
 
     fixture.detectChanges();
 
