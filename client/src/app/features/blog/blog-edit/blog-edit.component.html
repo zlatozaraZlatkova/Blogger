@@ -32,9 +32,12 @@
             editPostForm.get('postTitle')?.invalid &&
             editPostForm.get('postTitle')?.touched
           ">
-          <div class="mt-2 text-sm text-red-600">
+          <div data-testid="error-title-message" class="mt-2 text-sm text-red-600">
             <div *ngIf="editPostForm.get('postTitle')?.errors?.['required']">
               Title is required
+            </div>
+            <div *ngIf="editPostForm.get('postTitle')?.errors?.['minlength']">
+              Title shoule be at least 2 characters
             </div>
             <div *ngIf="editPostForm.get('postTitle')?.errors?.['maxlength']">
               Title cannot exceed 150 characters
@@ -113,19 +116,18 @@
               editPostForm.get('postText')?.touched
             "></textarea>
         </div>
-        <p class="mt-2 text-sm text-gray-500">
-          Use markdown for formatting. You can use **bold**, *italic*,
-          [links](http://example.com), and more.
-        </p>
 
         <!-- Content Error Messages -->
         <ng-container *ngIf="
             editPostForm.get('postText')?.invalid &&
             editPostForm.get('postText')?.touched
           ">
-          <div class="mt-2 text-sm text-red-600">
+          <div data-testid="error-text-message" class="mt-2 text-sm text-red-600">
             <div *ngIf="editPostForm.get('postText')?.errors?.['required']">
               Content is required
+            </div>
+            <div *ngIf="editPostForm.get('postText')?.errors?.['minlength']">
+              Content should be at least 5 characters
             </div>
             <div *ngIf="editPostForm.get('postText')?.errors?.['maxlength']">
               Content cannot exceed 3000 characters

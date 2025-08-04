@@ -36,10 +36,10 @@ export class BlogEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.editPostForm = this.fb.group({
-      postTitle: ['', [Validators.required, Validators.maxLength(150)]],
+      postTitle: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
       postImageUrl: ['', [Validators.required]],
       postCategory: ['', [Validators.required]],
-      postText: ['', [Validators.required, Validators.maxLength(3000)]],
+      postText: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(3000)]],
       postTags: ['', [Validators.required]],
     });
   }
