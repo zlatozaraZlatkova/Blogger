@@ -60,11 +60,11 @@ export class BlogCreateComponent implements OnInit {
 
   private initializeForm(): void {
     this.postForm = this.fb.group({
-      postTitle: ['', [Validators.required, Validators.maxLength(150)]],
-      postImageUrl: ['', Validators.required],
-      postCategory: ['', Validators.required],
-      postText: ['', [Validators.required, Validators.maxLength(3000)]],
-      postTags: ['', Validators.required],
+      postTitle: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(150)]],
+      postImageUrl: ['', [Validators.required]],
+      postCategory: ['', [Validators.required]],
+      postText: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(3000)]],
+      postTags: ['', [Validators.required]],
     });
   }
 
