@@ -37,7 +37,7 @@ describe('BlogEditComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => {} },
+            params: { subscribe: () => { } },
             snapshot: {
               paramMap: {
                 get: (key: string) => '123',
@@ -114,8 +114,8 @@ describe('BlogEditComponent', () => {
     category?.setValue('');
     text?.setValue('');
     tags?.setValue('');
-    
-    fixture.detectChanges(); 
+
+    fixture.detectChanges();
 
     expect(title?.hasError('required')).toBe(true);
     expect(imgUrl?.hasError('required')).toBe(true);
@@ -128,22 +128,22 @@ describe('BlogEditComponent', () => {
   it('should title control has a correct min/max validation rules', () => {
     const editForm = component.editPostForm;
     const title = editForm.get('postTitle');
-   
+
     title?.setValue('a');
-    fixture.detectChanges(); 
+    fixture.detectChanges();
 
     const minLengthError = title?.getError('minlength');
     expect(minLengthError?.requiredLength).toBe(2);
     expect(minLengthError?.actualLength).toBe(1);
-  
+
 
     title?.setValue('a'.repeat(151));
-    fixture.detectChanges(); 
+    fixture.detectChanges();
 
     const maxLengthError = title?.getError('maxlength');
     expect(maxLengthError?.requiredLength).toBe(150);
     expect(maxLengthError?.actualLength).toBe(151);
-   
+
 
 
   });
@@ -162,11 +162,96 @@ describe('BlogEditComponent', () => {
 
     text?.setValue('a'.repeat(3001));
     fixture.detectChanges();
-    
+
     const maxLengthError = text?.getError('maxlength');
     expect(maxLengthError?.requiredLength).toBe(3000);
     expect(maxLengthError?.actualLength).toBe(3001);
   });
+
+
+  it('should display title validation error messages in DOM', () => {
+    const editForm = component.editPostForm;
+    const title = editForm.get('postTitle');
+  
+    title?.setValue('a');
+    title?.markAsTouched();
+
+    fixture.detectChanges();
+
+    const errorContainer = fixture.nativeElement.querySelector('[data-testid="error-title-message"]');
+
+    expect(errorContainer?.textContent.trim()).toContain('Title should be at least 2 characters');
+
+  });
+
+
+  
+  it('should display text validation error messages in DOM', () => {
+    const editForm = component.editPostForm;
+    const text = editForm.get('postText');
+  
+    text?.setValue('a'.repeat(3001));
+    text?.markAsTouched();
+
+    fixture.detectChanges();
+
+    const errorContainer = fixture.nativeElement.querySelector('[data-testid="error-text-message"]');
+
+    expect(errorContainer?.textContent.trim()).toContain('Content cannot exceed 3000 characters');
+
+  });
+
+
+  it('should NOT set disabled attribute when form is valid', () => {
+   
+    const title = component.editPostForm.get('postTitle');
+    const imgUrl = component.editPostForm.get('postImageUrl');
+    const category = component.editPostForm.get('postCategory');
+    const text = component.editPostForm.get('postText');
+    const tags = component.editPostForm.get('postTags');
+
+    title?.setValue('updated titel');
+    imgUrl?.setValue('updated img url');
+    category?.setValue('updated category');
+    text?.setValue('updated text');
+    tags?.setValue('know-how, tool, unit test');
+    
+    expect(component.editPostForm.valid).toBe(true);
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('[data-testid="update-btn"]');
+    
+    expect(button.disabled).toBe(false);
+    expect(button.hasAttribute('disabled')).toBe(false);
+
+  });
+
+  it('should disabled button when form is invalid', () => {
+   
+    const title = component.editPostForm.get('postTitle');
+    const imgUrl = component.editPostForm.get('postImageUrl');
+    const category = component.editPostForm.get('postCategory');
+    const text = component.editPostForm.get('postText');
+    const tags = component.editPostForm.get('postTags');
+
+    title?.setValue('');
+    imgUrl?.setValue('');
+    category?.setValue('');
+    text?.setValue('');
+    tags?.setValue('');
+    
+    expect(component.editPostForm.valid).toBe(false);
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('[data-testid="update-btn"]');
+    
+    expect(button.disabled).toBe(true);
+    expect(button.hasAttribute('disabled')).toBe(true);
+
+  });
+
 
 
 });

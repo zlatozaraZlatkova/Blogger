@@ -37,7 +37,7 @@
               Title is required
             </div>
             <div *ngIf="editPostForm.get('postTitle')?.errors?.['minlength']">
-              Title shoule be at least 2 characters
+              Title should be at least 2 characters
             </div>
             <div *ngIf="editPostForm.get('postTitle')?.errors?.['maxlength']">
               Title cannot exceed 150 characters
@@ -169,7 +169,7 @@
           (click)="onCancel()">
           Cancel
         </button>
-        <button type="submit" [disabled]="editPostForm.invalid"
+        <button data-testid="update-btn" type="submit" [disabled]="editPostForm.invalid"
           [ngClass]="editPostForm.valid ? 'form-is-active' : 'form-is-not-active'"
           class="rounded-md py-2.5 px-5 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
           Update Article
