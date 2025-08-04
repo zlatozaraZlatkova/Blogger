@@ -2,11 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogEditComponent } from './blog-edit.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BlogService } from '../blog.service';
 import { IPost } from 'src/app/interfaces/post';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BlogEditComponent', () => {
   let component: BlogEditComponent;
@@ -31,7 +32,7 @@ describe('BlogEditComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [BlogEditComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         { provide: BlogService, useValue: blogServiceSpy },
         {
@@ -172,7 +173,7 @@ describe('BlogEditComponent', () => {
   it('should display title validation error messages in DOM', () => {
     const editForm = component.editPostForm;
     const title = editForm.get('postTitle');
-  
+
     title?.setValue('a');
     title?.markAsTouched();
 
@@ -185,11 +186,11 @@ describe('BlogEditComponent', () => {
   });
 
 
-  
+
   it('should display text validation error messages in DOM', () => {
     const editForm = component.editPostForm;
     const text = editForm.get('postText');
-  
+
     text?.setValue('a'.repeat(3001));
     text?.markAsTouched();
 
@@ -203,7 +204,7 @@ describe('BlogEditComponent', () => {
 
 
   it('should NOT set disabled attribute when form is valid', () => {
-   
+
     const title = component.editPostForm.get('postTitle');
     const imgUrl = component.editPostForm.get('postImageUrl');
     const category = component.editPostForm.get('postCategory');
@@ -215,20 +216,20 @@ describe('BlogEditComponent', () => {
     category?.setValue('updated category');
     text?.setValue('updated text');
     tags?.setValue('know-how, tool, unit test');
-    
+
     expect(component.editPostForm.valid).toBe(true);
 
     fixture.detectChanges();
 
     const button = fixture.nativeElement.querySelector('[data-testid="update-btn"]');
-    
+
     expect(button.disabled).toBe(false);
     expect(button.hasAttribute('disabled')).toBe(false);
 
   });
 
   it('should disabled button when form is invalid', () => {
-   
+
     const title = component.editPostForm.get('postTitle');
     const imgUrl = component.editPostForm.get('postImageUrl');
     const category = component.editPostForm.get('postCategory');
@@ -240,17 +241,68 @@ describe('BlogEditComponent', () => {
     category?.setValue('');
     text?.setValue('');
     tags?.setValue('');
-    
+
     expect(component.editPostForm.valid).toBe(false);
 
     fixture.detectChanges();
 
     const button = fixture.nativeElement.querySelector('[data-testid="update-btn"]');
-    
+
     expect(button.disabled).toBe(true);
     expect(button.hasAttribute('disabled')).toBe(true);
 
   });
+
+  it('should set postId when route id is valid', () => {
+    const activateRoute = TestBed.inject(ActivatedRoute);
+    spyOn(activateRoute.snapshot.paramMap, 'get').and.returnValue('123');
+
+    component.ngOnInit();
+
+    fixture.detectChanges();
+
+    expect(component.postId).toBe('123');
+
+  });
+
+  it('should navigate to posts when route id is invalid', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+
+    const activateRoute = TestBed.inject(ActivatedRoute);
+    spyOn(activateRoute.snapshot.paramMap, 'get').and.returnValues(null);
+
+    component.ngOnInit();
+
+    fixture.detectChanges();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/posts']);
+
+  });
+
+  it('should call onCancel when cancel button is clicked', () => {
+    spyOn(component, 'onCancel');
+    fixture.detectChanges();
+
+
+    const cancelBtn = fixture.nativeElement.querySelector('[data-testid="cancel-btn"]');
+    cancelBtn.click();
+
+    expect(component.onCancel).toHaveBeenCalled();
+  });
+
+
+  it('should navigate to posts when onCancel is called', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+
+    component.onCancel();
+
+    fixture.detectChanges();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/posts']);
+  });
+
 
 
 
