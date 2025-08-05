@@ -38,7 +38,7 @@ describe('BlogEditComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => { } },
+            params: of({ id: '123' }),
             snapshot: {
               paramMap: {
                 get: (key: string) => '123',

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthenticateComponent } from './authenticate.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('AuthenticateComponent', () => {
   let component: AuthenticateComponent;
@@ -16,11 +17,13 @@ describe('AuthenticateComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => { } },
+            params: of({ id: '123' }),
             snapshot: {
-              params: {},
-              data: { user: null }
+              paramMap: {
+                get: (key: string) => '123',
+              }, data: { user: null }
             }
+
           }
         }
       ]

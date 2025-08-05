@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -18,8 +19,12 @@ describe('MainComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => {} },
-            snapshot: { params: {} },
+            params: of({ id: '123' }),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => '123',
+              },
+            },
           },
         },
       ],

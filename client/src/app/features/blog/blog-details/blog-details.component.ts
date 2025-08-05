@@ -29,12 +29,10 @@ export class BlogDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.loadCurrentArticle(id);
-      }
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+    this.loadCurrentArticle(id);
+
   }
 
   loadCurrentArticle(id: string): void {
@@ -42,11 +40,11 @@ export class BlogDetailsComponent implements OnInit {
 
     this.blogService.getPostById(id).subscribe({
       next: (postData) => {
-        console.log('Post loaded successfully', postData);
+        //console.log('Post loaded successfully', postData);
 
         const owner = postData.ownerId as { publicProfile?: { _id: string } } | undefined;
         this.authorProfileId = owner?.publicProfile?._id;
-        console.log("author profile id", this.authorProfileId)
+        //console.log("author profile id", this.authorProfileId)
 
 
         this.loadRelatedArticles();

@@ -67,8 +67,12 @@ describe('BlogSectionComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             queryParams: of({}),
-            params: { subscribe: () => { } },
-            snapshot: { params: {} },
+            params: of({ id: '123' }),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => '123',
+              },
+            },
           },
         },
       ],

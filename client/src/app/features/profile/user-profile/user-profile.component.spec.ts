@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -18,9 +19,11 @@ describe('UserProfileComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => { } },
+            params: of({ id: '123' }),
             snapshot: {
-              params: {},
+              paramMap: {
+                get: (key: string) => '123',
+              },
               data: { user: { publicProfile: null } }
             }
           }

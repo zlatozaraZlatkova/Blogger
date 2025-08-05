@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('PublicProfileComponent', () => {
   let component: PublicProfileComponent;
@@ -19,8 +20,12 @@ describe('PublicProfileComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => { } },
-            snapshot: { params: {} }
+            params: of({ id: '123' }),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => '123',
+              },
+            }
           }
         }
       ],

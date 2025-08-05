@@ -6,24 +6,49 @@ import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 
+import { BlogService } from '../blog.service';
+import { IPost } from 'src/app/interfaces/post';
+
+
 describe('BlogDetailsComponent', () => {
   let component: BlogDetailsComponent;
   let fixture: ComponentFixture<BlogDetailsComponent>;
 
+  const mockPostData: IPost = {
+    _id: 'post-id-123',
+    name: 'Author Name',
+    avatar: 'author-avatar-url.jpg',
+    postImageUrl: 'post-image-url.jpg',
+    postCategory: 'Technology',
+    postTags: ['angular', 'testing', 'typescript'],
+    postTitle: 'Blog Post Title',
+    postText: 'This is a blog post content for testing purposes.',
+    postLikes: [],
+    comments: [],
+    views: 42,
+    ownerId: 'owner-id-456',
+    createdAt: new Date('2024-01-15'),
+  };
+
   beforeEach(() => {
+    const blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPostById']);
+    blogServiceSpy.getPostById.and.returnValue(of(mockPostData));
+
     TestBed.configureTestingModule({
       declarations: [BlogDetailsComponent],
       imports: [HttpClientTestingModule],
       providers: [
+        { provide: BlogService, useValue: blogServiceSpy },
         {
           provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 'post-id' }),
-            paramMap: of({
-              get: (key: string) => 'post-id'
-            }),
-            snapshot: { params: { id: 'post-id' } }
-          }
+            useValue: {
+            params: of({ id: '123' }),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => '123',
+              },
+            },
+          },
         }
       ],
 

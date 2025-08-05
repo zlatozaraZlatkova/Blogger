@@ -4,6 +4,7 @@ import { ProfileService } from './profile.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 describe('PublicProfileService', () => {
   let service: ProfileService;
@@ -15,15 +16,17 @@ describe('PublicProfileService', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: { subscribe: () => {} },
+            params: of({ id: '123' }),
             snapshot: {
-              params: {},
+              paramMap: {
+                get: (key: string) => '123',
+              },
               data: { user: null },
             },
           },
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     service = TestBed.inject(ProfileService);
   });
