@@ -1,4 +1,4 @@
-<div *ngIf="profileData as profileData"
+<div data-testid="profile-card" *ngIf="profileData as profileData"
   class="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg p-6 w-full max-w-sm mx-auto">
   <div class="text-center mb-6">
     <!-- <div class="w-24 h-24 mx-auto mb-4 overflow-hidden rounded-full">
@@ -41,7 +41,7 @@
   </div>
 
   <div class="m-6" *ngIf="!isAlreadyFollowed">
-    <app-custom-button (click)="onFollow(profileData.profile._id)" [buttonText]="'Follow'" [routerLink]="'/profile/public/follow'"
+    <app-custom-button data-testid="follow-btn" (click)="onFollow(profileData.profile._id)" [buttonText]="'Follow'" [routerLink]="'/profile/public/follow'"
       [buttonClass]="
         'w-full min-w-32 bg-[#276ef1] py-2 px-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
       ">
@@ -60,7 +60,7 @@
       </svg>
     </div>
     <div class="ml-3">
-      <div class="mt-2 text-sm text-green-700">
+      <div class="success-msg mt-2 text-sm text-green-700">
         {{ successMessage }}
       </div>
     </div>

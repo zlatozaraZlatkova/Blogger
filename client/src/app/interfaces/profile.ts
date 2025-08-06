@@ -10,7 +10,7 @@ export interface IProfile {
   followerList?: IUser[];
   createdAt: string;  
   updatedAt: string;  
-  __v: number;
+  __v?: number;
 }
 
 export interface ICreateProfileDto {
