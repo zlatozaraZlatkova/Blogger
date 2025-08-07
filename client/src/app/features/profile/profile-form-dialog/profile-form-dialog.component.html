@@ -33,7 +33,7 @@
     <mat-error *ngIf="createProfileForm.get('bio')?.errors?.['required']">
       Content is required
     </mat-error>
-    <mat-error *ngIf="createProfileForm.get('bio')?.errors?.['maxlength']">
+    <mat-error data-testid="error-bio-message" *ngIf="createProfileForm.get('bio')?.errors?.['maxlength']">
       Content should be no more than 300 characters long.
     </mat-error>
   </mat-form-field>
@@ -41,8 +41,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-cancel-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="!createProfileForm.valid">
+  <button data-testid="cancel-btn" mat-cancel-button (click)="onCancel()">Cancel</button>
+  <button data-testid="submit-btn" mat-raised-button color="primary" [disabled]="!createProfileForm.valid">
     Submit
   </button>
 </mat-dialog-actions>
