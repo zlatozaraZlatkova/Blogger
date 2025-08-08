@@ -98,5 +98,101 @@ describe('SingUpFormComponent', () => {
 
   });
 
+  it('should show password requirements when password field has value', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('test123');
+    passwordControl?.markAsTouched();
+
+    fixture.detectChanges();
+
+    const title = fixture.nativeElement.querySelector('.text-gray-700');
+    expect(title).toBeTruthy();
+    expect(title.textContent.trim()).toBe('Password Requirements:');
+
+    const text = fixture.nativeElement.querySelector('.requirement-text');
+    expect(text).toBeTruthy();
+    expect(text.textContent.trim()).toBe('At least 8 characters');
+  });
+
+  it('should apply "invalid" class when password does not meet minimum length requirement', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('test123');
+    passwordControl?.markAsTouched();
+
+    fixture.detectChanges();
+
+    const item = fixture.nativeElement.querySelector('.requirement-item');
+    expect(item.classList.contains('invalid')).toBeTruthy();
+    expect(item.classList.contains('valid')).toBeFalsy();
+
+    const icon = fixture.nativeElement.querySelector('.requirement-icon');
+    expect(icon.classList.contains('invalid')).toBeTruthy();
+
+    const text = fixture.nativeElement.querySelector('.requirement-text');
+    expect(text.classList.contains('invalid')).toBeTruthy();
+
+  });
+
+  it('should show validation details for weak password', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('aaa');
+    passwordControl?.markAsTouched();
+
+    const details = component.getPasswordDetails;
+
+    fixture.detectChanges();
+
+    expect(details).toBeTruthy();
+
+    expect(details?.hasMinLength).toBeFalsy();
+    expect(details?.hasUpper).toBeFalsy();
+    expect(details?.hasNumber).toBeFalsy();
+    expect(details?.hasSymbol).toBeFalsy();
+
+  });
+
+  it('should show validation details when password is missing a symbol', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('Aa3456789');
+    passwordControl?.markAsTouched();
+
+    const details = component.getPasswordDetails;
+
+    fixture.detectChanges();
+
+    expect(details).toBeTruthy();
+
+    expect(details?.hasMinLength).toBeTruthy();
+    expect(details?.hasUpper).toBeTruthy();
+    expect(details?.hasNumber).toBeTruthy();
+    expect(details?.hasSymbol).toBeFalsy();
+
+  });
+
+  it('should return success validation result for valid password', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('1!Aa2bfdDf#asd');
+
+    fixture.detectChanges();
+
+    const details = component.getPasswordDetails;
+
+    expect(details).toBeTruthy();
+    expect(details?.hasMinLength).toBeTruthy();
+    expect(details?.hasUpper).toBeTruthy();
+    expect(details?.hasNumber).toBeTruthy();
+    expect(details?.hasSymbol).toBeTruthy();
+
+
+  });
+
+  it('should return null when password is empty', () => {
+    const passwordControl = component.registerForm.get('passGroup')?.get('password');
+    passwordControl?.setValue('');
+    fixture.detectChanges();
+
+    expect(component.getPasswordDetails).toBeNull();
+
+  });
 
 });
