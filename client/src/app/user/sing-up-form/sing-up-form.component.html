@@ -57,7 +57,8 @@
       <mat-icon
         class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">work_outline</mat-icon>
 
-      <input [type]="showPassword ? 'text' : 'password'" name="password"
+      <input data-testid="input-pass"
+      [type]="showPassword ? 'text' : 'password'" name="password"
         class="password-input mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 pr-12 text-base text-[#333333]"
         placeholder="Password (min 8 characters)" autocomplete="new-password" formControlName="password"
         [class.border-red-500]="
@@ -74,7 +75,8 @@
     <div class="relative mb-4">
       <mat-icon
         class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">work_outline</mat-icon>
-      <input [type]="showConfirmPassword ? 'text' : 'password'" name="rePassword"
+      <input data-testid="input-repass"
+      [type]="showConfirmPassword ? 'text' : 'password'" name="rePassword"
         class="password-input mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 pr-12 text-base text-[#333333]"
         placeholder="Confirm Password" autocomplete="new-password" formControlName="rePassword" [class.border-red-500]="
           registerForm.get('passGroup')?.get('rePassword')?.invalid &&
