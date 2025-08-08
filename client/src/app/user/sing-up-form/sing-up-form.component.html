@@ -57,8 +57,7 @@
       <mat-icon
         class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">work_outline</mat-icon>
 
-      <input data-testid="input-pass"
-      [type]="showPassword ? 'text' : 'password'" name="password"
+      <input data-testid="input-pass" [type]="showPassword ? 'text' : 'password'" name="password"
         class="password-input mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 pr-12 text-base text-[#333333]"
         placeholder="Password (min 8 characters)" autocomplete="new-password" formControlName="password"
         [class.border-red-500]="
@@ -75,8 +74,7 @@
     <div class="relative mb-4">
       <mat-icon
         class="absolute bottom-0 left-[5%] right-auto top-[26%] inline-block h-5 w-5 text-gray-500">work_outline</mat-icon>
-      <input data-testid="input-repass"
-      [type]="showConfirmPassword ? 'text' : 'password'" name="rePassword"
+      <input data-testid="input-repass" [type]="showConfirmPassword ? 'text' : 'password'" name="rePassword"
         class="password-input mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 pr-12 text-base text-[#333333]"
         placeholder="Confirm Password" autocomplete="new-password" formControlName="rePassword" [class.border-red-500]="
           registerForm.get('passGroup')?.get('rePassword')?.invalid &&
@@ -159,6 +157,7 @@
         Confirm Password is required!
       </div>
     </div>
+
   </ng-container>
 
   <ng-container *ngIf="registerForm.get('passGroup')?.errors?.['passwordMismatch'] && 
@@ -167,8 +166,13 @@
   </ng-container>
 
 
+
+
   <!-- Button -->
-  <app-custom-button [disabled]="registerForm.invalid" [buttonClass]="
+  <app-custom-button 
+    data-testid="register-btn" 
+    [disabled]="registerForm.invalid" 
+    [buttonClass]="
       'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'
     " [buttonText]="'Create Account'">
 

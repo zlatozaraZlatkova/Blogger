@@ -195,4 +195,66 @@ describe('SingUpFormComponent', () => {
 
   });
 
+
+
+  it('should show password mismatch error', () => {
+    const passGroup = component.registerForm.get('passGroup');
+    passGroup?.markAsTouched();
+
+    passGroup?.setErrors({ passwordMismatch: true });
+
+    fixture.detectChanges();
+
+
+    const errorText = fixture.nativeElement.textContent;
+    expect(errorText).toContain('Passwords do not match!');
+  });
+
+  
+  it('should enable register button when form is valid', () => {
+    component.registerForm.patchValue({
+      name: 'User Name',
+      email: 'username@domain.com',
+      passGroup: {
+        password: '1!Aa22334',
+        rePassword: '1!Aa22334'
+      }
+    });
+
+    component.registerForm.markAllAsTouched();
+
+    fixture.detectChanges();
+
+    expect(component.registerForm.valid).toBeTrue();
+
+    const button = fixture.nativeElement.querySelector('[data-testid="register-btn"]');
+    expect(button).toBeTruthy();
+
+    expect(button.disabled).toBeFalse();
+
+  });
+
+  it('should disable register button when form is invalid', () => {
+     component.registerForm.patchValue({
+      name: '',
+      email: '',
+      passGroup: {
+        password: '1!Aa22334',
+        rePassword: '1!Aa22334'
+      }
+    });
+
+    component.registerForm.markAllAsTouched();
+
+    expect(component.registerForm.valid).toBe(false);
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('[data-testid="register-btn"]');
+    expect(button).toBeTruthy();
+
+    expect(button.disabled).toBeTrue();
+
+  });
+
 });
