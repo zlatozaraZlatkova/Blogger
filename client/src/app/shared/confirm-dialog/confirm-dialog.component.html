@@ -7,11 +7,11 @@
       <mat-form-field appearance="outline" class="email-field">
         <input matInput formControlName="email" placeholder="Enter your email" autocomplete="email" />
         
-        <mat-error *ngIf="emailForm.get('email')?.errors?.['required'] && emailForm.get('email')?.touched">
+        <mat-error data-testid="error-msg-required" *ngIf="emailForm.get('email')?.errors?.['required'] && emailForm.get('email')?.touched">
           Email is required!
         </mat-error>
 
-        <mat-error *ngIf="emailForm.get('email')?.errors?.['invalidEmail'] && emailForm.get('email')?.touched">
+        <mat-error data-testid="error-msg" *ngIf="emailForm.get('email')?.errors?.['invalidEmail'] && emailForm.get('email')?.touched">
           Please enter a valid email address.
         </mat-error>
       </mat-form-field>
@@ -20,10 +20,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-cancel-button (click)="onCancel()">
+  <button data-testid="cancel-btn" mat-cancel-button (click)="onCancel()">
     {{ data.cancelButtonText }}
   </button>
-  <button mat-raised-button color="warn" (click)="onConfirm()">
+  <button data-testid="confirm-btn" mat-raised-button color="warn" (click)="onConfirm()">
     {{ data.confirmButtonText }}
   </button>
 </mat-dialog-actions>
