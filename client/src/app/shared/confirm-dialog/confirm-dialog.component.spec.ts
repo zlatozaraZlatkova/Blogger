@@ -9,16 +9,19 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 describe('ConfirmDialogComponent', () => {
   let component: ConfirmDialogComponent;
   let fixture: ComponentFixture<ConfirmDialogComponent>;
+  let mockDialogRefSpy: jasmine.SpyObj<MatDialogRef<ConfirmDialogComponent>>;
 
   beforeEach(() => {
+    mockDialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
+
     TestBed.configureTestingModule({
       declarations: [ConfirmDialogComponent],
       imports: [HttpClientTestingModule, RouterTestingModule],
-     providers: [
-      { provide: MatDialogRef, useValue: { close: () => {} } },
-      { provide: MAT_DIALOG_DATA, useValue: {} }
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [
+        { provide: MatDialogRef, useValue: mockDialogRefSpy },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     fixture = TestBed.createComponent(ConfirmDialogComponent);
     component = fixture.componentInstance;
@@ -28,4 +31,30 @@ describe('ConfirmDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('should close dialog with true when emailInputTag is true', () => {
+    const emailControl = component.emailForm.get('email')
+    emailControl?.setValue('test@domain.com');
+
+    fixture.detectChanges();
+
+    component.onConfirm();
+    expect(mockDialogRefSpy.close).toHaveBeenCalledWith('test@domain.com');
+
+  });
+
+  it('should close dialog with true when emailInputTag is false', () => {
+    component.onConfirm();
+    expect(mockDialogRefSpy.close).toHaveBeenCalledWith(true);
+
+  });
+
+  it('should close dialog when obCancel is called', () => {
+    component.onCancel();
+    expect(mockDialogRefSpy.close).toHaveBeenCalledWith(false);
+
+  });
+
+
 });
