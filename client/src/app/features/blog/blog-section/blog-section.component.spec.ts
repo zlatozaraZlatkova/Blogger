@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogSectionComponent } from './blog-section.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
@@ -14,11 +14,17 @@ import { IPagination } from 'src/app/interfaces/pagination';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IUser } from 'src/app/interfaces/user';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 describe('BlogSectionComponent', () => {
   let component: BlogSectionComponent;
   let fixture: ComponentFixture<BlogSectionComponent>;
   let postsSubject$: BehaviorSubject<IPostsResponse>;
+  let mockMatDialogSpy: jasmine.SpyObj<MatDialog>;
+
+  const mockDialogRef: Partial<MatDialogRef<any>> = {
+    afterClosed: () => of(null)
+  };
 
   const mockPostsData = {
     success: true,
@@ -50,6 +56,10 @@ describe('BlogSectionComponent', () => {
   } as IPostsResponse;
 
   beforeEach(() => {
+    mockMatDialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    mockMatDialogSpy.open.and.returnValue(mockDialogRef as MatDialogRef<any>);
+
+
     postsSubject$ = new BehaviorSubject(mockPostsData);
 
     const blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPosts'], {
@@ -62,7 +72,7 @@ describe('BlogSectionComponent', () => {
       imports: [HttpClientTestingModule, SharedModule, RouterTestingModule],
       providers: [
         { provide: BlogService, useValue: blogServiceSpy },
-        { provide: MatDialog, useValue: { open: () => { } } },
+        { provide: MatDialog, useValue: mockMatDialogSpy },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -87,6 +97,30 @@ describe('BlogSectionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open ConfirmDialogComponent with correct config for delete', () => {
+    const postId = mockPostsData.data.items[0]._id;
+    component.onDelete(postId);
+
+    expect(mockMatDialogSpy.open).toHaveBeenCalledWith(
+      ConfirmDialogComponent,
+      jasmine.objectContaining({
+        width: '600px',
+
+        data: jasmine.objectContaining({
+          title: 'Delete Profile',
+          message: 'Are you sure you want to delete this post?',
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+        })
+      })
+    );
+  });
+
+  it('should open delete confirm post dialog', () => {
+    component.onDelete(mockPostsData.data.items[0]._id);
+    expect(mockMatDialogSpy.open).toHaveBeenCalled();
+  })
 
   it('should display posts when data is available', () => {
 

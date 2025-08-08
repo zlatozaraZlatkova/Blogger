@@ -88,9 +88,9 @@ export class NewsletterFormComponent implements OnInit, OnDestroy {
           });
       }
 
-      this.subscriptions.add(dialogSub);
-
     });
+
+    this.subscriptions.add(dialogSub);
   }
 
   ngOnDestroy(): void {

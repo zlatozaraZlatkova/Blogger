@@ -3,19 +3,31 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsletterFormComponent } from './newsletter-form.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 describe('NewsletterFormComponent', () => {
   let component: NewsletterFormComponent;
   let fixture: ComponentFixture<NewsletterFormComponent>;
+  let mockMatDialogSpy: jasmine.SpyObj<MatDialog>;
+
+  const mockDialogRef: Partial<MatDialogRef<any>> = {
+    afterClosed: () => of(null)
+  };
 
   beforeEach(() => {
+    mockMatDialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    mockMatDialogSpy.open.and.returnValue(mockDialogRef as MatDialogRef<any>);
+
+
+
     TestBed.configureTestingModule({
       declarations: [NewsletterFormComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule],
       providers: [
-        { provide: MatDialog, useValue: { open: () => { } } }
+        { provide: MatDialog, useValue: mockMatDialogSpy }
       ]
     });
     fixture = TestBed.createComponent(NewsletterFormComponent);
@@ -26,6 +38,25 @@ describe('NewsletterFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open ConfirmDialogComponent with correct config', () => {
+    component.unsubscribeHandler();
+
+    expect(mockMatDialogSpy.open).toHaveBeenCalledWith(
+      ConfirmDialogComponent,
+      jasmine.objectContaining({
+        width: '600px',
+        data: jasmine.objectContaining({
+          title: 'Newsletter Unsubscibe'
+        })
+      })
+    );
+  });
+
+  it('should open unsubscribeHandler dialog', () => {
+    component.unsubscribeHandler();
+    expect(mockMatDialogSpy.open).toHaveBeenCalled();
+  })
 
 
 
@@ -74,7 +105,6 @@ describe('NewsletterFormComponent', () => {
   });
 
 
-
   it('should NOT set disabled attribute when form is valid', () => {
     const emailControl = component.newsletterForm.get('email')
     emailControl?.setValue('test@domain.com');
@@ -119,7 +149,7 @@ describe('NewsletterFormComponent', () => {
 
   it('should NOT show validation errors when NO touched', () => {
     const emailControl = component.newsletterForm.get('email');
-    
+
     emailControl?.setValue('');
     emailControl?.markAsUntouched();
 

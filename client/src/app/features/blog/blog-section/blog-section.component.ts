@@ -102,9 +102,9 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
 
       }
 
-      this.subscriptions.add(dialogSub);
-
     });
+
+    this.subscriptions.add(dialogSub);
   }
 
   onLike(postId: string): void {

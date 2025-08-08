@@ -52,9 +52,9 @@ export class PublicProfileComponent implements OnDestroy {
           });
       }
 
-      this.subscriptions.add(dialogSub);
-
     });
+
+     this.subscriptions.add(dialogSub);
 
   }
 
@@ -85,8 +85,8 @@ export class PublicProfileComponent implements OnDestroy {
           });
       }
 
-      this.subscriptions.add(dialogSub);
     });
+    this.subscriptions.add(dialogSub);
   }
 
   openDeleteProfileDialog(): void {
@@ -115,9 +115,8 @@ export class PublicProfileComponent implements OnDestroy {
           });
       }
 
-      this.subscriptions.add(dialogSub);
-
     })
+    this.subscriptions.add(dialogSub);
   }
 
 
