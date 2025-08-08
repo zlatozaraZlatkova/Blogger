@@ -34,7 +34,7 @@ export class SingInFormComponent implements OnInit {
   private initializeLoginForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, emailValidator()]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required]],
     });
   }
 

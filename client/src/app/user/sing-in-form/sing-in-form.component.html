@@ -15,10 +15,10 @@
 
   <ng-container *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
     <div class="mt-2 text-sm text-red-600">
-      <div *ngIf="loginForm.get('email')?.errors?.['required']">
+      <div data-testid="error-msg-required" *ngIf="loginForm.get('email')?.errors?.['required']">
         Email is required!
       </div>
-      <div *ngIf="loginForm.get('email')?.errors?.['invalidEmail']">
+      <div data-testid="error-msg" *ngIf="loginForm.get('email')?.errors?.['invalidEmail']">
         Please enter a valid email address (example: user"&#64;"domain.com).
       </div>
     </div>
@@ -35,7 +35,7 @@
       [class.border-red-500]="
         loginForm.get('password')?.invalid && loginForm.get('password')?.touched
       " />
-    <button type="button"
+    <button data-testid="show-pass" type="button"
       class="absolute right-3 top-0 bottom-0 my-auto h-fit bg-transparent border-none cursor-pointer p-1 flex items-center justify-center text-gray-500 hover:text-gray-700"
       (click)="togglePasswordVisibility()">
       <app-eye-icon [closed]="showPassword"></app-eye-icon>
@@ -46,17 +46,14 @@
       loginForm.get('password')?.invalid && loginForm.get('password')?.touched
     ">
     <div class="mt-2 text-sm text-red-600">
-      <div *ngIf="loginForm.get('password')?.errors?.['required']">
+      <div data-testid="error-pass-required" *ngIf="loginForm.get('password')?.errors?.['required']">
         Password is required!
-      </div>
-      <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
-        Password should be at least 8 characters long.
       </div>
     </div>
   </ng-container>
 
 
-  <app-custom-button [disabled]="loginForm.invalid"
+  <app-custom-button data-testid="login-btn" [disabled]="loginForm.invalid"
     [buttonClass]="'w-full flex items-center justify-center bg-[#276ef1] px-8 py-4 text-center font-semibold text-white transition [box-shadow:rgb(171,_196,_245)_-8px_8px] hover:[box-shadow:rgb(171,_196,_245)_0px_0px]'"
     [buttonText]="'Join Blogger'">
 
