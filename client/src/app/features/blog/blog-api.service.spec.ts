@@ -5,25 +5,19 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IComment } from 'src/app/interfaces/comment';
 import { IPost, IPostsResponse } from 'src/app/interfaces/post';
 import { IPagination } from 'src/app/interfaces/pagination';
+import { IUser } from 'src/app/interfaces/user';
 
 describe('BlogApiService', () => {
   let service: BlogApiService;
   let httpMock: HttpTestingController;
 
-  const mockCommentsData: IComment[] = [
-    {
-      text: 'Comment text A',
-      name: 'Author name A',
-      avatar: 'www.avatar.com',
-      user: 'user-id-666',
-    },
-    {
-      text: 'Comment text B',
-      name: 'Author name B',
-      avatar: 'www.avatar.com',
-      user: 'user-id-777',
-    },
-  ];
+  const mockCommentsData: IComment = {
+    text: 'Comment text A',
+    name: 'Author name A',
+    avatar: 'www.avatar.com',
+    user: 'user-id-666',
+  }
+
 
   const mockPostData: IPost = {
     _id: '1',
@@ -40,14 +34,6 @@ describe('BlogApiService', () => {
     ownerId: 'owner-id-123',
 
   }
-
-  const mockCreatePostData = {
-    postTitle: '',
-    postImageUrl: '',
-    postCategory: '',
-    postText: '',
-    postTags: [''],
-  } as IPost;
 
   const mockPostsWithPaginationData = {
     success: true,
@@ -181,5 +167,165 @@ describe('BlogApiService', () => {
       { status: 404, statusText: 'Not Found' }
     );
   });
+
+  it('should call createPost and return created data', () => {
+    service.createPost(mockPostData).subscribe(data => {
+      expect(data).toEqual(mockPostData);
+    });
+
+    const req = httpMock.expectOne('/api/posts/create');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(mockPostData);
+    req.flush(mockPostData);
+  });
+
+  it('should call editPost and return updated data', () => {
+    const postId = '5678';
+
+    const updatePostData = {
+      ...mockPostData,
+      postText: 'Updated post description'
+
+    }
+    service.editPost(postId, updatePostData).subscribe(data => {
+      expect(data).toEqual(updatePostData);
+    });
+
+    const req = httpMock.expectOne(`/api/posts/update/${postId}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(updatePostData);
+    req.flush(updatePostData);
+  });
+
+
+  it('should handle 404 error when post id not found during edit', () => {
+    const postId = '000000';
+
+    const updatePostData = {
+      ...mockPostData,
+      postText: 'Updated post description'
+
+    }
+
+    service.editPost(postId, updatePostData).subscribe({
+      next: (updatePostData) => fail('Should have failed with 404 error'),
+      error: (error) => {
+        expect(error.status).toBe(404);
+        expect(error.error.message).toBe('Post not found');
+      }
+
+    });
+
+    const req = httpMock.expectOne(`/api/posts/update/${postId}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(updatePostData);
+
+    req.flush(
+      { message: 'Post not found' },
+      { status: 404, statusText: 'Not Found' }
+    );
+
+  });
+
+
+  it('should call  deletePost and return null data', () => {
+    const postId = '5678';
+
+    service.deletePost(postId).subscribe(data => {
+      expect(data).toBeNull();
+    });
+
+    const req = httpMock.expectOne(`/api/posts/delete/${postId}`);
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.body).toBeNull();
+    req.flush(null);
+  });
+
+  it('should call createPostComment and return updated post', () => {
+    const postId = '5678';
+
+    const updatedPostData = {
+      ...mockPostData,
+      _id: postId,
+      comments: [mockCommentsData]
+    };
+
+    service.createPostComment(postId, mockCommentsData).subscribe(data => {
+      expect(data).toEqual(updatedPostData);
+    });
+
+    const req = httpMock.expectOne(`/api/posts/comment/${postId}/create`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(mockCommentsData);
+    req.flush(updatedPostData);
+  });
+
+  it('should call postById and update likePost list with user data', () => {
+    const postToLike = '123';
+
+    const currentUser: IUser = {
+      _id: '222',
+      email: 'user@domain.com',
+      name: '',
+      createdPosts: [],
+      likedPostList: []
+    };
+
+    const expectedResponse: IPost = {
+      ...mockPostData,
+      postLikes: [currentUser]
+    };
+
+    service.likePost(postToLike).subscribe(data => {
+      expect(data.postLikes).toContain(currentUser);
+      expect(data.postLikes?.length).toBe(1);
+      expect(data).toEqual(expectedResponse);
+    });
+
+    const req = httpMock.expectOne(`/api/posts/like/${postToLike}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({});
+    req.flush(expectedResponse);
+  })
+
+  it('should remove user from postLikes when unliking previously liked post', () => {
+    const postToUnlike = '123';
+
+    const currentUser: IUser = {
+      _id: '222',
+      email: 'user@domain.com',
+      name: '',
+      createdPosts: [],
+      likedPostList: []
+    };
+
+    const otherUser: IUser = {
+      _id: '333',
+      email: 'other@domain.com',
+      name: 'Other User',
+      createdPosts: [],
+      likedPostList: []
+    };
+
+
+    const expectedResponse: IPost = {
+      ...mockPostData,
+      postLikes: [otherUser]
+    };
+
+    service.unlikePost(postToUnlike).subscribe(data => {
+      expect(data.postLikes).not.toContain(currentUser);
+      expect(data.postLikes).toContain(otherUser);
+      expect(data.postLikes?.length).toBe(1);
+      expect(data).toEqual(expectedResponse);
+    });
+
+    const req = httpMock.expectOne(`/api/posts/unlike/${postToUnlike}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({});
+    req.flush(expectedResponse);
+
+  });
+
 
 });
