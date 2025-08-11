@@ -4,7 +4,8 @@ import { BlogDetailsComponent } from './blog-details.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { Location } from '@angular/common';
 
 import { BlogService } from '../blog.service';
 import { IPost } from 'src/app/interfaces/post';
@@ -15,6 +16,7 @@ import { IComment } from 'src/app/interfaces/comment';
 describe('BlogDetailsComponent', () => {
   let component: BlogDetailsComponent;
   let fixture: ComponentFixture<BlogDetailsComponent>;
+  let blogServiceSpy: jasmine.SpyObj<BlogService>;
 
   const mockPostData: IPost = {
     _id: '123',
@@ -32,8 +34,13 @@ describe('BlogDetailsComponent', () => {
     createdAt: new Date('2024-01-15'),
   };
 
+  const mockError = {
+    status: 404,
+    error: { message: 'Post not found' }
+  };
+
   beforeEach(() => {
-    const blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPostById']);
+    blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPostById']);
     blogServiceSpy.getPostById.and.returnValue(of(mockPostData));
 
     TestBed.configureTestingModule({
@@ -71,6 +78,19 @@ describe('BlogDetailsComponent', () => {
 
     expect(blogServiceSpy.getPostById).toHaveBeenCalledWith('123');
   });
+
+ it('should call location.back() when post id is invalid', () => {
+  const location = TestBed.inject(Location);
+
+ blogServiceSpy.getPostById.and.returnValue(throwError(() => mockError));
+
+  spyOn(location, 'back');
+
+  component.loadCurrentArticle('0000000');
+
+  expect(location.back).toHaveBeenCalled();
+  expect(component.loading).toBeFalse();
+});
 
 
   it('should display post content when post$ has data', () => {
