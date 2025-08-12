@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, skip } from 'rxjs';
 import { IProfile } from 'src/app/interfaces/profile';
 import { ProfileService } from '../profile.service';
 import { AuthService } from 'src/app/user/auth.service';
@@ -42,6 +42,22 @@ describe('UserProfileComponent', () => {
     likedPostList: [],
     followedUsersList: []
   };
+
+  const mockPostData: IPost = {
+    _id: '1',
+    name: 'Test User',
+    avatar: 'www.avatar.com',
+    postImageUrl: 'www.url.com',
+    postCategory: 'tool',
+    postTags: ['angular', 'nodejs', 'typescript'],
+    postTitle: 'Post Title',
+    postText: 'Post Text',
+    postLikes: [],
+    comments: [],
+    views: 88,
+    ownerId: '01',
+  };
+
 
   beforeEach(() => {
     profileSubject = new BehaviorSubject<IProfile | null>(mockProfileData);
@@ -88,13 +104,74 @@ describe('UserProfileComponent', () => {
   });
 
   it('should validate created posts from mock user data', () => {
-    let result: IPost[] = [];
 
-    component.userCreatedPosts$.subscribe(posts => result = posts);
+    component.userCreatedPosts$.subscribe(posts => {
+      expect(posts).toEqual([]);
+    });
 
-    fixture.detectChanges();
-
-    expect(result).toEqual([]);
   });
+
+  it('should return user created posts when available', () => {
+    const updateMockUserData = {
+      ...mockUserData,
+      createdPosts: [mockPostData]
+    }
+
+    userSubject.next(updateMockUserData);
+
+    component.userCreatedPosts$.subscribe(posts => {
+      expect(posts).toEqual([mockPostData]);
+      expect(posts.length).toBe(1);
+    });
+
+  });
+
+
+  it('should return user liked posts when available', () => {
+    const updateMockUserData = {
+      ...mockUserData,
+      likedPostList: [mockPostData, mockPostData]
+    }
+
+    userSubject.next(updateMockUserData);
+
+    component.userLikedPosts$.subscribe(posts => {
+      expect(posts).toEqual([mockPostData, mockPostData]);
+      expect(posts.length).toBe(2);
+    });
+
+  });
+
+
+  it('should return followedUsersList when available', () => {
+    const updateMockUserData = {
+      ...mockUserData,
+      followedUsersList: [mockUserData, mockUserData, mockUserData]
+    }
+
+    userSubject.next(updateMockUserData);
+
+    component.userFollowingListCount$.subscribe(usersCount => {
+      expect(usersCount).toBe(3);
+    });
+
+  });
+
+
+  it('should return userFollowersCount when available', () => {
+    const updateMockProfileData = {
+      ...mockProfileData,
+      followerList: [mockUserData]
+    };
+
+    profileSubject.next(updateMockProfileData);
+
+    component.userFollowersCount$.pipe(skip(1)).subscribe(usersCount => {
+      expect(usersCount).toBe(1);
+    });
+
+  });
+
+
 
 });

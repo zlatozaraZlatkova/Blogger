@@ -37,7 +37,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     map((user) => user?.likedPostList || [])
   );
 
-  userFollowingList$: Observable<number> = this.user$.pipe(
+  userFollowingListCount$: Observable<number> = this.user$.pipe(
     map((user) => (user?.followedUsersList || []).length)
   )
 
