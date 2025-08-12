@@ -3,7 +3,7 @@
 
         <ng-container *ngIf="viewedProfile$ | async as profileData; else noProfileData">
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div data-testid="profile-content" class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <div class="lg:col-span-7">
                     <div class="flex items-center mb-6">
                         <div class="flex items-center justify-center w-12 h-12 bg-blue-50 rounded-xl mr-4">
@@ -11,8 +11,8 @@
                         </div>
 
                         <div>
-                            <h2 class="text-2xl font-bold text-gray-900">From the Dev's Desk</h2>
-                            <p class="text-gray-500 text-sm mt-1">Recommended Reads</p>
+                            <h2 data-testid="title" class="text-2xl font-bold text-gray-900">From the Dev's Desk</h2>
+                            <p data-testid="text" class="text-gray-500 text-sm mt-1">Recommended Reads</p>
                         </div>
                     </div>
 
@@ -51,13 +51,13 @@
         </ng-container>
 
         <ng-template #noProfileData>
-            <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
+            <div data-testid="no-profile-content" class="flex flex-col items-center justify-center min-h-[400px] text-center">
                 <div class="flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
                     <mat-icon class="w-10 h-10 text-gray-400">person</mat-icon>
                 </div>
 
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Profile Not Found</h3>
-                <p class="text-gray-500 max-w-md">
+                <h3 data-testid="title" class="text-xl font-semibold text-gray-900 mb-2">Profile Not Found</h3>
+                <p data-testid="text" class="text-gray-500 max-w-md">
                     The profile you're looking for doesn't exist or is not available.
                 </p>
             </div>
