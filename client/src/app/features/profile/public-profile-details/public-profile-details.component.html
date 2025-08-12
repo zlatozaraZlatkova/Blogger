@@ -16,14 +16,14 @@
                         </div>
                     </div>
 
-                    <div *ngIf="profileData.createdPosts">
+                    <div *ngIf="profileData.createdPosts && profileData.createdPosts.length > 0">
 
                         <div *ngFor="let post of profileData.createdPosts" (click)="navigateToPost(post._id)"
                             class="group flex gap-8 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200 cursor-pointer">
 
                             <div class="flex-1 flex gap-4">
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-bold text-gray-900 mb-2">
+                                    <h3 data-testid="created-post-title" class="text-lg font-bold text-gray-900 mb-2">
                                         {{ post.postTitle }}
                                     </h3>
                                 </div>
@@ -34,10 +34,10 @@
                         </div>
                     </div>
 
-                    <div *ngIf="!profileData.createdPosts">
+                    <div *ngIf="!profileData.createdPosts || profileData.createdPosts.length === 0">
                         <div class="text-center py-8 bg-gray-50 rounded-xl">
                             <mat-icon class="w-12 h-12 text-gray-300 mb-3">article</mat-icon>
-                            <p class="text-gray-500">No articles published yet</p>
+                            <p data-testid="no-created-post" class="text-gray-500">No articles published yet</p>
                         </div>
                     </div>
 
