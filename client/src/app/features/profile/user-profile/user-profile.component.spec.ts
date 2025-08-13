@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/user/auth.service';
 import { IUser } from 'src/app/interfaces/user';
 import { IPost } from 'src/app/interfaces/post';
 
+
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
@@ -40,7 +41,9 @@ describe('UserProfileComponent', () => {
     avatar: 'www.avatar.com',
     createdPosts: [],
     likedPostList: [],
-    followedUsersList: []
+    followedUsersList: [],
+    publicProfile: mockProfileData
+
   };
 
   const mockPostData: IPost = {
@@ -59,12 +62,16 @@ describe('UserProfileComponent', () => {
   };
 
 
+
+
   beforeEach(() => {
     profileSubject = new BehaviorSubject<IProfile | null>(mockProfileData);
 
     profileServiceSpy = jasmine.createSpyObj('ProfileService', ['getProfile'], {
       userPublicProfile$: profileSubject.asObservable()
     })
+
+    profileServiceSpy.getProfile.and.returnValue(of(mockProfileData));
 
     userSubject = new BehaviorSubject<IUser | null>(mockUserData);
 
@@ -87,7 +94,7 @@ describe('UserProfileComponent', () => {
               paramMap: {
                 get: (key: string) => '123',
               },
-              data: { user: { publicProfile: null } }
+              data: { user: mockUserData }
             }
           }
         }
@@ -173,5 +180,81 @@ describe('UserProfileComponent', () => {
   });
 
 
+  it('should call loadUserProfile when resolvedUser has publicProfile', () => {
+    spyOn(component, 'loadUserProfile');
+    component.ngOnInit();
+
+    expect(component.loadUserProfile).toHaveBeenCalled();
+  });
+
+
+  it('should set resolvedUser from route data', () => {
+
+    const updatedMockUser = {
+      ...mockUserData,
+      publicProfile: undefined
+    };
+
+    component['route'].snapshot.data = { user: updatedMockUser };
+
+    component.ngOnInit();
+
+    expect(component.resolvedUser).toEqual(updatedMockUser);
+    expect(component.resolvedUser?.publicProfile).toBeUndefined();
+
+  });
+
+
+  it('should openEditProfileDialog hander when edit button is clicked', () => {
+
+    spyOn(component, 'openEditProfileDialog');
+
+    const editButton = fixture.nativeElement.querySelector('[data-testid="edit-profile-btn"]');
+    expect(editButton).toBeTruthy();
+    editButton.click();
+
+    expect(component.openEditProfileDialog).toHaveBeenCalledWith(mockProfileData);
+  });
+
+
+  it('should show clickable remove action button', () => {
+    const updateMockUserData = {
+      ...mockUserData,
+      likedPostList: [mockPostData]
+    }
+
+    userSubject.next(updateMockUserData);
+
+    spyOn(component, 'removeFromReadingList');
+
+    fixture.detectChanges();
+
+    const removeBtn = fixture.nativeElement.querySelector('[data-testid="remove-button"]');
+    expect(removeBtn).toBeTruthy();
+    removeBtn.click();
+
+    expect(component.removeFromReadingList).toHaveBeenCalled();
+    expect(component.removeFromReadingList).toHaveBeenCalledWith(mockPostData._id);
+  });
+
+
+  it('should call navigateToPost when related post is clicked', () => {
+    const updateMockUserData = {
+      ...mockUserData,
+      likedPostList: [mockPostData]
+    }
+
+    userSubject.next(updateMockUserData);
+
+    spyOn(component, 'navigateToPost');
+
+    fixture.detectChanges();
+
+    const postEl = fixture.nativeElement.querySelector('[data-testid="post-id"]');
+    expect(postEl).toBeTruthy();
+    postEl.click();
+
+    expect(component.navigateToPost).toHaveBeenCalledWith(mockPostData._id);
+  });
 
 });
