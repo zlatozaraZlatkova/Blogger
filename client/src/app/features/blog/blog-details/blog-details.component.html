@@ -137,17 +137,18 @@
       </div>
     </div>
 
-    <!-- Realted Articles -->
+    <!-- Related Articles -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <h2 class="font-manrope text-2xl font-bold text-gray-900 mb-10">
-        Reated Articles
+        Related Articles
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-14">
-        <app-blog-card data-testid="article-id" *ngFor="let article of relatedArticles" [article]="article"
-          (click)="navigateToArticle(article._id)"
-          class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
-        </app-blog-card>
+        <div *ngFor="let article of relatedArticles" 
+             (click)="navigateToArticle(article._id)"
+             class="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600">
+          <app-blog-card data-testid="article-id" [article]="article"></app-blog-card>
+        </div>
       </div>
 
       <!-- No related articles message -->
@@ -160,7 +161,6 @@
     </div>
 
   </div>
-
 
   <app-comment-list [comments]="(post$ | async)?.comments || []" [postId]="(post$ | async)?._id || ''">
   </app-comment-list>

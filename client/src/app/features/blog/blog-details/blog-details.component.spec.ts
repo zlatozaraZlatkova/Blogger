@@ -51,12 +51,9 @@ describe('BlogDetailsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: '123' }),
-            snapshot: {
-              paramMap: {
-                get: (key: string) => '123',
-              },
-            },
+            paramMap: of({
+              get: (key: string) => '123'
+            }),
           },
         }
       ],
@@ -79,18 +76,18 @@ describe('BlogDetailsComponent', () => {
     expect(blogServiceSpy.getPostById).toHaveBeenCalledWith('123');
   });
 
- it('should call location.back() when post id is invalid', () => {
-  const location = TestBed.inject(Location);
+  it('should call location.back() when post id is invalid', () => {
+    const location = TestBed.inject(Location);
 
- blogServiceSpy.getPostById.and.returnValue(throwError(() => mockError));
+    blogServiceSpy.getPostById.and.returnValue(throwError(() => mockError));
 
-  spyOn(location, 'back');
+    spyOn(location, 'back');
 
-  component.loadCurrentArticle('0000000');
+    component.loadCurrentArticle('0000000');
 
-  expect(location.back).toHaveBeenCalled();
-  expect(component.loading).toBeFalse();
-});
+    expect(location.back).toHaveBeenCalled();
+    expect(component.loading).toBeFalse();
+  });
 
 
   it('should display post content when post$ has data', () => {
