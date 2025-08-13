@@ -1,7 +1,7 @@
 {
-  "name": "scrum-board-web-app",
+  "name": "blogger-web-app",
   "version": "1.0.0",
-  "description": "Scrum board",
+  "description": "Blogger",
   "main": "server.js",
 "scripts": {
     "start": "node server",
