@@ -10,21 +10,39 @@
 <details open>
 <summary><h4>1.1. Brief Description</h4></summary>
 
-A Single Page Application (SPA) built with Angular v16 that serves as the user interface for a comprehensive blogging and social platform. The application provides both public content access and authenticated user areas with social interaction features.
+A **Single Page Application (SPA)** built with Angular that serves as the user interface for a comprehensive blogging and social platform. The application provides both public content access and authenticated user areas with social interaction features.
 
-**Key Features:**
+###  Key Features
 
-- Public and private user areas with role-based access control
-- CRUD operations for blog posts and user public profiles
-- Social interaction: likes, dislikes, comments, following public profiles
-- Google Drive API integration for image storage
-- Responsive UI built with Tailwind CSS, custom HTML/CSS, and Angular Animations
-- Over 300 unit tests for components, resolvers, and services
-- Deployed on Heroku
+- **User Management**: Public and private user areas with role-based access control
+- **Content Management**: CRUD operations for blog posts and user public profiles  
+- **Social Features**: Likes, dislikes, comments, and following public profiles
+- **Modern UI/UX**: Responsive design with Tailwind CSS, custom HTML/CSS, and Angular Animations
+- **Cloud Integration**: Google Drive API integration for image storage
+- **Quality Assurance**: 250+ unit tests for components, resolvers, and services
+- **Deployment**: Production-ready deployment on Heroku
+  
 
-Developed as part of a university final project, this platform enhances the blogging experience by offering a user-friendly interface with comprehensive social features.
+### Technical Implementation
 
-Demo site: [Link]()
+| Component | Implementation Details |
+|-----------|----------------------|
+| **Architecture & Routing** | Client-side routing with 5+ dynamic pages including parameterized routes |
+| **Type Safety** | 5+ TypeScript interfaces for strict type checking and data contracts |
+| **State Management** | Observables and BehaviorSubject for reactive state management |
+| **Reactive Programming** | RxJS operators (map, switchMap, takeUntil, filter) |
+| **Component Lifecycle** | Angular hooks (OnInit, OnDestroy, AfterViewInit) for proper initialization |
+| **Data Presentation** | Custom pipes (uppercase, date formatting, time-ago display) |
+| **Error Handling** | Global error handling and comprehensive form validation |
+| **Route Protection** | Dual guard system (AuthGuard + GuestGuard) for secure access control |
+
+
+### Project Context
+
+Developed as part of a **university final project**, this platform enhances the blogging experience by offering a user-friendly interface with comprehensive social features.
+
+**Demo Site**: [View Live Application]()
+
 </details>
 
 <details>
@@ -97,6 +115,8 @@ Demo site: [Link]()
 - **Express.js**: Backend web application framework with middleware support
 - **Angular v16**: Frontend framework for building the single-page application
 - **Node.js**: Server-side JavaScript runtime environment
+
+> Built with Angular v16 (now in maintenance mode). For production use, consider upgrading to the latest Angular version.
 
 **Additional Technologies:**
 
