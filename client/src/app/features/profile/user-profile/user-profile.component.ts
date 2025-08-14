@@ -64,7 +64,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('ViewChild component PublicProfileComponent is ready');
+    //console.log('ViewChild component PublicProfileComponent is ready');
   }
 
 
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     this.profileService.getProfile().pipe(take(1))
       .subscribe({
         next: (profile) => {
-          console.log('Profile loaded successfully:', profile);
+          //console.log('Profile loaded successfully:', profile);
         },
         error: (error) => {
           console.error('Error loading profile:', error);

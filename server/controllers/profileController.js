@@ -10,7 +10,7 @@ router.get("/", hasUser(),
     async (req, res, next) => {
         try {
             const profile = await getUserById(req.user._id);
-            console.log("public profile", profile)
+            //console.log("public profile", profile)
 
             if (!profile) {
                 throw new Error("There is no profile for this user.");

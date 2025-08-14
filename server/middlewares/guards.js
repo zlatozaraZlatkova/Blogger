@@ -73,7 +73,7 @@ function isSectionOwner() {
 
       const section = await getSectionById(req.params.id);
       res.locals.section = section;
-      console.log(section)
+      //console.log(section)
 
 
       if (!section) {

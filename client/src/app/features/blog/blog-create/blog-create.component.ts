@@ -39,7 +39,7 @@ export class BlogCreateComponent implements OnInit {
         take(1),
         tap((config) => {
           this.configLoaded = true;
-          console.log('Config loaded:', config);
+          //console.log('Config loaded:', config);
         }),
         switchMap(() => this.googleDriveConfigService.loadGoogleIdentityScript())
       )
@@ -73,7 +73,7 @@ export class BlogCreateComponent implements OnInit {
       return;
     }
 
-    console.log('Form is submitted', this.postForm.value);
+    //console.log('Form is submitted', this.postForm.value);
 
     const formData = this.postForm.value;
 

@@ -77,13 +77,13 @@ export class SingUpFormComponent implements OnInit {
     const email = this.registerForm.get('email')?.value;
     const password = this.registerForm.get('passGroup')?.get('password')?.value;
 
-    console.log('Form data:', { name, email, password });
+    //console.log('Form data:', { name, email, password });
 
 
     this.authService.register(name, email, password).subscribe({
       next: (user) => {
         this.isSubmitted = true;
-        console.log('Registered user', user);
+        //console.log('Registered user', user);
         this.router.navigate(['/posts']);
       },
       error: (err) => {

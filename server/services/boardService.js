@@ -46,7 +46,7 @@ async function createItem(userId, boardData, sectionsData) {
       { $push: { sectionsList: { $each: sectionIds } } }
     );
 
-    console.log("Board updated with sections");
+    //console.log("Board updated with sections");
 
     return {
       board: newBoard,

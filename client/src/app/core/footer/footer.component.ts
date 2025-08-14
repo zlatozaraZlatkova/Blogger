@@ -10,6 +10,6 @@ export class FooterComponent {
   submitNewsletter(event: Event) {
     event.preventDefault();
 
-    console.log('Newsletter form submitted');
+    //console.log('Newsletter form submitted');
   }
 }

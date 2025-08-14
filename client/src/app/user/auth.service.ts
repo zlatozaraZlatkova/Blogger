@@ -49,9 +49,9 @@ export class AuthService implements OnDestroy {
     return this.httpClient
       .get<IUser>('/api/check-auth')
       .pipe(tap((user) => {
-        console.log('Received user:', user);
+        //console.log('Received user:', user);
         this.user$$.next(user);
-        console.log('Updated user state:', this.user);
+        //console.log('Updated user state:', this.user);
       }),
       catchError((err) => {
         this.user$$.next(null);

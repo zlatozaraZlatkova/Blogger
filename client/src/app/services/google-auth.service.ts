@@ -23,11 +23,11 @@ export class GoogleAuthService {
         scope: scope,
         callback: (tokenResponse: any) => {
           this.accessToken = tokenResponse.access_token;
-          console.log('Access Token received:', this.accessToken);
+          //console.log('Access Token received:', this.accessToken);
         },
       });
 
-      console.log('OAuth client initialized successfully');
+      //console.log('OAuth client initialized successfully');
     } catch (error) {
       console.error('Error initializing OAuth client:', error);
       throw error;

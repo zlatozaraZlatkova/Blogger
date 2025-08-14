@@ -35,8 +35,8 @@ export class CommentCreateComponent {
       return;
     }
 
-    console.log('PostId:', this.postId);
-    console.log('User ID:', this.user._id);
+    //console.log('PostId:', this.postId);
+    //console.log('User ID:', this.user._id);
 
     const newCommentText = this.commentForm.get('text')?.value;
     if (!newCommentText) {
@@ -56,7 +56,7 @@ export class CommentCreateComponent {
       .subscribe({
         next: () => {
           this.commentForm.reset();
-          console.log('Comment created successfully');
+          //console.log('Comment created successfully');
         },
       });
   }

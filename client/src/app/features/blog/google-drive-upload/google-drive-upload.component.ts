@@ -35,7 +35,7 @@ export class GoogleDriveUploadComponent {
 
     this.selectedFile = file;
     this.uploadError = null;
-    console.log('File selected:', this.selectedFile.name);
+    //console.log('File selected:', this.selectedFile.name);
 
     this.generateLocalPreview(file);
   }
@@ -54,11 +54,11 @@ export class GoogleDriveUploadComponent {
 
 
   onSignInToGoogle(): void {
-    console.log('Starting Google Sign-in...');
+    //console.log('Starting Google Sign-in...');
 
     this.googleAuth.googleSignIn$().subscribe({
       next: (token) => {
-        console.log('Successful sign-in! Token:', token);
+        //console.log('Successful sign-in! Token:', token);
         this.uploadError = null;
       },
       error: (error) => {

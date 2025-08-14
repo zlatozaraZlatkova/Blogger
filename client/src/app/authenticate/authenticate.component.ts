@@ -26,7 +26,7 @@ export class AuthenticateComponent implements OnInit {
 
       this.authService.checkIsUserAuthenticated().subscribe({
         next: (user) => {
-          console.log("User data from autenticate wrapper:", user)
+          //console.log("User data from autenticate wrapper:", user)
 
           if (user && user.email) {
 

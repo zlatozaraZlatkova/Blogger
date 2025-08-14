@@ -84,7 +84,7 @@ export class GoogleDriveConfigService implements OnDestroy {
   ngOnDestroy(): void {
     if (this.timer) {
       clearTimeout(this.timer);
-      console.log('Timer cleared');
+      //console.log('Timer cleared');
     }
   }
 }

@@ -22,7 +22,7 @@ export class PublicProfileDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const requestedUserId = this.route.snapshot.paramMap.get('id');
-    console.log("user params id", requestedUserId);
+    //console.log("user params id", requestedUserId);
 
     if (requestedUserId) {
       this.loadUserProfile(requestedUserId);
@@ -33,8 +33,8 @@ export class PublicProfileDetailsComponent implements OnInit {
     this.profileService.getProfileById(userId).pipe(take(1))
       .subscribe({
         next: (profile) => {
-          console.log('Profile loaded:', profile);
-          console.log('Profile created post list loaded:', profile.createdPosts);
+          //console.log('Profile loaded:', profile);
+          //console.log('Profile created post list loaded:', profile.createdPosts);
 
         },
         error: (error) => {

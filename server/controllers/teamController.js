@@ -198,12 +198,12 @@ router.post("/remove/:teamId/:memberId", async(req, res, next) => {
         const memberId = req.params.memberId;
         const userId = req.user._id;
 
-        console.log("team id", teamId)
-        console.log("member", memberId)
+        //console.log("team id", teamId)
+        //console.log("member", memberId)
 
         const team = await getById(teamId);
         const isTeamOwner = team.ownerId == userId;
-        console.log(isTeamOwner)
+        //console.log(isTeamOwner)
 
         if(!team || team.membersList.length == 0) {
             throw errors;

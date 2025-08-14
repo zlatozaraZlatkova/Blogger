@@ -102,7 +102,7 @@ export class BlogEditComponent implements OnInit {
     if (this.editPostForm.invalid) {
       return;
     }
-    console.log('Submitting edit form with data:', this.editPostForm.value);
+    //console.log('Submitting edit form with data:', this.editPostForm.value);
 
     this.setLoadingState(true);
 

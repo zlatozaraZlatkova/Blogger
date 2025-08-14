@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 
 
     const user = await getAuthUser(req.user._id);
-    console.log(req.user._id);
+    //console.log(req.user._id);
    
     if (!user) {
       return res.status(404).json({ isAuthenticated: false });
@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
     res.json(user);
 
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     next(error);
   }
 });

@@ -25,7 +25,7 @@ router.post("/:id/create", isBoardOwner(),
         boardId: req.params.id,
         ownerId: req.user._id,
       };
-      console.log(section)
+      //console.log(section)
 
       const createdSection = await createItem(userId, board._id, section);
 
@@ -43,7 +43,7 @@ router.put("/edit/:id", isSectionOwner(),
     try {
       const { errors } = validationResult(req);
       const section = res.locals.section;  
-      console.log(section)
+      //console.log(section)
 
       if (errors.length > 0) {
         throw errors;

@@ -66,7 +66,7 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: number): void {
-    console.log('Click on page:', page);
+    //console.log('Click on page:', page);
 
     this.router.navigate([], { queryParams: { page: page } });
   }

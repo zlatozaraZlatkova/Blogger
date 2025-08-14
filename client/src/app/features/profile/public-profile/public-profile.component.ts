@@ -44,7 +44,7 @@ export class PublicProfileComponent implements OnDestroy {
           .pipe(take(1))
           .subscribe({
             next(createdProfile) {
-              console.log('Profile created successfully:', createdProfile);
+              //console.log('Profile created successfully:', createdProfile);
             },
             error(error) {
               console.error('Error creating profile:', error);
@@ -76,8 +76,8 @@ export class PublicProfileComponent implements OnDestroy {
           .pipe(take(1))
           .subscribe({
             next(editProfile) {
-              console.log('LinkedIn data:', editProfile.socialMedia?.linkedin);
-              console.log('Profile edited successfully:', editProfile);
+              //console.log('LinkedIn data:', editProfile.socialMedia?.linkedin);
+              //console.log('Profile edited successfully:', editProfile);
             },
             error(error) {
               console.error('Error editing profile:', error);
@@ -107,7 +107,7 @@ export class PublicProfileComponent implements OnDestroy {
           .pipe(take(1))
           .subscribe({
             next: () => {
-              console.log('Profile deleted successfully');
+              //console.log('Profile deleted successfully');
             },
             error: (error) => {
               console.error('Error deleting profile:', error);

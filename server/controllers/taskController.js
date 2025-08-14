@@ -62,7 +62,7 @@ router.post("/:id/create", isSectionOwner(),
         ownerId: req.user._id,
       };
 
-      console.log(task);
+      //console.log(task);
 
       const createdTask = await createItem(userId, section._id, task);
 
