@@ -35,7 +35,7 @@ async function start() {
     })
   );
 
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
   app.set("trust proxy", 1);
   app.use(express.json({ limit: "10mb" }));
   app.use(cookieParser());
@@ -43,27 +43,31 @@ async function start() {
 
   app.use(session());
 
-  if (NODE_ENV === "production") {
-    const clientPath = path.join(__dirname, "client/dist");
-    app.use(express.static(clientPath));
-  }
-
   routesConfig(app);
 
- 
-
+  // Static files serving (production only)
   if (NODE_ENV === "production") {
+    const clientPath = path.join(__dirname, "client/dist/client");
+    app.use(express.static(clientPath, {
+      maxAge: '1y',
+      etag: false
+    }));
+
     app.get("*", (req, res, next) => {
       if (req.path.startsWith("/api/")) {
         return next();
       }
 
-      const indexPath = path.join(__dirname, "client/dist/index.html");
+      const indexPath = path.join(__dirname, "client/dist/client/index.html");
       res.sendFile(indexPath);
     });
   }
 
   app.use(errorHandler);
 
-  app.listen(PORT, () => console.log(`Server started on port: ${PORT}...`));
+  app.listen(PORT, () => {
+    if (NODE_ENV === "development") {
+      console.log(`Server started on port: ${PORT}...`);
+    }
+  });
 }

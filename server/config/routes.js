@@ -7,20 +7,23 @@ const searchController = require("../controllers/searchController");
 const teamController = require("../controllers/teamController");
 const newsletterController = require("../controllers/newsletterController");
 const checkAuthController = require("../controllers/checkAuthController");
-const defaultController = require("../controllers/defaultController");
-
-const checkAuth = require('../middlewares/checkAuth');
 const googleDriveConfigController = require("../controllers/googleDriveConfig");
 const profileController = require("../controllers/profileController");
 
+const checkAuth = require('../middlewares/checkAuth');
+
 module.exports = (app) => {
-  app.get("/api/test", (req, res) => {
-    res.json({ message: "REST service operational" });
+  // Health check endpoint
+  app.get("/api/health", (req, res) => {
+    res.status(200).json({ 
+      status: "ok", 
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || "development"
+    });
   });
 
+  // API routes 
   app.use('/api/config', googleDriveConfigController);
-
-
   app.use("/api/auth", authController);
   app.use("/api/check-auth", checkAuth(false), checkAuthController);
   app.use("/api/profile", checkAuth(true), profileController);
@@ -32,5 +35,11 @@ module.exports = (app) => {
   app.use("/api/teams", checkAuth(true), teamController);
   app.use("/api/newsletter", checkAuth(false), newsletterController);
 
-  app.use(defaultController);
+  // Security: Block invalid API routes
+  app.use("/api/*", (req, res) => {
+    res.status(404).json({ 
+      error: "API endpoint not found",
+      path: req.path 
+    });
+  });
 };

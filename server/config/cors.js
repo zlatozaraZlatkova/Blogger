@@ -1,7 +1,11 @@
 const cors = require("cors");
 
 const corsWhitelists = {
-  development: ["http://localhost:5000", "http://localhost:4200"],
+  development: [
+    "http://localhost:3000",
+    "http://localhost:4200", 
+    "http://localhost:5000"
+  ],
   production: [
     "https://blogger-app-a86fa2d19e9c.herokuapp.com"
   ]
@@ -9,7 +13,6 @@ const corsWhitelists = {
 
 const environment = process.env.NODE_ENV || "development";
 const whitelist = corsWhitelists[environment] || corsWhitelists.development;
-
 
 const corsMiddleware = cors({
   credentials: true,
@@ -22,28 +25,41 @@ const corsMiddleware = cors({
     "X-Requested-With",
   ],
   exposedHeaders: ["Set-Cookie"],
-  maxAge: 36000, // 1 hour in seconds
+  maxAge: 36000, // 1 h in production
+  optionsSuccessStatus: 200,
   origin: function (origin, callback) {
-
-    if (environment === "development") {
-
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        return callback(null, true);
-      }
-
-      return callback(new Error('Not allowed by CORS'), false);
-    }
-
 
     if (!origin) {
       return callback(null, true);
     }
-    
-    if (whitelist.indexOf(origin) !== -1) {
+
+
+    if (origin === 'https://blogger-app-a86fa2d19e9c.herokuapp.com') {
       return callback(null, true);
     }
 
-    return callback(new Error('Not allowed by CORS'), false);
+  
+    if (environment === "development") {
+      if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
+        return callback(null, true);
+      }
+    }
+
+    if (environment === "production" && whitelist.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+
+    const allowedLocalhost = [
+      'http://localhost:3000',
+      'http://localhost:4200', 
+      'http://localhost:5000'
+    ];
+    
+    if (allowedLocalhost.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(null, false);
   }
 });
 
