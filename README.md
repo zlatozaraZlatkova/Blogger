@@ -41,7 +41,7 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 
 Developed as part of a **university final project**, this platform enhances the blogging experience by offering a user-friendly interface with comprehensive social features.
 
-**Demo Site**: [View Live Application]()
+**Demo Site**: [View Live Application](https://blogger-app-a86fa2d19e9c.herokuapp.com/)
 
 </details>
 
@@ -334,7 +334,7 @@ The server encountered an unexpected condition that prevented it from fulfilling
 <details>
 <summary><h4>3.6. API Postman Documentation</h4></summary>
 
-- Source: [LINK POSTMAN API]()
+- Source: [View POSTMAN API](https://documenter.getpostman.com/view/28859516/2sB3BGJVTC)
 </details>
 </details>
 
