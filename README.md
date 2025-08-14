@@ -41,7 +41,17 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 
 Developed as part of a **university final project**, this platform enhances the blogging experience by offering a user-friendly interface with comprehensive social features.
 
-**Demo Site**: [View Live Application](https://blogger-app-a86fa2d19e9c.herokuapp.com/)
+**Demo Site**: [View Live Application](https://blogger-app-a86fa2d19e9c.herokuapp.com)
+
+
+### Application Preview
+![Home Page](screenshots/home-page.png)
+![Posts Page](screenshots/catalog-posts.png)
+![Post Details](screenshots/post-details.png)
+![Profile Details](screenshots/profile-details.png)
+![Public Profile Details](screenshots/public-profile-details.png)
+![Newsletter](screenshots/newsletter.png)
+
 
 </details>
 
