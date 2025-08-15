@@ -84,7 +84,7 @@ export class BlogSectionComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       width: '600px',
       data: {
-        title: 'Delete Profile',
+        title: 'Delete Post',
         message: 'Are you sure you want to delete this post?',
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',

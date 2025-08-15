@@ -483,7 +483,7 @@ Configure API endpoints, Google Drive API keys, and other client-side settings i
 </details>
 </details>
 
-<details>
+<details open>
 <summary><h4>4.6. Build Setup</h4></summary>
 
 1. Start MongoDB service (must be running before server start)

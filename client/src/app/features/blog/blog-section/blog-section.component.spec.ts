@@ -108,7 +108,7 @@ describe('BlogSectionComponent', () => {
         width: '600px',
 
         data: jasmine.objectContaining({
-          title: 'Delete Profile',
+          title: 'Delete Post',
           message: 'Are you sure you want to delete this post?',
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
