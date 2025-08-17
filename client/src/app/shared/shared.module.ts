@@ -17,6 +17,7 @@ import { ErrorNotificationComponent } from './error-notification/error-notificat
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TypewriterComponent } from './typewriter/typewriter.component';
+import { ListDialogComponent } from './list-dialog/list-dialog.component';
 
 
 
@@ -32,7 +33,8 @@ import { TypewriterComponent } from './typewriter/typewriter.component';
     ErrorNotificationComponent,
     ConfirmDialogComponent,
     PaginationComponent,
-    TypewriterComponent
+    TypewriterComponent,
+    ListDialogComponent
 
   ],
   imports: [

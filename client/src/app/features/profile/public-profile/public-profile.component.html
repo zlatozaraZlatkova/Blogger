@@ -63,11 +63,9 @@
 
       <!-- Following -->
 
-      <div
-        class="group flex items-center justify-center p-6 bg-gradient-to-br from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 transform hover:scale-105">
-
+      <div (click)="openViewFollowingList()"
+        class="cursor-pointer group flex items-center justify-center p-6 bg-gradient-to-br from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 transform hover:scale-105">
         <mat-icon class="w-8 h-8 mr-3">group</mat-icon>
-
         <div>
           <div class="font-semibold">Followers</div>
           <div class="text-sm opacity-75">{{ userFollowersCount }}</div>

@@ -1,4 +1,5 @@
 import { IProfile } from "./profile";
+import { IUser } from "./user";
 
 export interface IDialogData {
   mode: string;
@@ -12,4 +13,10 @@ export interface IConfirmDialogData {
   confirmButtonText?: string;
   cancelButtonText?: string;
   emailInputTag?: boolean;
+}
+
+
+export interface IListDialogData {
+  title: string;
+  followerList: IUser[];
 }

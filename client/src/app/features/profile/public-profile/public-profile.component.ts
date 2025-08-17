@@ -7,6 +7,8 @@ import { ProfileService } from '../profile.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { ProfileFormDialogComponent } from '../profile-form-dialog/profile-form-dialog.component';
 import { getGitHubUrl, getLinkedInUrl } from 'src/app/shared/utils/genSocialMediaUrl';
+import { ListDialogComponent } from 'src/app/shared/list-dialog/list-dialog.component';
+
 
 @Component({
   selector: 'app-public-profile',
@@ -54,7 +56,7 @@ export class PublicProfileComponent implements OnDestroy {
 
     });
 
-     this.subscriptions.add(dialogSub);
+    this.subscriptions.add(dialogSub);
 
   }
 
@@ -119,6 +121,18 @@ export class PublicProfileComponent implements OnDestroy {
     this.subscriptions.add(dialogSub);
   }
 
+  openViewFollowingList(): void {
+    const dialogRef = this.matDialog.open(ListDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Followers List',
+        followerList: this.profileData?.followerList || []
+      }
+    });
+
+    const dialogSub = dialogRef.afterClosed().subscribe();
+    this.subscriptions.add(dialogSub);
+  }
 
   getGitHubProfileUrl(profile: IProfile): string | null {
     return getGitHubUrl(profile);
@@ -127,7 +141,7 @@ export class PublicProfileComponent implements OnDestroy {
   getLinkedInProfileUrl(profile: IProfile): string | null {
     return getLinkedInUrl(profile);
   }
-  
+
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

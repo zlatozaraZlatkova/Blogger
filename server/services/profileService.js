@@ -18,9 +18,14 @@ async function getProfileById(id) {
 }
 
 async function getUserById(id) {
-  return Profile.findOne({ ownerId: id }).populate("ownerId", [
-    "likedPostList",
-  ]);
+  return Profile.findOne({ ownerId: id })
+    .populate("ownerId", [
+      "likedPostList",
+    ]).populate({
+      path: "followerList",
+      model: "User",
+      select: "email name"
+    });
 }
 
 async function createItem(userId, profileData) {

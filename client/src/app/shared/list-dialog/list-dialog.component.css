@@ -1,0 +1,71 @@
+h2[mat-dialog-title],
+p[mat-dialog-text] {
+  margin: 0 0 20px 0;
+  padding: 24px 24px 0 24px;
+}
+
+h2[mat-dialog-title] {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+mat-dialog-content {
+  padding: 20px 24px;
+}
+
+mat-dialog-content .mat-mdc-form-field {
+  width: 60%;
+}
+
+mat-form-field {
+  width: 60%;
+  padding-left: 24px;
+}
+
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px 24px;
+}
+
+mat-dialog-actions .mat-raised-button {
+  min-width: 80px;
+  height: 36px;
+}
+
+mat-dialog-actions button {
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  min-width: 80px;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+button[mat-cancel-button] {
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+button[mat-cancel-button]:hover {
+  background-color: #f9fafb;
+}
+
+button[mat-cancel-button]:focus {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #4f46e5;
+}
+
+button[mat-cancel-button]:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-color: #e5e7eb;
+}

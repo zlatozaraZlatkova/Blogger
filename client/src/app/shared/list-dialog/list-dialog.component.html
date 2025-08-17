@@ -1,0 +1,33 @@
+<div class="followers-dialog">
+  <h2 mat-dialog-title class="text-xl font-semibold text-gray-800 mb-4">
+    {{ data.title }}
+  </h2>
+  
+  <mat-dialog-content class="min-h-[300px] max-h-[400px] overflow-y-auto">
+    <div *ngIf="data.followerList && data.followerList.length > 0; else noFollowers">
+      <div class="space-y-2">
+        <div *ngFor="let follower of data.followerList" 
+             class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <mat-icon class="text-gray-600 mr-3">person</mat-icon>
+          <div class="flex-1">
+            <div class="font-medium text-gray-900">{{ follower.name }}</div>
+            <div class="text-sm text-gray-500">{{ follower.email }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #noFollowers>
+      <div class="text-center py-8">
+         <mat-icon class="w-10 h-10 text-gray-500">person</mat-icon>
+        <p class="text-gray-500 text-lg">No followers yet</p>
+      </div>
+    </ng-template>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+  <button data-testid="cancel-btn" mat-cancel-button (click)="onClose()">
+     Close
+  </button>
+</mat-dialog-actions>
+</div>
