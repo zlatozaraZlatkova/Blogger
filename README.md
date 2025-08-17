@@ -27,14 +27,15 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 
 | Component | Implementation Details |
 |-----------|----------------------|
-| **Architecture & Routing** | Client-side routing with 5+ dynamic pages including parameterized routes |
-| **Type Safety** | 5+ TypeScript interfaces for strict type checking and data contracts |
-| **State Management** | Observables and BehaviorSubject for reactive state management |
-| **Reactive Programming** | RxJS operators (map, switchMap, takeUntil, filter) |
-| **Component Lifecycle** | Angular hooks (OnInit, OnDestroy, AfterViewInit) for proper initialization |
-| **Data Presentation** | Custom pipes (uppercase, date formatting, time-ago display) |
-| **Error Handling** | Global error handling and comprehensive form validation |
-| **Route Protection** | Dual guard system (AuthGuard + GuestGuard) for secure access control |
+| **Architecture & Routing** | Client-side routing with 5+ dynamic pages, parameterized routes, and lazy-loaded feature modules |
+| **Type Safety** | 5+ TypeScript interfaces ensuring strict type checking and clear data contracts |
+| **State Management** | Service-based state management using Observable and BehaviorSubject for reactive data flow |
+| **Observable Creation / Data Sources** | Creation of reactive sources using RxJS operators (of, interval, timer) and Angular Signal for reactive state |
+| **Reactive Programming** | RxJS operators such as (map, switchMap, filter, take, takeUntil, startWith, finalize, startWith, catchError, throwError) for stream creation, transformation, and error handling |
+| **Component Lifecycle** | Angular lifecycle hooks (OnInit, OnDestroy, AfterViewInit) for proper initialization and cleanup |
+| **Data Presentation** | Custom and built-in pipes (uppercase, date, custom "time-ago") for dynamic data formatting |
+| **Error Handling** | Global error handling pipeline using an HTTP interceptor to capture errors, an error service for state management, and dedicated UI components (ErrorNotificationComponent, custom error display) for user-friendly feedback |
+| **Route Protection** | Dual guard system (AuthGuard + GuestGuard) for secure and restricted route access |
 
 
 ### Project Context
