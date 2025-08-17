@@ -8,6 +8,7 @@ import { IListDialogData } from 'src/app/interfaces/dialogData';
   styleUrls: ['./list-dialog.component.css'],
 })
 export class ListDialogComponent {
+
   constructor(
     public dialogRef: MatDialogRef<ListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IListDialogData
