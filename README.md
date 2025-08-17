@@ -577,21 +577,50 @@ All API requests from the frontend are automatically proxied to the backend serv
 <details>
 <summary><h3>7. References & Resources Used</h3></summary>
 
+- Angular - Setup an Interceptor for HTTP request error.
+  - Source: [Link](https://dev.to/theobourdel/angular-faire-un-interceptor-pour-vos-requetes-http-1kdj)
+  
+- Mastering Angular Resolver Pattern: Preload Data Like a Pro
+  - Source: [Link](https://medium.com/@sehban.alam/mastering-angular-resolver-pattern-preload-data-like-a-pro-1b5c76fc3054)
+  
+- How to Implement OAuth in Angular: A Step-by-Step Guide
+  - Source: [Link](https://medium.com/@binurajtech/how-to-implement-oauth-in-angular-a-step-by-step-guide-0173c40ec0af) 
+  - Source: [Link](https://medium.com/@sehban.alam/implementing-oauth-in-angular-a-step-by-step-guide-ce3f82e66cd2)
+  - Source: [Link](https://athiththan11.medium.com/google-drive-image-upload-with-oauth-2-0-ab0d3b4a75bc)
+
+- Using the Google Drive API for public folders
+  - Source: [Link](https://fleker.medium.com/using-the-google-drive-api-for-public-folders-f1f7308385ad)
+  
+- Angular File Upload: Complete Guide
+  - Source: [Link](https://blog.angular-university.io/angular-file-upload/)
+  
+- Angular 17 Image Upload with Preview example
+  - Source: [Link](https://www.bezkoder.com/angular-17-image-upload-preview/#google_vignette)
+     
+- How To Use Custom SVG Icons in Angular Material
+  - Source: [Link](https://www.digitalocean.com/community/tutorials/angular-custom-svg-icons-angular-material)
+  
 - Heroku Deployment: Top 3 Ways to Deploy Apps to Heroku
   - Source: [Link](https://codefresh.io/learn/heroku-deployment-top-3-ways-to-deploy-apps-to-heroku/)
   
 - Securing APIs: Express rate limit and slow down
   - Source: [Link](https://developer.mozilla.org/en-US/blog/securing-apis-express-rate-limit-and-slow-down/)
+  
 - Express cors middleware
   - Source: [Link](https://expressjs.com/en/resources/middleware/cors.html)
+  
 - How to Build Secure and Scalable Authentication System with Node.js and MongoDB
   - Source: [Link](https://sandydev.medium.com/how-to-build-secure-and-scalable-authentication-system-with-node-js-and-mongodb-c50bf51c06b0)
+  
 - Build a Login and Logout API using Express.js (Node.js)
    - Source: [Link](https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2)
+  
 - Simplified Guide to Setting Up a Global Error Handler in Express.js
   - Source: [Link](https://medium.com/@mohsinansari.dev/simplified-guide-to-setting-up-a-global-error-handler-in-express-js-daf8dd640b69)
+  
 - Implementing Pagination in an Express.js Application
   - Source: [Link](https://medium.com/@atacanymc/implementing-pagination-in-an-express-js-application-551244b62d48)
+  
 - Software documentation guide
    - Source: [Link](https://www.writethedocs.org/guide/index.html)
 </details>
