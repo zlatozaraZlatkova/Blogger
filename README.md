@@ -17,10 +17,11 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 - **User Management**: Public and private user areas with role-based access control
 - **Content Management**: CRUD operations for blog posts and user public profiles  
 - **Social Features**: Likes, dislikes, comments, and following public profiles
-- **Modern UI/UX**: Responsive design with Tailwind CSS, custom HTML/CSS, and Angular Animations
+- **Modern UI/UX**: Responsive design using Tailwind CSS, custom HTML/CSS, SVG icons loaded via Angular Material service and Angular Animations
 - **Cloud Integration**: Google Drive API integration for image storage
-- **Quality Assurance**: 250+ unit tests for components, resolvers, and services
 - **Deployment**: Production-ready deployment on Heroku
+- **Quality Assurance**: 250+ unit tests for components, resolvers, and services
+- **Additional Features**: Useful enhancements like modal windows, pagination, and reusable UI components
   
 
 ### Technical Implementation
