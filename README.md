@@ -21,9 +21,9 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 - **Cloud Integration**: Google Drive API integration for image storage
 - **Deployment**: Production-ready deployment on Heroku
 - **Quality Assurance**: 250+ unit tests for components, resolvers, and services
-- **Additional Features**: Useful enhancements like modal windows, pagination, and reusable UI components
+- **Additional Features**: Useful enhancements such as modal windows, pagination, reusable UI components, and a password visibility toggle in authentication forms
   
-
+  
 ### Technical Implementation
 
 | Component | Implementation Details |
@@ -44,6 +44,16 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 Developed as part of a **university final project**, this platform enhances the blogging experience by offering a user-friendly interface with comprehensive social features.
 
 **Demo Site**: [View Live Application](https://blogger-app-a86fa2d19e9c.herokuapp.com)
+
+
+### Test Accounts
+
+You can use the following demo accounts to log in:
+
+| Email              | Password   |
+|--------------------|------------|
+| teddy@gmail.com | 837483yg!334D    |
+| mery@gmail.com | 837483yg!334D    |
 
 
 ### Application Preview
