@@ -13,8 +13,8 @@ export class AppComponent implements OnInit{
  constructor(private matIconService: MatIconService) { }
 
   ngOnInit(): void {
-    console.log('Production mode:', environment.production);
-    console.log('API URL:', environment.apiUrl);
+    // console.log('Production mode:', environment.production);
+    // console.log('API URL:', environment.apiUrl);
     
     this.matIconService.loadMatIcons();
   }

@@ -55,7 +55,8 @@ import { ListDialogComponent } from './list-dialog/list-dialog.component';
     SentenceUpperCasePipe,
     ErrorNotificationComponent,
     PaginationComponent,
-    TypewriterComponent
+    TypewriterComponent,
+    ListDialogComponent
     
   ]
 })
