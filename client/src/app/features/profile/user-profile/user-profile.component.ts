@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, startWith, take } from 'rxjs';
+import { map, Observable, startWith, take, Subscription } from 'rxjs';
 
 import { ProfileService } from '../profile.service';
 import { IProfile } from 'src/app/interfaces/profile';
@@ -15,7 +15,7 @@ import { PublicProfileComponent } from '../public-profile/public-profile.compone
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
-export class UserProfileComponent implements OnInit, AfterViewInit {
+export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   activeSection: string = 'home';
   resolvedUser: IUser | null = null;
 
@@ -24,6 +24,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   userPublicProfile$: Observable<IProfile | null> = this.profileService.userPublicProfile$;
 
   user$: Observable<IUser | null> = this.authService.user$;
+
+  private subscriptions = new Subscription();
 
   get user(): IUser | null {
     return this.resolvedUser;
@@ -58,6 +60,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.resolvedUser = this.route.snapshot.data['user'];
 
+    this.profileService.clearState();
+
     if (this.resolvedUser?.publicProfile) {
       this.loadUserProfile();
     }
@@ -69,18 +73,38 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
 
 
   loadUserProfile(): void {
-    this.profileService.getProfile().pipe(take(1))
+
+    if (!this.resolvedUser) {
+      return;
+    }
+
+    const profileSub = this.profileService.getProfile().pipe(take(1))
       .subscribe({
         next: (profile) => {
-          //console.log('Profile loaded successfully:', profile);
-        },
-        error: (error) => {
-          console.error('Error loading profile:', error);
-        },
+          if (profile) {
+            const ownerId = (profile.ownerId as unknown as { _id: string })._id;
+            if (ownerId !== this.resolvedUser!._id) {
+              this.profileService.clearState();
+              return;
+            }
+          }
+        }
       });
+
+    this.subscriptions.add(profileSub);
   }
 
+
   openEditProfileDialog(profileData: IProfile): void {
+    if (!this.resolvedUser) {
+      return;
+    }
+
+    const ownerId = (profileData.ownerId as unknown as { _id: string })._id;
+    if (ownerId !== this.resolvedUser._id) {
+      return;
+    }
+
     this.publicProfileComponent.openEditProfileDialog(profileData);
   }
 
@@ -99,5 +123,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/posts', postId]);
   }
 
-
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

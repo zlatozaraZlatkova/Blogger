@@ -12,6 +12,10 @@
 
 /* Angular Material Icon Styles */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+/* Angular Material CSS theme */
+@import url('~@angular/material/prebuilt-themes/indigo-pink.css');
 
 .icon-align {
   display: inline-flex;

@@ -18,11 +18,12 @@ export class ProfileService implements OnDestroy {
   constructor(private profileApiService: ProfileApiService) { }
 
   getProfile(): Observable<IProfile | null> {
-    return this.profileApiService.getUserPublicProfile().pipe(
-      tap((user) => this.userPublicProfile$$.next(user))
-    )
-  }
-
+  this.userPublicProfile$$.next(null);
+  
+  return this.profileApiService.getUserPublicProfile().pipe( 
+    tap((user) => this.userPublicProfile$$.next(user))
+  );
+}
   getProfileById(id: string): Observable<IProfileWithCreatedPosts> {
     return this.profileApiService.getUserPublicProfileById(id).pipe(
       tap((userData) => this.viewedProfile$$.next(userData))

@@ -31,7 +31,7 @@
 
     <input [type]="showPassword ? 'text' : 'password'" name="password"
       class="mb-4 block h-12 w-full border border-black bg-[#f2f2f7] px-6 py-6 pl-14 text-base text-[#333333]"
-      placeholder="Password (min 8 characters)" autocomplete="current-password" formControlName="password"
+      placeholder="Password" autocomplete="current-password" formControlName="password"
       [class.border-red-500]="
         loginForm.get('password')?.invalid && loginForm.get('password')?.touched
       " />
