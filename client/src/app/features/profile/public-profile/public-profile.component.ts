@@ -30,7 +30,7 @@ export class PublicProfileComponent implements OnDestroy {
   openCreateProfileDialog(): void {
 
     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
-      width: '500px',
+      width: '600px',
       disableClose: true,
       autoFocus: true,
       data: {
@@ -62,7 +62,7 @@ export class PublicProfileComponent implements OnDestroy {
 
   openEditProfileDialog(profileData: IProfile): void {
     const dialogRef = this.matDialog.open(ProfileFormDialogComponent, {
-      width: '500px',
+      width: '600px',
       disableClose: true,
       autoFocus: true,
       data: {

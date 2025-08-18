@@ -95,18 +95,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  openEditProfileDialog(profileData: IProfile): void {
-    if (!this.resolvedUser) {
-      return;
-    }
-
-    const ownerId = (profileData.ownerId as unknown as { _id: string })._id;
-    if (ownerId !== this.resolvedUser._id) {
-      return;
-    }
-
-    this.publicProfileComponent.openEditProfileDialog(profileData);
-  }
+openEditProfileDialog(profileData: IProfile): void {
+  this.publicProfileComponent.openEditProfileDialog(profileData);
+}
 
   removeFromReadingList(postId: string): void {
     this.blogService

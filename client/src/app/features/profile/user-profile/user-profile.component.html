@@ -116,16 +116,16 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="text-center p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl">
-            <div class="text-3xl font-bold text-red-600 mb-2"> {{(userLikedPosts$ | async)?.length || 0}}</div>
+            <div class="text-3xl font-bold text-red-600 mb-2"> {{((userLikedPosts$ | async) || []).length}}</div>
             <div class="text-sm text-gray-600">Saved Articles</div>
           </div>
           <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
-            <div class="text-3xl font-bold text-blue-600 mb-2">{{(userCreatedPosts$ | async)?.length}}</div>
+            <div class="text-3xl font-bold text-blue-600 mb-2">{{((userCreatedPosts$ | async) || []).length}}</div>
             <div class="text-sm text-gray-600">Published Posts</div>
           </div>
        
           <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
-            <div class="text-3xl font-bold text-green-600 mb-2">{{ (userFollowingListCount$ | async) ?? 0 }}</div>
+            <div class="text-3xl font-bold text-green-600 mb-2">{{ ((userFollowingListCount$ | async) || 0) }}</div>
             <div class="text-sm text-gray-600"> Following</div>
           </div>
         </div>

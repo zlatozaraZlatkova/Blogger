@@ -46,6 +46,8 @@
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 
@@ -53,10 +55,22 @@
   position: absolute;
   pointer-events: auto;
   box-sizing: border-box;
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: min(500px, 90vw);
+  max-height: min(600px, 85vh);
+  width: 100%;
 }
 
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
 
 .mat-dialog-container,
 .mat-mdc-dialog-container {
@@ -64,11 +78,22 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  max-width: 80vw;
-  max-height: 90vh;
+  width: 100%;
+  min-height: auto;
+  max-height: 85vh;
   outline: 0;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 0;
+  background: white;
+  overflow: hidden;
+}
+
+
+.mat-dialog-container .mat-dialog-content,
+.mat-mdc-dialog-container mat-dialog-content {
+  overflow: visible;
+  max-height: none;
   padding: 0;
 }
 
@@ -94,9 +119,18 @@ body.cdk-global-scrollblock {
 }
 
 /* Form Field Outlined Styles */
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.mat-mdc-form-field .mdc-text-field--outlined {
+  border-radius: 8px;
+}
+
 .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline {
-  border: 1px solid rgba(0, 0, 0, 0.38);
-  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
 }
 
 /* Remove internal outline parts */
@@ -107,27 +141,85 @@ body.cdk-global-scrollblock {
 }
 
 /* Hover State */
-.mat-mdc-form-field:not(.mat-focused) .mdc-text-field--outlined:hover .mdc-notched-outline {
-  border-color: rgba(0, 0, 0, 0.6);
+.mat-mdc-form-field:not(.mat-focused):not(.mat-form-field-invalid) .mdc-text-field--outlined:hover .mdc-notched-outline {
+  border-color: #9ca3af;
 }
 
-/* Focus State - maintain same color */
-.mat-mdc-form-field.mat-focused .mdc-text-field--outlined .mdc-notched-outline {
-  border-color: rgba(0, 0, 0, 0.38);
-  border-width: 1px;
+/* Focus State */
+.mat-mdc-form-field.mat-focused:not(.mat-form-field-invalid) .mdc-text-field--outlined .mdc-notched-outline {
+  border-color: #3b82f6;
+  border-width: 2px;
 }
 
-/* Focus Label Color */
-.mat-mdc-form-field.mat-focused .mdc-floating-label {
-  color: rgba(0, 0, 0, 0.6);
+/* Focus Label */
+.mat-mdc-form-field.mat-focused:not(.mat-form-field-invalid) .mdc-floating-label {
+  color: #3b82f6;
 }
 
 /* Error State */
 .mat-mdc-form-field.mat-form-field-invalid .mdc-text-field--outlined .mdc-notched-outline {
-  border-color: #f44336;
+  border-color: #ef4444;
   border-width: 1px;
 }
 
 .mat-mdc-form-field.mat-form-field-invalid .mdc-floating-label {
-  color: #f44336;
+  color: #ef4444;
 }
+
+
+.mat-mdc-form-field textarea.mat-mdc-input-element {
+  resize: vertical;
+  min-height: 80px;
+  max-height: 200px;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+
+.mat-mdc-form-field input.mat-mdc-input-element {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+.mat-mdc-form-field .mat-mdc-input-element::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+
+.mat-mdc-form-field .mdc-floating-label {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+.mat-mdc-form-field .mat-mdc-form-field-error-wrapper {
+  padding-top: 4px;
+}
+
+.mat-mdc-form-field mat-error {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #ef4444;
+}
+
+
+@media (max-width: 600px) {
+  .cdk-overlay-pane {
+    max-width: 95vw;
+    max-height: 90vh;
+  }
+  
+  .cdk-global-overlay-wrapper {
+    padding: 16px;
+  }
+  
+  .mat-dialog-container,
+  .mat-mdc-dialog-container {
+    border-radius: 8px;
+    max-height: 90vh;
+  }
+}
+
