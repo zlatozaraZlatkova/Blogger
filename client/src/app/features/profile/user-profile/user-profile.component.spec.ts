@@ -67,11 +67,12 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     profileSubject = new BehaviorSubject<IProfile | null>(mockProfileData);
 
-    profileServiceSpy = jasmine.createSpyObj('ProfileService', ['getProfile'], {
+    profileServiceSpy = jasmine.createSpyObj('ProfileService', ['getProfile', 'clearState'], {
       userPublicProfile$: profileSubject.asObservable()
     })
 
     profileServiceSpy.getProfile.and.returnValue(of(mockProfileData));
+    profileServiceSpy.clearState.and.returnValue(); 
 
     userSubject = new BehaviorSubject<IUser | null>(mockUserData);
 

@@ -60,7 +60,7 @@ describe('PublicProfileComponent', () => {
     expect(mockMatDialogSpy.open).toHaveBeenCalledWith(
       ProfileFormDialogComponent,
       jasmine.objectContaining({
-        width: '500px',
+        width: '600px',
         disableClose: true,
         autoFocus: true,
 
@@ -80,7 +80,7 @@ describe('PublicProfileComponent', () => {
     expect(mockMatDialogSpy.open).toHaveBeenCalledWith(
       ProfileFormDialogComponent,
       jasmine.objectContaining({
-        width: '500px',
+        width: '600px',
         disableClose: true,
         autoFocus: true,
 
@@ -123,7 +123,7 @@ describe('PublicProfileComponent', () => {
   })
 
   it('should open delete confirm profile dialog', () => {
-    component.openEditProfileDialog(mockProfileData);
+    component.openDeleteProfileDialog();
     expect(mockMatDialogSpy.open).toHaveBeenCalled();
   })
 
