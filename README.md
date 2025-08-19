@@ -20,7 +20,7 @@ A **Single Page Application (SPA)** built with Angular that serves as the user i
 - **Modern UI/UX**: Responsive design using Tailwind CSS, custom HTML/CSS, SVG icons loaded via Angular Material service and Angular Animations
 - **Cloud Integration**: Google Drive API integration for image storage
 - **Deployment**: Production-ready deployment on Heroku
-- **Quality Assurance**: 250+ unit tests for components, resolvers, and services
+- **Quality Assurance**: 300+ unit tests for components, resolvers, and services. Overall Test Coverage: ~55%** (58.5% statements, 47.4% branches, 56.2% functions)
 - **Additional Features**: Useful enhancements such as modal windows, pagination, reusable UI components, and a password visibility toggle in authentication forms
   
   
@@ -434,6 +434,7 @@ The server encountered an unexpected condition that prevented it from fulfilling
 - Start Angular development server: `ng serve`
 - Build for production: `ng build`
 - Run unit tests: `ng test`
+- Run coverage report `ng test --no-watch --code-coverage`
 - Build and watch for changes: `ng build --watch --configuration development`
 
 **Full Stack Development:**
@@ -586,6 +587,9 @@ All API requests from the frontend are automatically proxied to the backend serv
 
 <details>
 <summary><h3>7. References & Resources Used</h3></summary>
+
+- How to Write Unit Tests with Jasmine and Karma?
+  - Source: [Link](https://medium.com/simform-engineering/how-to-write-unit-tests-with-jasmine-karma-f1908bdeb617)
 
 - Angular - Setup an Interceptor for HTTP request error.
   - Source: [Link](https://dev.to/theobourdel/angular-faire-un-interceptor-pour-vos-requetes-http-1kdj)
