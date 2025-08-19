@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BlogSectionComponent } from './blog-section.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { BlogService } from '../blog.service';
@@ -21,6 +21,10 @@ describe('BlogSectionComponent', () => {
   let fixture: ComponentFixture<BlogSectionComponent>;
   let postsSubject$: BehaviorSubject<IPostsResponse>;
   let mockMatDialogSpy: jasmine.SpyObj<MatDialog>;
+  let blogServiceSpy: jasmine.SpyObj<BlogService>;
+
+  let paramMapSubject: BehaviorSubject<ParamMap>;
+  let snapshotParamMap: ParamMap;
 
   const mockDialogRef: Partial<MatDialogRef<any>> = {
     afterClosed: () => of(null)
@@ -62,9 +66,12 @@ describe('BlogSectionComponent', () => {
 
     postsSubject$ = new BehaviorSubject(mockPostsData);
 
-    const blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPosts'], {
+    blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPosts'], {
       paginatedPosts$: postsSubject$
     });
+
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+    snapshotParamMap = convertToParamMap({ id: '123' });
 
 
     TestBed.configureTestingModule({
@@ -77,11 +84,9 @@ describe('BlogSectionComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             queryParams: of({}),
-            params: of({ id: '123' }),
+            params: paramMapSubject.asObservable(),
             snapshot: {
-              paramMap: {
-                get: (key: string) => '123',
-              },
+              paramMap: snapshotParamMap
             },
           },
         },
@@ -347,6 +352,112 @@ describe('BlogSectionComponent', () => {
 
   });
 
+  it('should return 10 when page parameter is 10', () => {
+    const result = component['getPageFormUrl']({ page: '10' });
+    expect(result).toBe(10);
+  });
+
+  it('should return 1 when page parameter is 1', () => {
+    const result = component['getPageFormUrl']({ page: '1' });
+    expect(result).toBe(1);
+  });
+
+  it('should return 1 when page parameter is 0', () => {
+    const result = component['getPageFormUrl']({ page: '0' });
+    expect(result).toBe(1);
+  });
+
+  it('should return 1 when page parameter is negative -1', () => {
+    const result = component['getPageFormUrl']({ page: '-1' });
+    expect(result).toBe(1);
+  });
+
+
+  it('should return 1 when page parameter is missing', () => {
+    const result = component['getPageFormUrl']({});
+    expect(result).toBe(1);
+  });
+
+  it('should return 1 when page parameter is undefined', () => {
+    const result = component['getPageFormUrl']({ page: '' });
+    expect(result).toBe(1);
+  });
+
+  it('should call getPosts with default page 1 when no parameter provided', () => {
+    const page = 1;
+    const limit = 3;
+
+    blogServiceSpy.getPosts.and.returnValue(of(mockPostsData));
+
+    component.loadArticles();
+
+    expect(blogServiceSpy.getPosts).toHaveBeenCalledWith(page, limit);
+  });
+
+  it('should call getPosts with specified page number', () => {
+    const page = 10;
+    const limit = 3;
+
+    blogServiceSpy.getPosts.and.returnValue(of(mockPostsData));
+
+    component.loadArticles(page);
+
+    expect(blogServiceSpy.getPosts).toHaveBeenCalledWith(page, limit);
+  });
+
+
+  it('should navigate with correct query parameters', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+
+    component.onPageChange(10);
+
+    expect(router.navigate).toHaveBeenCalledWith([], { queryParams: { page: 10 } });
+  });
+
+  it('should pass pagination data to app-pagination component', () => {
+    fixture.detectChanges();
+
+    const paginationComponent = fixture.nativeElement.querySelector('app-pagination');
+    expect(paginationComponent).toBeTruthy();
+  });
+
+  it('should show pagination even with empty posts array', () => {
+    const emptyData = {
+      ...mockPostsData,
+      data: {
+        ...mockPostsData.data,
+        items: []
+      }
+    };
+
+    postsSubject$.next(emptyData);
+
+    fixture.detectChanges();
+
+    const paginationElement = fixture.nativeElement.querySelector('app-pagination');
+    expect(paginationElement).toBeTruthy();
+  });
+
+  it('should update pagination when posts data changes', () => {
+    const updateMockPost = {
+      ...mockPostsData,
+      data: {
+        ...mockPostsData.data,
+        pagination: {
+          ...mockPostsData.data.pagination,
+          currentPage: 2,
+          totalPages: 5
+        }
+      }
+    };
+
+    postsSubject$.next(updateMockPost);
+    fixture.detectChanges();
+
+    const paginationComponent = fixture.nativeElement.querySelector('app-pagination');
+    expect(paginationComponent).toBeTruthy();
+  });
 
 
 });

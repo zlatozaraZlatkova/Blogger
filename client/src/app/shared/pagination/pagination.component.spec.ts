@@ -69,7 +69,6 @@ describe('PaginationComponent', () => {
   });
 
 
-
   it('should set disabled attribute when paginationData has NOT NextPage', () => {
 
     component.paginationData = {
@@ -106,8 +105,7 @@ describe('PaginationComponent', () => {
   });
 
 
-
-  it('should display all pages', () => {
+  it('should display  page buttons with all pages', () => {
 
     component.paginationData = {
       hasPrevPage: true,
@@ -127,7 +125,45 @@ describe('PaginationComponent', () => {
 
   });
 
+  it('should not render page buttons when totalPages is 0', () => {
+    component.paginationData = { totalPages: 0 } as IPagination;
+    fixture.detectChanges();
 
+    const pageButtons = fixture.nativeElement.querySelectorAll('button.page-button');
+    expect(pageButtons.length).toBe(0);
+  });
+
+
+  it('should return all pages when totalPages is small', () => {
+    component.paginationData = { totalPages: 3 } as IPagination;
+
+    const result = component.getPageNumbers();
+    expect(result).toEqual([1, 2, 3]);
+  });
+
+  it('should handle pagination with ellipsis when totalPages is large', () => {
+    component.paginationData = { totalPages: 20, currentPage: 10 } as IPagination;
+
+    const result = component.getPageNumbers();
+
+    expect(result.length).toBe(20);
+    expect(result[0]).toBe(1);
+    expect(result[19]).toBe(20);
+  });
+
+  it('should handle zero totalPages', () => {
+    component.paginationData = { totalPages: 0 } as IPagination;
+
+    const result = component.getPageNumbers();
+    expect(result).toEqual([]);
+  });
+
+  it('should handle negative totalPages', () => {
+    component.paginationData = { totalPages: -1 } as IPagination;
+
+    const result = component.getPageNumbers();
+    expect(result).toEqual([]);
+  });
 
   it('should display current page button (page 3)', () => {
 
@@ -239,8 +275,6 @@ describe('PaginationComponent', () => {
 
   });
 
-  
-
   it('should call onPageChange() when button is clicked', () => {
 
     spyOn(component, 'onPageChange');
@@ -253,8 +287,6 @@ describe('PaginationComponent', () => {
     expect(component.onPageChange).toHaveBeenCalled();
 
   });
-
-
 
   it('should call onPageChange(5) with correct page number when button is clicked', () => {
 

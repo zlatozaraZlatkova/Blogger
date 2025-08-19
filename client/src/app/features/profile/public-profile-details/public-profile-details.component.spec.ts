@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PublicProfileDetailsComponent } from './public-profile-details.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ProfileService } from '../profile.service';
@@ -15,6 +15,9 @@ describe('PublicProfileDetailsComponent', () => {
   let profileServiceSpy: jasmine.SpyObj<ProfileService>;
 
   let profileSubject = new BehaviorSubject<IProfileWithCreatedPosts | null>(null);
+
+  let paramMapSubject: BehaviorSubject<ParamMap>;
+  let snapshotParamMap: ParamMap;
 
 
   const mockProfileWithPostsData: IProfileWithCreatedPosts = {
@@ -60,6 +63,9 @@ describe('PublicProfileDetailsComponent', () => {
 
     profileServiceSpy.getProfileById.and.returnValue(of(mockProfileWithPostsData));
 
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+    snapshotParamMap = convertToParamMap({ id: '123' });
+
     TestBed.configureTestingModule({
       declarations: [PublicProfileDetailsComponent],
       imports: [HttpClientTestingModule],
@@ -68,12 +74,10 @@ describe('PublicProfileDetailsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: '123' }),
+            params: paramMapSubject.asObservable(),
             snapshot: {
-              paramMap: {
-                get: (key: string) => '123'
-              }
-            }
+              paramMap: snapshotParamMap
+            },
           }
         }
       ],
@@ -92,6 +96,25 @@ describe('PublicProfileDetailsComponent', () => {
     fixture.detectChanges();
     expect(profileServiceSpy.getProfileById).toHaveBeenCalledWith('123');
   });
+
+  
+  it('should not load article when ID is route params is null', () => {
+   profileServiceSpy.getProfileById.calls.reset();
+
+   spyOn(component['route'].snapshot.paramMap, 'get').and.returnValue(null);
+
+    expect(profileServiceSpy.getProfileById).not.toHaveBeenCalled();
+  });
+
+  
+  it('should not load article when ID route params is empty string', () => {
+   profileServiceSpy.getProfileById.calls.reset();
+
+   spyOn(component['route'].snapshot.paramMap, 'get').and.returnValue('');
+
+    expect(profileServiceSpy.getProfileById).not.toHaveBeenCalled();
+  });
+
 
 
   it('should display profile content when viewedProfile$ has data', () => {
@@ -143,7 +166,7 @@ describe('PublicProfileDetailsComponent', () => {
 
 
   it('should display no created posts message when createdPosts array is empty', () => {
-   
+
     fixture.detectChanges();
 
     const container = fixture.nativeElement.querySelector('[data-testid="posts-container"]');
@@ -152,7 +175,7 @@ describe('PublicProfileDetailsComponent', () => {
     const text = fixture.nativeElement.querySelector('[data-testid="no-created-post"]');
     expect(text).toBeTruthy();
     expect(text?.textContent).toContain('No articles published yet');
-    
+
   });
 
 

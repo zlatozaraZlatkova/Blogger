@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserProfileComponent } from './user-profile.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject, of, skip } from 'rxjs';
@@ -20,6 +20,9 @@ describe('UserProfileComponent', () => {
 
   let profileSubject = new BehaviorSubject<IProfile | null>(null);
   let userSubject = new BehaviorSubject<IUser | null>(null);
+
+  let paramMapSubject: BehaviorSubject<ParamMap>;
+  let snapshotParamMap: ParamMap;
 
   const mockProfileData: IProfile = {
     _id: '1',
@@ -72,13 +75,16 @@ describe('UserProfileComponent', () => {
     })
 
     profileServiceSpy.getProfile.and.returnValue(of(mockProfileData));
-    profileServiceSpy.clearState.and.returnValue(); 
+    profileServiceSpy.clearState.and.returnValue();
 
     userSubject = new BehaviorSubject<IUser | null>(mockUserData);
 
     const authServiceSpy = jasmine.createSpyObj('AuthService', [], {
       user$: userSubject.asObservable()
     });
+
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+    snapshotParamMap = convertToParamMap({ id: '123' });
 
 
     TestBed.configureTestingModule({
@@ -90,11 +96,9 @@ describe('UserProfileComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: '123' }),
+            params: paramMapSubject.asObservable(),
             snapshot: {
-              paramMap: {
-                get: (key: string) => '123',
-              },
+              paramMap: snapshotParamMap,
               data: { user: mockUserData }
             }
           }
@@ -188,8 +192,46 @@ describe('UserProfileComponent', () => {
     expect(component.loadUserProfile).toHaveBeenCalled();
   });
 
+  it('should not call loadUserProfile when publicProfile is null', () => {
+    const updatedMockUser = {
+      ...mockUserData,
+      publicProfile: null
+    };
 
-  it('should set resolvedUser from route data', () => {
+    component['route'].snapshot.data = { user: updatedMockUser };
+
+    spyOn(component, 'loadUserProfile');
+
+    component.ngOnInit();
+
+    expect(component.loadUserProfile).not.toHaveBeenCalled();
+  });
+
+  it('should not call loadUserProfile when resolvedUser is null', () => {
+    component['route'].snapshot.data = { user: null };
+
+    spyOn(component, 'loadUserProfile');
+
+    component.ngOnInit();
+
+    expect(component.resolvedUser).toBeNull();
+    expect(component.loadUserProfile).not.toHaveBeenCalled();
+  })
+
+
+
+  it('should set resolvedUser with publicProfile data from route data', () => {
+
+    component['route'].snapshot.data = { user: mockUserData };
+
+    component.ngOnInit();
+
+    expect(component.resolvedUser).toEqual(mockUserData);
+    expect(component.resolvedUser?.publicProfile).toBeTruthy();
+
+  });
+
+  it('should set resolvedUser with undefined publicProfile from route data', () => {
 
     const updatedMockUser = {
       ...mockUserData,
@@ -204,6 +246,7 @@ describe('UserProfileComponent', () => {
     expect(component.resolvedUser?.publicProfile).toBeUndefined();
 
   });
+
 
 
   it('should openEditProfileDialog hander when edit button is clicked', () => {

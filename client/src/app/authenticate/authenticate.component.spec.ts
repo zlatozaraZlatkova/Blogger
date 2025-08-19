@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthenticateComponent } from './authenticate.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { AuthService } from '../user/auth.service';
 import { IUser } from '../interfaces/user';
 
@@ -11,6 +11,8 @@ describe('AuthenticateComponent', () => {
   let component: AuthenticateComponent;
   let fixture: ComponentFixture<AuthenticateComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let paramMapSubject: BehaviorSubject<ParamMap>;
+  let snapshotParamMap: ParamMap;
 
   const mockUserData: IUser = {
     _id: '',
@@ -26,6 +28,10 @@ describe('AuthenticateComponent', () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['checkIsUserAuthenticated']);
     authServiceSpy.checkIsUserAuthenticated.and.returnValue(of(mockUserData));
 
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+    snapshotParamMap = convertToParamMap({ id: '123' });
+
+
     TestBed.configureTestingModule({
       declarations: [AuthenticateComponent],
       imports: [HttpClientTestingModule],
@@ -34,11 +40,9 @@ describe('AuthenticateComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: '123' }),
+            params: paramMapSubject.asObservable(),
             snapshot: {
-              paramMap: {
-                get: (key: string) => '123',
-              },
+              paramMap: snapshotParamMap,
               data: { user: null },
             },
           },
@@ -52,15 +56,6 @@ describe('AuthenticateComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set isAuthenticated to false when user is not logged in', () => {
-    authServiceSpy.checkIsUserAuthenticated.and.returnValue(of(mockUserData));
-
-    component.ngOnInit();
-
-    expect(component.isAuthenticated).toBeFalsy();
-
   });
 
 
@@ -82,6 +77,41 @@ describe('AuthenticateComponent', () => {
     expect(component.isAuthenticated).toBeTruthy();
   });
 
+  it('should set isAuthenticated to false when user has no email', () => {
+    const userWithoutEmail: IUser = {
+      _id: '123',
+      name: 'User Name',
+      email: '',
+      avatar: 'www.avatar.com',
+      createdPosts: [],
+      likedPostList: [],
+      followedUsersList: [],
+    };
+
+    authServiceSpy.checkIsUserAuthenticated.and.returnValue(of(userWithoutEmail));
+
+    component.ngOnInit();
+
+    expect(component.isAuthenticated).toBeFalse();
+  });
+
+  it('should set isAuthenticated to false when user is null', () => {
+
+    authServiceSpy.checkIsUserAuthenticated.and.returnValue(of(mockUserData));
+
+    component.ngOnInit();
+
+    expect(component.isAuthenticated).toBeFalse();
+  });
+
+  it('should set isAuthenticated to false when user is undefined', () => {
+
+    authServiceSpy.checkIsUserAuthenticated.and.returnValue(of(undefined as unknown as IUser));
+
+    component.ngOnInit();
+
+    expect(component.isAuthenticated).toBeFalse();
+  });
 
   it('should handle authentication error and redirect to login', () => {
     const route = TestBed.inject(Router);

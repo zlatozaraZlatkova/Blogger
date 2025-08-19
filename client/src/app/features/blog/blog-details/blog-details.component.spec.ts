@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogDetailsComponent } from './blog-details.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 
 import { BlogService } from '../blog.service';
@@ -17,6 +17,7 @@ describe('BlogDetailsComponent', () => {
   let component: BlogDetailsComponent;
   let fixture: ComponentFixture<BlogDetailsComponent>;
   let blogServiceSpy: jasmine.SpyObj<BlogService>;
+  let paramMapSubject: BehaviorSubject<ParamMap>;
 
   const mockPostData: IPost = {
     _id: '123',
@@ -43,6 +44,9 @@ describe('BlogDetailsComponent', () => {
     blogServiceSpy = jasmine.createSpyObj('BlogService', ['getPostById']);
     blogServiceSpy.getPostById.and.returnValue(of(mockPostData));
 
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+
+
     TestBed.configureTestingModule({
       declarations: [BlogDetailsComponent, DateTimeAgoPipe, SentenceUpperCasePipe],
       imports: [HttpClientTestingModule],
@@ -50,11 +54,7 @@ describe('BlogDetailsComponent', () => {
         { provide: BlogService, useValue: blogServiceSpy },
         {
           provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({
-              get: (key: string) => '123'
-            }),
-          },
+          useValue: { paramMap: paramMapSubject.asObservable() }
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -69,12 +69,20 @@ describe('BlogDetailsComponent', () => {
   });
 
   it('should get correct post ID from route params', () => {
-    const blogServiceSpy = TestBed.inject(BlogService);
-
     fixture.detectChanges();
 
     expect(blogServiceSpy.getPostById).toHaveBeenCalledWith('123');
   });
+
+
+  it('should not load article when ID is missing from route params', () => {
+    blogServiceSpy.getPostById.calls.reset();
+
+    paramMapSubject.next(convertToParamMap({}));
+
+    expect(blogServiceSpy.getPostById).not.toHaveBeenCalled();
+  });
+
 
   it('should call location.back() when post id is invalid', () => {
     const location = TestBed.inject(Location);

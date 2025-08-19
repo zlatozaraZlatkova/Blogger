@@ -2,16 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogEditComponent } from './blog-edit.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BlogService } from '../blog.service';
 import { IPost } from 'src/app/interfaces/post';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BlogEditComponent', () => {
   let component: BlogEditComponent;
   let fixture: ComponentFixture<BlogEditComponent>;
+  let blogServiceSpy: jasmine.SpyObj<BlogService>;
+  let paramMapSubject: BehaviorSubject<ParamMap>;
+  let snapshotParamMap: ParamMap;
 
   const mockPostData = {
     postTitle: 'title',
@@ -22,13 +25,16 @@ describe('BlogEditComponent', () => {
   } as IPost;
 
   beforeEach(() => {
-    const blogServiceSpy = jasmine.createSpyObj('BlogService', [
+    blogServiceSpy = jasmine.createSpyObj('BlogService', [
       'editPost',
       'getPostById',
     ]);
 
     blogServiceSpy.getPostById.and.returnValue(of(mockPostData));
     blogServiceSpy.editPost.and.returnValue(of(mockPostData));
+
+    paramMapSubject = new BehaviorSubject(convertToParamMap({ id: '123' }));
+    snapshotParamMap = convertToParamMap({ id: '123' });
 
     TestBed.configureTestingModule({
       declarations: [BlogEditComponent],
@@ -38,11 +44,9 @@ describe('BlogEditComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ id: '123' }),
+            params: paramMapSubject.asObservable(),
             snapshot: {
-              paramMap: {
-                get: (key: string) => '123',
-              },
+              paramMap: snapshotParamMap
             },
           },
         },
@@ -56,6 +60,23 @@ describe('BlogEditComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get correct post ID from route params', () => {
+    fixture.detectChanges();
+
+    expect(blogServiceSpy.getPostById).toHaveBeenCalledWith('123');
+  });
+
+
+  it('should not load article when ID is missing from route params', () => {
+    blogServiceSpy.getPostById.calls.reset();
+
+    paramMapSubject.next(convertToParamMap({}));
+
+    expect(blogServiceSpy.getPostById).not.toHaveBeenCalled();
+  });
+
+
 
   it('should initialize form after ngOnInit', () => {
     const editForm = component.editPostForm;
