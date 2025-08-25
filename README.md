@@ -638,3 +638,19 @@ All API requests from the frontend are automatically proxied to the backend serv
 - Software documentation guide
    - Source: [Link](https://www.writethedocs.org/guide/index.html)
 </details>
+
+<details>
+  <summary><h3>8. Certificate</h3></summary>
+<div>
+<table>
+  <tr>
+    <th>Course</th>
+    <th>Certificate</th>
+    </tr>
+     <tr>
+     <td>Angular</td>
+      <td><a href="https://softuni.bg/certificates/details/250014/40bd81b6"><strong>See certificate</strong></a></td>
+  </tr> 
+</table>
+</div>
+</details>  
